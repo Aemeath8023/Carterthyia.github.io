@@ -37,7 +37,7 @@ function autoLoadRole() {
   const descTag = document.querySelector('.site-description');
   if (descTag) descTag.textContent = data.siteDescription;
 
-  // B. 替换头像 (P1)
+  // B. 替换头像
   const avatarImg = document.getElementById('userAvatar');
   if (avatarImg && data.avatar) {
     avatarImg.src = data.avatar;
@@ -183,15 +183,4 @@ function initBackToTop() {
 function initDefaultThemeAndMode() {
   // 设置默认主题色
   document.documentElement.style.setProperty('--primary-color', '#8a5cf7');
-}
-
-// 供按钮调用的视频切换函数
-function switchVideo(type) {
-  const s = document.getElementById('smallVideo');
-  const b = document.getElementById('bigVideo');
-  if(type === 'small') {
-    s?.classList.remove('hidden'); b?.classList.add('hidden');
-  } else {
-    s?.classList.add('hidden'); b?.classList.remove('hidden');
-  }
 }

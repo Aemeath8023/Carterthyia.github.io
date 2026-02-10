@@ -1,412 +1,190 @@
-/* 在您原有的style.css基础上添加以下内容 */
-
-/* 新增：控制面板滑块样式 */
-.control-panel input[type="range"] {
-  width: 100%;
-  height: 6px;
-  background: var(--bg-color);
-  border-radius: 3px;
-  outline: none;
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  appearance: none;
-  cursor: pointer;
-}
-
-.control-panel input[type="range"]::-webkit-slider-thumb {
-  -webkit-appearance: none;
-  width: 18px;
-  height: 18px;
-  background: var(--primary-color);
-  border-radius: 50%;
-  cursor: pointer;
-  border: 2px solid var(--bg-color);
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-}
-
-.control-panel input[type="range"]::-webkit-slider-thumb:hover {
-  transform: scale(1.1);
-  box-shadow: 0 0 8px var(--primary-color);
-}
-
-.control-panel input[type="range"]::-moz-range-thumb {
-  width: 18px;
-  height: 18px;
-  background: var(--primary-color);
-  border-radius: 50%;
-  cursor: pointer;
-  border: 2px solid var(--bg-color);
-}
-
-/* 新增：加载动画 */
-.page-loader {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: var(--bg-color);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 99999;
-  transition: opacity 0.5s ease, visibility 0.5s ease;
-}
-
-.page-loader.loaded {
-  opacity: 0;
-  visibility: hidden;
-}
-
-.loader-spinner {
-  width: 60px;
-  height: 60px;
-  border: 4px solid rgba(var(--primary-color-rgb, 56, 189, 248), 0.2);
-  border-top: 4px solid var(--primary-color);
-  border-radius: 50%;
-  animation: spin 1s linear infinite;
-}
-
-@keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
-}
-
-/* 新增：粒子背景效果 - 性能优化版 */
-.particle-bg {
-  position: relative;
-  overflow: hidden;
-}
-
-.particle-bg::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-image: 
-    radial-gradient(circle at 20% 30%, var(--primary-color) 1px, transparent 1px),
-    radial-gradient(circle at 80% 70%, var(--secondary-color) 1px, transparent 1px),
-    radial-gradient(circle at 40% 80%, var(--accent-color, #ff6bcb) 1px, transparent 1px);
-  background-size: 100px 100px, 150px 150px, 200px 200px;
-  opacity: 0.05;
-  animation: particlesFloat 30s linear infinite;
-  z-index: -1;
-  will-change: transform;
-}
-
-.particle-bg::after {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(45deg, 
-    rgba(var(--primary-color-rgb, 56, 189, 248), 0.03) 0%,
-    rgba(var(--secondary-color-rgb, 139, 92, 246), 0.03) 50%,
-    rgba(255, 107, 203, 0.03) 100%
-  );
-  z-index: -1;
-}
-
-@keyframes particlesFloat {
-  0% { transform: translateY(0) translateX(0); }
-  100% { transform: translateY(-100px) translateX(100px); }
-}
-
-/* 增强的按钮3D效果 - 性能优化 */
-.btn-3d {
-  position: relative;
-  border: none;
-  transform: translateY(0);
-  transition: transform 0.1s cubic-bezier(0.4, 0, 0.2, 1),
-              box-shadow 0.1s cubic-bezier(0.4, 0, 0.2, 1);
-  will-change: transform;
-}
-
-.btn-3d:active:not(:disabled) {
-  transform: translateY(3px);
-}
-
-.btn-3d::after {
-  content: '';
-  position: absolute;
-  top: 5px;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(
-    to bottom,
-    rgba(0, 0, 0, 0.1) 0%,
-    rgba(0, 0, 0, 0.2) 100%
-  );
-  border-radius: var(--border-radius);
-  z-index: -1;
-  transition: all 0.1s ease;
-}
-
-.btn-3d:active:not(:disabled)::after {
-  top: 0;
-  height: calc(100% - 3px);
-}
-
-/* 文字渐变流动效果 - 性能优化 */
-.text-gradient-flow {
-  background: linear-gradient(
-    90deg,
-    var(--primary-color) 0%,
-    var(--secondary-color) 25%,
-    var(--accent-color, #ff6bcb) 50%,
-    var(--secondary-color) 75%,
-    var(--primary-color) 100%
-  );
-  background-size: 200% auto;
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
-  color: transparent;
-  animation: textFlow 4s linear infinite;
-  animation-play-state: running;
-}
-
-.text-gradient-flow.paused {
-  animation-play-state: paused;
-}
-
-@keyframes textFlow {
-  0% { background-position: 0% center; }
-  100% { background-position: 200% center; }
-}
-
-/* 霓虹边框效果 - 性能优化 */
-.neon-border {
-  position: relative;
-  overflow: hidden;
-}
-
-.neon-border::before {
-  content: '';
-  position: absolute;
-  top: -2px;
-  left: -2px;
-  right: -2px;
-  bottom: -2px;
-  background: linear-gradient(45deg,
-    var(--primary-color),
-    var(--secondary-color),
-    var(--accent-color, #ff6bcb),
-    var(--primary-color)
-  );
-  border-radius: calc(var(--border-radius) + 4px);
-  z-index: -1;
-  opacity: 0;
-  transition: opacity 0.3s ease;
-  filter: blur(4px);
-  will-change: opacity;
-}
-
-.neon-border:hover::before,
-.neon-border:focus-within::before {
-  opacity: 0.7;
-}
-
-/* 鼠标轨迹 - 性能优化 */
-.mouse-trail {
-  animation: trailFade 0.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
-  will-change: transform, opacity;
-}
-
-@keyframes trailFade {
-  0% {
-    opacity: 0.8;
-    transform: scale(1) translateZ(0);
-  }
-  100% {
-    opacity: 0;
-    transform: scale(0) translateZ(0);
-  }
-}
-
-/* 3D变换优化 */
-.card-animate, .video-container, .gallery-img {
-  transform-style: preserve-3d;
-  backface-visibility: hidden;
-  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1),
-              box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  will-change: transform, box-shadow;
-}
-
-/* 增强的悬停效果 - 添加触摸设备支持 */
-@media (hover: hover) and (pointer: fine) {
-  .gallery-img:hover {
-    transform: scale(1.05) rotateY(5deg) rotateX(5deg);
-    z-index: 100;
-  }
-  
-  .btn:hover:not(:disabled) {
-    animation: pulseGlow 1.5s infinite;
-  }
-  
-  .nav-item .nav-link:hover {
-    text-shadow: 0 0 10px var(--primary-color);
-  }
-}
-
-/* 按钮发光效果 */
-.btn:focus-visible {
-  animation: pulseGlow 1.5s infinite;
-  outline: 2px solid var(--primary-color);
-  outline-offset: 2px;
-}
-
-@keyframes pulseGlow {
-  0%, 100% { 
-    box-shadow: 0 0 10px var(--primary-color),
-                0 0 20px rgba(var(--primary-color-rgb, 56, 189, 248), 0.3);
-  }
-  50% { 
-    box-shadow: 0 0 20px var(--secondary-color),
-                0 0 40px rgba(var(--secondary-color-rgb, 139, 92, 246), 0.3);
-  }
-}
-
-/* 性能优化 - 尊重用户偏好 */
-@media (prefers-reduced-motion: reduce) {
-  *,
-  *::before,
-  *::after {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
-    scroll-behavior: auto !important;
-  }
-  
-  .text-gradient-flow,
-  .particle-bg::before,
-  .loader-spinner {
-    animation: none !important;
-  }
-  
-  .btn-3d:active:not(:disabled) {
-    transform: translateY(1px);
-  }
-}
-
-/* 增强的滚动条 */
-::-webkit-scrollbar {
-  width: 12px;
-  height: 12px;
-}
-
-::-webkit-scrollbar-track {
-  background: var(--bg-color);
-  border-radius: 6px;
-  border: 1px solid var(--border-color, rgba(0,0,0,0.1));
-}
-
-::-webkit-scrollbar-thumb {
-  background: linear-gradient(
-    to bottom,
-    var(--primary-color),
-    var(--secondary-color)
-  );
-  border-radius: 6px;
-  border: 2px solid var(--bg-color);
-  transition: background 0.3s ease;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: linear-gradient(
-    to bottom,
-    var(--secondary-color),
-    var(--primary-color)
-  );
-}
-
-::-webkit-scrollbar-corner {
-  background: var(--bg-color);
-}
-
-/* Firefox 滚动条 */
+/* ================== 通用全局重置 ================== */
 * {
-  scrollbar-width: thin;
-  scrollbar-color: var(--primary-color) var(--bg-color);
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "楷体", "PingFang SC", "Microsoft YaHei", sans-serif;
 }
 
-/* 深色模式滚动条适配 */
-.dark-mode ::-webkit-scrollbar-track {
-  background: var(--dark-bg-color, #2a2a2a);
-  border-color: rgba(255,255,255,0.1);
+:root {
+    --primary-color: #8a5cf7;
+    --dark-bg-color: #000000;
+    --card-bg-color: rgba(255, 255, 255, 0.05);
+    --text-color: #ffffff;
 }
 
-.dark-mode ::-webkit-scrollbar-thumb {
-  background: linear-gradient(
-    to bottom,
-    var(--primary-color),
-    var(--dark-secondary-color, #7c3aed)
-  );
+body {
+    background-color: #000000;
+    color: var(--text-color);
+    overflow-x: hidden;
+    min-height: 100vh;
 }
 
-.dark-mode * {
-  scrollbar-color: var(--primary-color) var(--dark-bg-color, #2a2a2a);
+/* ================== 极限视觉 CSS (核心) ================== */
+
+/* 粒子层硬件加速 (画布填满全屏) */
+canvas#particle-canvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    pointer-events: none;
+    will-change: transform;
+    transform: translateZ(0); /* 开启GPU加速 */
 }
 
-/* 响应式调整 */
+/* 动感背景色动画 */
+body {
+    background: linear-gradient(125deg, #2c003e, #000000, #000a3e);
+    background-size: 400% 400%;
+    animation: gradientFlow 15s ease infinite;
+}
+
+@keyframes gradientFlow {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+/* 卡片高斯模糊与边框 */
+.card-animate, .navbar {
+    background: var(--card-bg-color);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 15px;
+    /* 模糊效果由JS控制变量，兼容手机端性能 */
+    backdrop-filter: blur(var(--backdrop-blur, 10px));
+    -webkit-backdrop-filter: blur(var(--backdrop-blur, 10px));
+    transition: all 0.3s ease;
+}
+
+/* 手机端极限优化：不使用模糊，使用低透明度背景 */
 @media (max-width: 768px) {
-  .neon-border::before {
-    opacity: 0.3;
-    filter: blur(2px);
-  }
-  
-  .text-gradient-flow {
-    animation-duration: 6s;
-  }
-  
-  .particle-bg::before {
-    opacity: 0.03;
-    background-size: 150px 150px, 200px 200px, 250px 250px;
-  }
-  
-  .btn-3d:active:not(:disabled) {
-    transform: translateY(2px);
-  }
+    .card-animate, .navbar {
+        background: rgba(0, 0, 0, 0.7);
+        backdrop-filter: none;
+        -webkit-backdrop-filter: none;
+    }
 }
 
-/* 打印样式优化 */
-@media print {
-  .page-loader,
-  .particle-bg::before,
-  .particle-bg::after,
-  .neon-border::before,
-  .mouse-trail {
-    display: none !important;
-  }
-  
-  .text-gradient-flow {
-    background: var(--primary-color) !important;
-    -webkit-text-fill-color: initial !important;
-    color: var(--primary-color) !important;
-    animation: none !important;
-  }
+/* 点击涟漪特效 */
+.ripple {
+    position: absolute;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.4);
+    transform: scale(0);
+    animation: rippleEffect 0.6s linear;
+    pointer-events: none;
 }
 
-/* 高对比度模式支持 */
-@media (prefers-contrast: high) {
-  .particle-bg::before,
-  .particle-bg::after {
-    display: none;
-  }
-  
-  .neon-border::before {
+@keyframes rippleEffect {
+    to { transform: scale(4); opacity: 0; }
+}
+
+/* ================== 布局与UI样式 ================== */
+.navbar {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1000;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    padding: 0 20px;
+}
+
+.nav-logo {
+    color: white;
+    text-decoration: none;
+    font-size: 1.2rem;
+    font-weight: bold;
+}
+
+.hero-section {
+    padding: 100px 20px 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.profile-card {
+    text-align: center;
+    padding: 30px;
+    max-width: 500px;
+    width: 100%;
+}
+
+.avatar-wrapper {
+    width: 120px;
+    height: 120px;
+    margin: 0 auto 20px;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 3px solid var(--primary-color);
+    box-shadow: 0 0 15px var(--primary-color);
+}
+
+.avatar-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.site-title {
+    font-size: 2rem;
+    margin-bottom: 10px;
+}
+
+.site-description {
+    font-size: 1rem;
+    opacity: 0.8;
+}
+
+.video-section {
+    padding: 20px;
+    text-align: center;
+}
+
+.video-container video {
+    max-width: 100%;
+    border-radius: 10px;
+    border: 2px solid var(--primary-color);
+}
+
+.gallery-section {
+    padding: 50px 20px;
+}
+
+.gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 15px;
+}
+
+.gallery-img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+}
+
+.gallery-img:hover {
+    transform: scale(1.05);
+}
+
+.hidden { display: none !important; }
+
+/* 动画类 */
+.card-animate {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+.card-animate.visible {
     opacity: 1;
-    filter: none;
-  }
-  
-  .text-gradient-flow {
-    background: var(--primary-color) !important;
-    -webkit-text-fill-color: initial !important;
-    color: var(--primary-color) !important;
-  }
+    transform: translateY(0);
 }
