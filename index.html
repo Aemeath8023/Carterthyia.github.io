@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>卡提希娅的星光小站</title>
 
-  <!-- Favicon 缓存破坏 -->
   <link rel="icon" href="favicon/13.ico?v=20240626" type="image/x-icon">
   <link rel="shortcut icon" href="favicon/13.ico?v=20240626" type="image/x-icon">
   <link rel="icon" type="image/png" sizes="16x16" href="favicon/16.png?v=20240626">
@@ -13,7 +12,6 @@
 
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css">
   
-  <!-- ================= 完整整合的CSS ================= -->
   <style>
 /* 全局样式重置样式以及 强制文字颜色（方便解决浅色模式不可见） */
 * {
@@ -284,215 +282,23 @@
     background-clip: text;
 }
 
-/* 平滑过渡 */
-.smooth-transition {
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-/* 卡片优化 */
-.card-animate {
-    transition: transform 0.3s ease, box-shadow 0.3s ease, opacity 0.3s ease;
-    transform-origin: center center;
-}
-
-/* 图片优化 */
-.gallery-img {
-    transition: transform 0.3s ease, opacity 0.3s ease;
-    transform-origin: center center;
-}
-
-/* 按钮优化 */
-.btn {
-    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+/* 涟漪效果优化 */
+.btn, .nav-link, .gallery-img, .card-animate {
     position: relative;
     overflow: hidden;
 }
 
-.btn::after {
-    content: '';
+.ripple {
     position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 5px;
-    height: 5px;
-    background: rgba(255, 255, 255, 0.5);
-    opacity: 0;
-    border-radius: 100%;
-    transform: scale(1, 1) translate(-50%);
-    transform-origin: 50% 50%;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.4);
+    transform: scale(0);
+    animation: rippleEffect 0.6s linear;
+    pointer-events: none;
 }
 
-.btn:focus:not(:active)::after {
-    animation: ripple 1s ease-out;
-}
-
-@keyframes ripple {
-    0% {
-        transform: scale(0, 0);
-        opacity: 0.5;
-    }
-    20% {
-        transform: scale(25, 25);
-        opacity: 0.3;
-    }
-    100% {
-        transform: scale(40, 40);
-        opacity: 0;
-    }
-}
-
-/* 导航优化 */
-.nav-link {
-    position: relative;
-    overflow: hidden;
-}
-
-.nav-link::after {
-    content: '';
-    position: absolute;
-    bottom: -2px;
-    left: 0;
-    width: 100%;
-    height: 2px;
-    background: var(--primary-color);
-    transform: translateX(-100%);
-    transition: transform 0.3s ease;
-}
-
-.nav-link:hover::after {
-    transform: translateX(0);
-}
-
-/* 加载动画优化 */
-@keyframes fadeInUp {
-    from {
-        opacity: 0;
-        transform: translateY(20px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-.section-animate.visible {
-    animation: fadeInUp 0.6s ease forwards;
-}
-
-/* 图片预览优化 */
-#imagePreviewModal {
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-}
-
-#previewImage {
-    animation: zoomIn 0.3s ease;
-}
-
-@keyframes zoomIn {
-    from {
-        opacity: 0;
-        transform: scale(0.9);
-    }
-    to {
-        opacity: 1;
-        transform: scale(1);
-    }
-}
-
-/* 性能优化类 */
-.reduce-motion * {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
-}
-
-.will-change {
-    will-change: transform, opacity;
-}
-
-/* 滚动条美化 */
-::-webkit-scrollbar {
-    width: 10px;
-    height: 10px;
-}
-
-::-webkit-scrollbar-track {
-    background: var(--bg-color);
-    border-radius: 5px;
-}
-
-::-webkit-scrollbar-thumb {
-    background: linear-gradient(
-        to bottom,
-        var(--primary-color),
-        var(--secondary-color)
-    );
-    border-radius: 5px;
-    border: 2px solid var(--bg-color);
-}
-
-::-webkit-scrollbar-thumb:hover {
-    background: linear-gradient(
-        to bottom,
-        var(--secondary-color),
-        var(--primary-color)
-    );
-}
-
-/* 视频播放器优化 */
-.video-container {
-    background: #000;
-}
-
-.demo-video {
-    width: 100%;
-    height: auto;
-    display: block;
-}
-
-/* 深色模式优化 */
-.dark-mode .card-animate {
-    border: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-.dark-mode .nav-link::after {
-    background: rgba(255, 255, 255, 0.8);
-}
-
-/* 响应式优化 */
-@media (max-width: 768px) {
-    .nav-menu {
-        flex-direction: column; gap: 15px; position: fixed; top: 70px; left: 0; width: 100%;
-        background: var(--card-bg); padding: 20px 0; box-shadow: var(--card-shadow);
-        transform: translateY(-150%); opacity: 0; pointer-events: none; transition: var(--transition);
-    }
-    .nav-menu.active { transform: translateY(0); opacity: 1; pointer-events: all; }
-    .character-title { font-size: 28px; }
-    .gallery-img { width: 220px; height: 300px; }
-    .play-btn { width: 60px; height: 60px; font-size: 22px; }
-    .typewriter { font-size: 24px; border-right: 1px solid var(--primary-color) !important; }
-    .control-panel {
-        min-width: 180px; padding: 15px;
-        top: auto; bottom: 80px; right: 10px;
-        transform: translateY(0);
-    }
-    .control-panel .color-picker-wrap { gap: 5px; }
-    
-    /* 移动端优化 */
-    .typewriter {
-        font-size: 1.5rem;
-        animation-duration: 2.5s;
-    }
-    
-    .text-gradient {
-        background: var(--primary-color);
-        -webkit-text-fill-color: var(--primary-color);
-    }
-    
-    .card-animate {
-        transform: none !important;
-    }
+@keyframes rippleEffect {
+    to { transform: scale(4); opacity: 0; }
 }
 
 /* ===== 二次元玻璃水滴 追加区 ===== */
@@ -528,96 +334,28 @@ body::before{ /* 轻度噪点 */
   border:1px solid rgba(255,255,255,0.15);
 }
 
-/* 水滴涟漪 */
-.ripple{
-  position:absolute;border-radius:50%;transform:scale(0);
-  animation:rippleEffect .6s linear;
-  background:radial-gradient(circle,rgba(255,255,255,0.6) 0%,rgba(255,255,255,0) 70%);
-  pointer-events:none;
-}
-@keyframes rippleEffect{to{transform:scale(4);opacity:0}}
-
-/* 导航常驻水滴 */
-#navDrop{
-  position:fixed;top:12px;left:12px;z-index:1000;pointer-events:none;
-  filter:drop-shadow(0 0 6px var(--primary-color));
-  animation:floatDrop 4s ease-in-out infinite;
-}
-@keyframes floatDrop{0%,100%{transform:translateY(0) rotate(0deg)}50%{transform:translateY(-6px) rotate(4deg)}}
-
-/* ===== 新增：兼容性修复 ===== */
-/* Brave浏览器/Bing兼容性修复 */
-@supports (-webkit-touch-callout: none) {
-  /* iOS设备优化 */
-  body {
-    -webkit-overflow-scrolling: touch;
-  }
-}
-
-/* 修复文字渲染 */
-* {
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-/* 修复动画性能 */
-.card-animate, .gallery-img, .btn {
-  will-change: transform, opacity;
-  backface-visibility: hidden;
-}
-
-/* 修复滚动性能 */
-body {
-  overflow-x: hidden;
-}
-
-/* 修复图片显示 */
-img {
-  max-width: 100%;
-  height: auto;
-  display: block;
-}
-
-/* 修复按钮点击状态 */
-.btn:active {
-  transform: scale(0.98);
-}
-
-/* 修复视频播放 */
-video {
-  object-fit: cover;
-}
-
-/* 修复深色模式切换 */
-.dark-mode {
-  transition: background-color 0.5s ease;
-}
-
-/* 移动端优化 - 减少动画复杂度 */
+/* 响应式优化 */
 @media (max-width: 768px) {
-  * {
-    animation-duration: 0.5s !important;
-    transition-duration: 0.3s !important;
-  }
-  
-  /* 禁用复杂特效 */
-  .particles-container {
-    display: none;
-  }
-}
-
-/* 打印优化 */
-@media print {
-  .control-panel,
-  .back-to-top {
-    display: none !important;
-  }
+    .nav-menu {
+        flex-direction: column; gap: 15px; position: fixed; top: 70px; left: 0; width: 100%;
+        background: var(--card-bg); padding: 20px 0; box-shadow: var(--card-shadow);
+        transform: translateY(-150%); opacity: 0; pointer-events: none; transition: var(--transition);
+    }
+    .nav-menu.active { transform: translateY(0); opacity: 1; pointer-events: all; }
+    .character-title { font-size: 28px; }
+    .gallery-img { width: 220px; height: 300px; }
+    .play-btn { width: 60px; height: 60px; font-size: 22px; }
+    .typewriter { font-size: 24px; border-right: 1px solid var(--primary-color) !important; }
+    .control-panel {
+        min-width: 180px; padding: 15px;
+        top: auto; bottom: 80px; right: 10px;
+        transform: translateY(0);
+    }
+    .control-panel .color-picker-wrap { gap: 5px; }
 }
   </style>
 </head>
 <body>
-  <!-- 导航 -->
   <nav class="navbar">
     <div class="nav-container">
       <div class="nav-logo"><i class="fa fa-star"></i><span>卡提希娅的星光小站</span></div>
@@ -629,11 +367,10 @@ video {
         <li class="nav-item"><a href="#gallery" class="nav-link">角色图库</a></li>
         <li class="nav-item"><a href="#demo" class="nav-link">实机演示</a></li>
       </ul>
-      <div class="nav-toggle"><i class="fa fa-bars"></i></div>
+      <div class="nav-toggle" onclick="toggleNavMenu()"><i class="fa fa-bars"></i></div>
     </div>
   </nav>
 
-  <!-- 控制面板 -->
   <div class="control-panel">
     <h3><i class="fa fa-sliders"></i> 个性化设置</h3>
     <button class="control-btn" onclick="switchTheme('purple')"><i class="fa fa-palette"></i> 银紫色主题</button>
@@ -643,15 +380,12 @@ video {
       <input type="color" id="customColorPicker" value="#8a5cf7">
       <button class="control-btn" onclick="applyCustomTheme()">应用</button>
     </div>
-    <button class="control-btn" onclick="toggleDarkMode()"><i class="fa fa-moon"></i> 深色模式</button>
-    <!-- 新增：特效开关 -->
+    <button class="control-btn" onclick="toggleDarkMode()"><i class="fa fa-moon-o"></i> 深色模式</button>
     <button class="control-btn" id="effectsToggleBtn"><i class="fa fa-magic"></i> 关闭特效</button>
   </div>
 
-  <!-- 回到顶部 -->
-  <div class="back-to-top hidden"><i class="fa fa-arrow-up"></i></div>
+  <div class="back-to-top hidden" onclick="scrollToTop()"><i class="fa fa-arrow-up"></i></div>
 
-  <!-- 首页 -->
   <section id="home" class="home-section section-animate">
     <div class="home-container">
       <img src="1.jpg" alt="卡提希娅头像" class="carterthyia-avatar">
@@ -664,7 +398,6 @@ video {
     </div>
   </section>
 
-  <!-- 角色设定 -->
   <section id="about" class="section-animate">
     <div class="section-header"><h2><i class="fa fa-user-circle"></i> 角色设定</h2><div class="section-divider"></div></div>
     <div class="card-animate">
@@ -676,7 +409,6 @@ video {
     </div>
   </section>
 
-  <!-- 故事背景 -->
   <section id="story" class="section-animate">
     <div class="section-header"><h2><i class="fa fa-book-open"></i> 角色故事背景</h2><div class="section-divider"></div></div>
     <div class="card-animate">
@@ -694,7 +426,6 @@ video {
     </div>
   </section>
 
-  <!-- 游戏攻略 -->
   <section id="guide" class="section-animate">
     <div class="section-header"><h2><i class="fa fa-gamepad"></i> 游戏攻略指南</h2><div class="section-divider"></div></div>
     <div class="card-animate">
@@ -732,7 +463,6 @@ video {
     </div>
   </section>
 
-  <!-- 角色图库 -->
   <section id="gallery" class="section-animate">
     <div class="section-header"><h2><i class="fa fa-images"></i> 角色图库</h2><div class="section-divider"></div></div>
     <div class="card-animate">
@@ -767,7 +497,6 @@ video {
     </div>
   </section>
 
-  <!-- 实机演示 -->
   <section id="demo" class="section-animate">
     <div class="section-header"><h2><i class="fa fa-film"></i> 实机演示视频</h2><div class="section-divider"></div></div>
     <div class="card-animate">
@@ -786,7 +515,6 @@ video {
     </div>
   </section>
 
-  <!-- 图片预览弹窗 -->
   <div id="imagePreviewModal" class="modal-hidden" onclick="closeImagePreview()">
     <div class="preview-content">
       <span class="preview-close">&times;</span>
@@ -794,7 +522,6 @@ video {
     </div>
   </div>
 
-<!-- ================= 完整整合的JavaScript ================= -->
 <script>
 /* ------------ 站点配置 ------------ */
 const siteConfig = {
@@ -811,7 +538,6 @@ const siteConfig = {
     videoPoster1: "1.jpg",
     videoPoster2: "2.jpg"
   },
-  galleryCount: 8,
   galleryTypes: ["all", "art", "battle", "daily", "beauty"],
   // 新增：特效配置
   effectsConfig: {
@@ -828,12 +554,10 @@ let currentTheme = window.siteConfig.defaultTheme;
 let isDarkMode = window.siteConfig.defaultMode === 'dark';
 let isStoryVisible = true;
 let enhancedEffectsEnabled = window.siteConfig.effectsConfig.enableAdvancedEffects;
-let enhancedEffectsManager = null;
 
-/* ========== 您的原始功能 ========== */
+/* ========== 核心功能 ========== */
 /* ------------ 初始化 ------------ */
 window.addEventListener('DOMContentLoaded', () => {
-  // 初始化原有功能
   initAnimations();
   initNavbar();
   initBackToTop();
@@ -842,754 +566,246 @@ window.addEventListener('DOMContentLoaded', () => {
   initDefaultThemeAndMode();
   initCustomColorPicker();
   
-  // 保留您的星空粒子效果
-  initStarCanvas();
+  // 绑定涟漪效果
   initRipple();
-  
-  // 初始化优化版特效
-  if (enhancedEffectsEnabled) {
-    setTimeout(() => {
-      initEnhancedEffects();
-    }, 1000);
-  }
   
   // 初始化特效控制按钮
   initEffectsControls();
 });
 
+/* ------------ 滚动动效 ------------ */
+function initAnimations() {
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+      }
+    });
+  }, { threshold: 0.1 });
+
+  document.querySelectorAll('.section-animate, .card-animate').forEach(el => observer.observe(el));
+}
+
+/* ------------ 导航栏 ------------ */
+function initNavbar() {
+  const nav = document.querySelector('.navbar');
+  window.addEventListener('scroll', () => {
+    if (window.scrollY > 50) {
+      nav.classList.add('scrolled');
+    } else {
+      nav.classList.remove('scrolled');
+    }
+  });
+}
+
+function toggleNavMenu() {
+    const menu = document.querySelector('.nav-menu');
+    menu.classList.toggle('active');
+}
+
+/* ------------ 回到顶部 ------------ */
+function initBackToTop() {
+  const btn = document.querySelector('.back-to-top');
+  window.addEventListener('scroll', () => {
+    if (window.scrollY > 300) {
+      btn.classList.remove('hidden');
+    } else {
+      btn.classList.add('hidden');
+    }
+  });
+}
+
+function scrollToTop() {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
 /* ------------ 主题 & 深色模式 ------------ */
 function initDefaultThemeAndMode() {
-  const root = document.documentElement;
-  const modeBtn = document.querySelector('.control-btn:nth-child(4) i');
-  
-  // 设置CSS变量
-  if (!root.style.getPropertyValue('--primary-color-purple')) {
-    root.style.setProperty('--primary-color-purple', '#8a5cf7');
-    root.style.setProperty('--secondary-color-purple', '#a78bfa');
-    root.style.setProperty('--bg-color-purple', '#f5f3ff');
-    root.style.setProperty('--primary-color-blue', '#3b82f6');
-    root.style.setProperty('--secondary-color-blue', '#60a5fa');
-    root.style.setProperty('--bg-color-blue', '#eff6ff');
-  }
-  
-  // 添加RGB变量用于特效
-  if (!root.style.getPropertyValue('--primary-rgb')) {
-    root.style.setProperty('--primary-rgb', '138, 92, 247');
-  }
+  const modeBtn = document.querySelector('.control-btn:nth-child(5) i');
   
   switchTheme(currentTheme);
   
   if (isDarkMode) {
     document.body.classList.add('dark-mode');
-    modeBtn?.classList.replace('fa-moon', 'fa-sun');
+    if (modeBtn) modeBtn.classList.replace('fa-moon-o', 'fa-sun-o');
   } else {
     document.body.classList.remove('dark-mode');
-    modeBtn?.classList.replace('fa-sun', 'fa-moon');
+    if (modeBtn) modeBtn.classList.replace('fa-sun-o', 'fa-moon-o');
   }
-  
-  document.title = window.siteConfig?.siteName || "卡提希娅的星光小站";
-}
-
-function initCustomColorPicker() {
-  const picker = document.getElementById('customColorPicker');
-  if (!picker) return;
-  
-  const root = document.documentElement;
-  const currentPrimary = root.style.getPropertyValue('--primary-color').replace('var(', '').replace(')', '').split('-color-')[1]
-    ? (currentTheme === 'purple' ? '#8a5cf7' : '#3b82f6')
-    : root.style.getPropertyValue('--primary-color');
-  
-  picker.value = currentPrimary;
 }
 
 function switchTheme(theme) {
-  const root = document.documentElement;
-  currentTheme = theme;
-  
-  if (theme === 'purple') {
-    root.style.setProperty('--primary-color', 'var(--primary-color-purple)');
-    root.style.setProperty('--secondary-color', 'var(--secondary-color-purple)');
-    root.style.setProperty('--bg-color', 'var(--bg-color-purple)');
-    root.style.setProperty('--primary-rgb', '138, 92, 247');
-  } else if (theme === 'blue') {
-    root.style.setProperty('--primary-color', 'var(--primary-color-blue)');
-    root.style.setProperty('--secondary-color', 'var(--secondary-color-blue)');
-    root.style.setProperty('--bg-color', 'var(--bg-color-blue)');
-    root.style.setProperty('--primary-rgb', '59, 130, 246');
-  }
-}
-
-function applyCustomTheme() {
-  const picker = document.getElementById('customColorPicker');
-  if (!picker) return;
-  
-  const customColor = picker.value;
-  const root = document.documentElement;
-  const lightColor = lightenColor(customColor, 20);
-  
-  // 解析RGB值
-  const rgb = hexToRgb(customColor);
-  if (rgb) {
-    root.style.setProperty('--primary-rgb', `${rgb.r}, ${rgb.g}, ${rgb.b}`);
-  }
-  
-  root.style.setProperty('--primary-color', customColor);
-  root.style.setProperty('--secondary-color', lightColor);
-  currentTheme = 'custom';
-}
-
-function hexToRgb(hex) {
-  const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
-  return result ? {
-    r: parseInt(result[1], 16),
-    g: parseInt(result[2], 16),
-    b: parseInt(result[3], 16)
-  } : null;
-}
-
-function lightenColor(color, percent) {
-  const num = parseInt(color.replace("#", ""), 16);
-  const amt = Math.round(2.55 * percent);
-  const R = Math.min(255, (num >> 16) + amt);
-  const G = Math.min(255, (num >> 8 & 0x00FF) + amt);
-  const B = Math.min(255, (num & 0x0000FF) + amt);
-  return "#" + (0x1000000 + R*0x10000 + G*0x100 + B).toString(16).slice(1);
+    const root = document.documentElement;
+    currentTheme = theme;
+    if (theme === 'blue') {
+        root.style.setProperty('--primary-color', 'var(--primary-color-blue)');
+        root.style.setProperty('--secondary-color', 'var(--secondary-color-blue)');
+        root.style.setProperty('--bg-color', 'var(--bg-color-blue)');
+        root.style.setProperty('--primary-rgb', '110, 198, 255');
+    } else {
+        root.style.setProperty('--primary-color', 'var(--primary-color-purple)');
+        root.style.setProperty('--secondary-color', 'var(--secondary-color-purple)');
+        root.style.setProperty('--bg-color', 'var(--bg-color-purple)');
+        root.style.setProperty('--primary-rgb', '138, 92, 247');
+    }
 }
 
 function toggleDarkMode() {
-  isDarkMode = !isDarkMode;
-  document.body.classList.toggle('dark-mode');
-  const modeBtn = document.querySelector('.control-btn:nth-child(4) i');
-  modeBtn?.classList.toggle('fa-moon');
-  modeBtn?.classList.toggle('fa-sun');
+    isDarkMode = !isDarkMode;
+    const modeBtn = document.querySelector('.control-btn:nth-child(5) i');
+    if (isDarkMode) {
+        document.body.classList.add('dark-mode');
+        if (modeBtn) modeBtn.classList.replace('fa-moon-o', 'fa-sun-o');
+    } else {
+        document.body.classList.remove('dark-mode');
+        if (modeBtn) modeBtn.classList.replace('fa-sun-o', 'fa-moon-o');
+    }
 }
 
-/* ------------ 添加滚动动效 ------------ */
-function initAnimations() {
-  window.addEventListener('scroll', () => {
-    document.querySelectorAll('.section-animate').forEach(el => {
-      if (el.getBoundingClientRect().top < window.innerHeight * 0.8) el.classList.add('visible');
-    });
-    document.querySelectorAll('.card-animate').forEach(el => {
-      if (el.getBoundingClientRect().top < window.innerHeight * 0.9) el.classList.add('visible');
-    });
-  });
-  window.dispatchEvent(new Event('scroll'));
+function initCustomColorPicker() {
+    const picker = document.getElementById('customColorPicker');
+    if(picker) picker.value = '#8a5cf7';
 }
 
-/* ------------ 面板导航 ------------ */
-function initNavbar() {
-  const navbar = document.querySelector('.navbar');
-  const navToggle = document.querySelector('.nav-toggle');
-  const navMenu = document.querySelector('.nav-menu');
-  
-  window.addEventListener('scroll', () => window.scrollY > 50 ? navbar.classList.add('scrolled') : navbar.classList.remove('scrolled'));
-  
-  navToggle?.addEventListener('click', () => {
-    navMenu?.classList.toggle('active');
-    const icon = navToggle.querySelector('i');
-    navMenu?.classList.contains('active') ? icon.classList.replace('fa-bars', 'fa-times') : icon.classList.replace('fa-times', 'fa-bars');
-  });
+function applyCustomTheme() {
+    const color = document.getElementById('customColorPicker').value;
+    const root = document.documentElement;
+    root.style.setProperty('--primary-color', color);
+    root.style.setProperty('--secondary-color', color);
+    // 简单的RGB计算（近似值）
+    const r = parseInt(color.slice(1, 3), 16);
+    const g = parseInt(color.slice(3, 5), 16);
+    const b = parseInt(color.slice(5, 7), 16);
+    root.style.setProperty('--primary-rgb', `${r}, ${g}, ${b}`);
 }
 
-/* ------------ 导航页面回到顶部 ------------ */
-function initBackToTop() {
-  const btn = document.querySelector('.back-to-top');
-  window.addEventListener('scroll', () => window.scrollY > 300 ? btn?.classList.remove('hidden') : btn?.classList.add('hidden'));
-  btn?.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
-}
-
-/* ------------ 角色图库筛选 ------------ */
+/* ------------ 图库过滤 ------------ */
 function initGalleryFilter() {
-  document.querySelectorAll('.gallery-tab').forEach(tab => {
-    tab.addEventListener('click', function () {
-      document.querySelectorAll('.gallery-tab').forEach(t => t.classList.remove('active'));
-      this.classList.add('active');
-      const type = this.dataset.type;
-      
-      document.querySelectorAll('.gallery-img').forEach(img => {
-        if (type === 'all' || img.dataset.type === type) {
-          img.style.display = 'block';
-          setTimeout(() => img.style.opacity = '1', 100);
-        } else {
-          img.style.opacity = '0';
-          setTimeout(() => img.style.display = 'none', 300);
-        }
-      });
-    });
-  });
+    filterGallery('all');
 }
 
 function filterGallery(type) {
-  document.querySelectorAll('.gallery-tab').forEach(t => t.classList.remove('active'));
-  document.querySelector(`.gallery-tab[data-type="${type}"]`)?.classList.add('active');
-  
-  document.querySelectorAll('.gallery-img').forEach(img => {
-    if (type === 'all' || img.dataset.type === type) {
-      img.style.display = 'block';
-      setTimeout(() => img.style.opacity = '1', 100);
-    } else {
-      img.style.opacity = '0';
-      setTimeout(() => img.style.display = 'none', 300);
-    }
-  });
+    const images = document.querySelectorAll('.gallery-img');
+    const tabs = document.querySelectorAll('.gallery-tab');
+    
+    tabs.forEach(tab => {
+        if(tab.getAttribute('data-type') === type) tab.classList.add('active');
+        else tab.classList.remove('active');
+    });
+
+    images.forEach(img => {
+        if (type === 'all' || img.getAttribute('data-type') === type) {
+            img.style.display = 'block';
+        } else {
+            img.style.display = 'none';
+        }
+    });
 }
 
-/* ------------ 角色的攻略标签 ------------ */
-function initGuideTab() {
-  document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
-  document.querySelectorAll('.guide-content').forEach(c => c.classList.add('hidden'));
-  document.querySelector('.tab-btn[data-tab="core"]')?.classList.add('active');
-  document.getElementById('coreContent')?.classList.remove('hidden');
-}
-
-function switchGuideTab(tab) {
-  document.querySelectorAll('.guide-content').forEach(c => c.classList.add('hidden'));
-  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-  document.getElementById(`${tab}Content`)?.classList.remove('hidden');
-  document.querySelector(`.tab-btn[data-tab="${tab}"]`)?.classList.add('active');
-}
-
-/* ------------ 卡提希娅宝宝故事展开/收起 ------------ */
-function toggleStory() {
-  const content = document.getElementById('storyContent');
-  const toggle = document.getElementById('storyToggle');
-  isStoryVisible = !isStoryVisible;
-  
-  if (isStoryVisible) {
-    content.style.display = 'block';
-    toggle.innerHTML = '<i class="fa fa-chevron-up"></i> 收起故事';
-  } else {
-    content.style.display = 'none';
-    toggle.innerHTML = '<i class="fa fa-chevron-down"></i> 展开故事';
-  }
-}
-
-/* ------------ 卡提希娅图片预览 ------------ */
+/* ------------ 预览弹窗 ------------ */
 function previewImage(src) {
-  const modal = document.getElementById('imagePreviewModal');
-  const img = document.getElementById('previewImage');
-  img.src = src;
-  modal.classList.remove('modal-hidden');
-  document.body.style.overflow = 'hidden';
+    const modal = document.getElementById('imagePreviewModal');
+    const img = document.getElementById('previewImage');
+    img.src = src;
+    modal.classList.add('show');
+    modal.classList.remove('modal-hidden');
 }
 
 function closeImagePreview() {
-  const modal = document.getElementById('imagePreviewModal');
-  modal.classList.add('modal-hidden');
-  document.body.style.overflow = 'auto';
+    const modal = document.getElementById('imagePreviewModal');
+    modal.classList.remove('show');
+    modal.classList.add('modal-hidden');
 }
 
-/* ------------ 实机演示视频播放 ------------ */
-function playVideo(playerId, coverElement) {
-  const videoElement = document.getElementById(playerId);
-  if (!videoElement || !coverElement) return;
-  
-  const playPromise = videoElement.play();
-  if (playPromise) {
-    playPromise.then(() => coverElement.style.display = 'none')
-      .catch(() => {
-        coverElement.style.display = 'none';
-        // 静默失败，不显示警告
-      });
-  } else {
-    coverElement.style.display = 'none';
-  }
-  
-  videoElement.addEventListener('ended', () => {
-    videoElement.currentTime = 0;
-    coverElement.style.display = 'flex';
-  });
-}
-
-function switchVideo(type) {
-  document.querySelectorAll('.gallery-tab').forEach(tab => tab.classList.remove('active'));
-  document.querySelector(`.gallery-tab[onclick*="${type}"]`)?.classList.add('active');
-  
-  if (type === 'small') {
-    document.getElementById('smallVideo').classList.remove('hidden');
-    document.getElementById('bigVideo').classList.add('hidden');
-  } else if (type === 'big') {
-    document.getElementById('smallVideo').classList.add('hidden');
-    document.getElementById('bigVideo').classList.remove('hidden');
-  }
-}
-
-/* ========== 您的原始特效 ========== */
-/* ------------ 在暗黑模式下显示星空粒子 ------------ */
-let starCanvas, starCtx, particles = [], mx = 0, my = 0;
-
-function initStarCanvas() {
-  starCanvas = document.createElement('canvas');
-  starCanvas.id = 'starCanvas';
-  starCanvas.style.cssText = `
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    pointer-events: none;
-    z-index: 1;
-  `;
-  document.body.appendChild(starCanvas);
-  starCtx = starCanvas.getContext('2d');
-  
-  resizeStar();
-  window.addEventListener('resize', resizeStar);
-  window.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; });
-  
-  animateStars();
-}
-
-function resizeStar() {
-  starCanvas.width = window.innerWidth;
-  starCanvas.height = window.innerHeight;
-}
-
-class Particle {
-  constructor() {
-    this.x = Math.random() * starCanvas.width;
-    this.y = starCanvas.height + 20;
-    this.vy = -(1 + Math.random() * 2);
-    this.vx = (Math.random() - 0.5) * 0.6;
-    this.r = Math.random() * 1.5 + 0.5;
-  }
-  
-  update() {
-    this.y += this.vy;
-    this.x += this.vx;
-    const dx = this.x - mx, dy = this.y - my, d = Math.hypot(dx, dy);
+/* ------------ 攻略切换 ------------ */
+function switchGuideTab(tab) {
+    const contents = document.querySelectorAll('.guide-content');
+    const tabs = document.querySelectorAll('.tab-btn');
     
-    if (d < 120) {
-      this.x += dx / d * 1.2;
-      this.y += dy / d * 1.2;
-    }
-    
-    if (this.y < -20) this.y = starCanvas.height + 20;
-  }
-  
-  draw() {
-    starCtx.beginPath();
-    const g = starCtx.createRadialGradient(this.x, this.y, 0, this.x, this.y, this.r);
-    g.addColorStop(0, 'rgba(255,255,255,1)');
-    g.addColorStop(1, 'rgba(180,160,255,0)');
-    starCtx.fillStyle = g;
-    starCtx.arc(this.x, this.y, this.r, 0, Math.PI * 2);
-    starCtx.fill();
-  }
-}
-
-function animateStars() {
-  starCtx.clearRect(0, 0, starCanvas.width, starCanvas.height);
-  
-  if (particles.length < (window.innerWidth < 768 ? 30 : 60)) {
-    particles.push(new Particle());
-  }
-  
-  particles = particles.filter(p => {
-    p.update();
-    p.draw();
-    return p.y > -30;
-  });
-  
-  requestAnimationFrame(animateStars);
-}
-
-/* ------------ 显示水滴涟漪 ------------ */
-function initRipple() {
-  document.body.addEventListener('click', function (e) {
-    const card = e.target.closest('.card-animate,.video-container,.gallery-img,.btn');
-    if (!card) return;
-    
-    const rect = card.getBoundingClientRect();
-    const x = e.clientX - rect.left;
-    const y = e.clientY - rect.top;
-    
-    const ripple = document.createElement('span');
-    ripple.className = 'ripple';
-    ripple.style.width = ripple.style.height = '20px';
-    ripple.style.left = x - 10 + 'px';
-    ripple.style.top = y - 10 + 'px';
-    
-    card.style.position = 'relative';
-    card.style.overflow = 'hidden';
-    card.appendChild(ripple);
-    
-    setTimeout(() => ripple.remove(), 600);
-  });
-}
-
-/* ========== 本卡提希娅的特效注释 ========== */
-/* ------------ 高级特效系统 ------------ */
-function initEnhancedEffects() {
-  if (window.enhancedEffectsManager) return;
-  
-  window.enhancedEffectsManager = {
-    effects: [],
-    enabled: true,
-    isMobile: /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini|/i.test(navigator.userAgent),
-    
-    init() {
-      // 1. 3D视差效果（仅桌面）
-      if (!this.isMobile) {
-        this.initParallax3D();
-      }
-      
-      // 2. 粒子系统
-      this.initParticleSystem();
-      
-      // 3. 文字流光
-      this.initTextEffects();
-      
-      // 4. 鼠标轨迹
-      this.initMouseTrail();
-      
-      // 5. 灯光效果
-      this.initLightingEffects();
-      
-      console.log('高级特效系统已加载 - 稳定模式');
-    },
-    
-    initParallax3D() {
-      const cards = document.querySelectorAll('.card-animate, .video-container, .gallery-img');
-      
-      document.addEventListener('mousemove', (e) => {
-        const centerX = window.innerWidth / 2;
-        const centerY = window.innerHeight / 2;
-        
-        const mouseX = e.clientX;
-        const mouseY = e.clientY;
-        
-        const rotateY = (mouseX - centerX) / centerX * 3; // 减少旋转幅度
-        const rotateX = (centerY - mouseY) / centerY * 3;
-        
-        cards.forEach(card => {
-          const rect = card.getBoundingClientRect();
-          const cardCenterX = rect.left + rect.width / 2;
-          const cardCenterY = rect.top + rect.height / 2;
-          
-          const distanceX = Math.abs(mouseX - cardCenterX);
-          const distanceY = Math.abs(mouseY - cardCenterY);
-          const distance = Math.sqrt(distanceX * distanceX + distanceY * distanceY);
-          
-          // 只有鼠标靠近卡片时才应用3D效果
-          if (distance < 300) {
-            const intensity = 1 - (distance / 300);
-            card.style.transform = `
-              perspective(1000px)
-              rotateY(${rotateY * intensity}deg)
-              rotateX(${rotateX * intensity}deg)
-              scale(${1 + intensity * 0.02})
-            `;
-            card.style.transition = 'transform 0.3s ease-out';
-          }
-        });
-      });
-      
-      // 鼠标离开时恢复
-      document.addEventListener('mouseleave', () => {
-        cards.forEach(card => {
-          card.style.transform = 'perspective(1000px) rotateY(0deg) rotateX(0deg) scale(1)';
-          card.style.transition = 'transform 0.5s ease-out';
-        });
-      });
-    },
-    
-    initParticleSystem() {
-      if (this.isMobile) return; // 移动端不显示粒子
-      
-      const container = document.querySelector('.home-section');
-      if (!container) return;
-      
-      // 创建粒子容器 random.ly
-      const particlesContainer = document.createElement('div');
-      particlesContainer.className = 'particles-container';
-      particlesContainer.style.cssText = `
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        overflow: hidden;
-        z-index: -1;
-      `;
-      container.style.position = 'relative';
-      container.appendChild(particlesContainer);
-      
-      // 创建少量粒子
-      const particleCount = this.isMobile ? 10 : 20;
-      for (let i = 0; i < particleCount; i++) {
-        const particle = document.createElement('div');
-        particle.className = 'particle';
-        
-        // 随机属性
-        const size = Math.random() * 3 + 1;
-        const posX = Math.random() * 100;
-        const posY = Math.random() * 100;
-        const postZ = Math.random() * 500;
-        const duration = Math.random() * 20 + 10;
-        const delay = Math.random() * 5;
-        
-        particle.style.cssText = `
-          position: absolute;
-          width: ${size}px;
-          height: ${size}px;
-          background: var(--primary-color);
-          border-radius: 50%;
-          left: ${posX}%;
-          top: ${posY}%;
-          opacity: ${Math.random() * 0.2 + 0.05};
-          animation: floatParticle ${duration}s linear infinite;
-          animation-delay: ${delay}s;
-        `;
-        
-        particlesContainer.appendChild(particle);
-      }
-      
-      // 添加CSS动画
-      const style = document.createElement('style');
-      style.textContent = `
-        @keyframes floatParticle {
-          0%, 100% {
-            transform: translate(0, 0) rotate(0deg);
-            opacity: 0.1;
-          }
-          25% {
-            transform: translate(${Math.random() * 10 - 5}px, ${Math.random() * 10 - 5}px) rotate(90deg);
-            opacity: 0.2;
-          }
-          50% {
-            transform: translate(${Math.random() * 10 - 5}px, ${Math.random() * 10 - 5}px) rotate(180deg);
-            opacity: 0.15;
-          }
-          75% {
-            transform: translate(${Math.random() * 10 - 5}px, ${Math.random() * 10 - 5}px) rotate(270deg);
-            opacity: 0.2;
-          }
-        }
-      `;
-      document.head.appendChild(style);
-      
-      this.effects.push({ type: 'particles', container: particlesContainer });
-    },
-    
-    initTextEffects() {
-      // 为标题添加渐变文字
-      const headings = document.querySelectorAll('h1, h2, h3');
-      headings.forEach(heading => {
-        if (!heading.classList.contains('typewriter')) {
-          heading.classList.add('text-gradient');
-        }
-      });
-      
-      // 为故事标题添加特殊效果
-      const storyTitles = document.querySelectorAll('.story-title');
-      storyTitles.forEach(title => {
-        title.addEventListener('mouseenter', () => {
-          title.style.textShadow = '0 0 10px var(--primary-color)';
-        });
-        
-        title.addEventListener('mouseleave', () => {
-          title.style.textShadow = 'none';
-        });
-      });
-    },
-    
-    initMouseTrail() {
-      const trail = [];
-      const maxTrail = 10;
-      
-      document.addEventListener('mousemove', (e) => {
-        const trailEl = document.createElement('div');
-        trailEl.className = 'mouse-trail';
-        trailEl.style.cssText = `
-          position: fixed;
-          width: 6px;
-          height: 6px;
-          background: var(--primary-color);
-          border-radius: 50%;
-          pointer-events: none;
-          z-index: 9999;
-          left: ${e.clientX - 3}px;
-          top: ${e.clientY - 3}px;
-          opacity: 0.7;
-          transform: scale(1);
-          transition: all 0.3s ease-out;
-        `;
-        
-        document.body.appendChild(trailEl);
-        trail.push(trailEl);
-        
-        // 清理旧轨迹
-        if (trail.length > maxTrail) {
-          const old = trail.shift();
-          if (old && old.parentNode) {
-            old.parentNode.removeChild(old);
-          }
-        }
-        
-        // 动画效果
-        setTimeout(() => {
-          trailEl.style.opacity = '0';
-          trailEl.style.transform = 'scale(0)';
-        }, 50);
-        
-        setTimeout(() => {
-          if (trailEl.parentNode) {
-            trailEl.parentNode.removeChild(trailEl);
-          }
-        }, 300);
-      });
-    },
-    
-    initLightingEffects() {
-      // 聚光灯效果
-      const spotlight = document.createElement('div');
-      spotlight.id = 'dynamic-spotlight';
-      spotlight.style.cssText = `
-        position: fixed;
-        width: 150px;
-        height: 150px;
-        border-radius: 50%;
-        background: radial-gradient(
-          circle,
-          rgba(255, 255, 255, 0.1) 0%,
-          rgba(255, 255, 255, 0.05) 30%,
-          transparent 70%
-        );
-        pointer-events: none;
-        z-index: 3;
-        opacity: 0;
-        transition: opacity 0.3s ease;
-      `;
-      document.body.appendChild(spotlight);
-      
-      document.addEventListener('mousemove', (e) => {
-        spotlight.style.left = `${e.clientX - 75}px`;
-        spotlight.style.top = `${e.clientY - 75}px`;
-        spotlight.style.opacity = '0.5';
-      });
-      
-      document.addEventListener('mouseleave', () => {
-        spotlight.style.opacity = '0';
-      });
-      
-      this.effects.push({ type: 'lighting', element: spotlight });
-    },
-    
-    toggleAllEffects() {
-      this.enabled = !this.enabled;
-      
-      const effects = [
-        '.particles-container',
-        '#dynamic-spotlight',
-        '.mouse-trail'
-      ];
-      
-      effects.forEach(selector => {
-        const elements = document.querySelectorAll(selector);
-        elements.forEach(el => {
-          el.style.display = this.enabled ? 'block' : 'none';
-        });
-      });
-      
-      // 更新按钮文本
-      const btn = document.getElementById('effectsToggleBtn');
-      if (btn) {
-        const icon = btn.querySelector('i');
-        if (this.enabled) {
-          icon.className = 'fa fa-magic';
-          btn.innerHTML = '<i class="fa fa-magic"></i> 关闭特效';
-        } else {
-          icon.className = 'fa fa-ban';
-          btn.innerHTML = '<i class="fa fa-ban"></i> 开启特效';
-        }
-      }
-      
-      return this.enabled;
-    }
-  };
-  
-  window.enhancedEffectsManager.init();
-  enhancedEffectsManager = window.enhancedEffectsManager;
-}
-
-/* ------------ 特效控制 ------------ */
-function initEffectsControls() {
-  const toggleBtn = document.getElementById('effectsToggleBtn');
-  
-  if (toggleBtn) {
-    toggleBtn.onclick = () => {
-      enhancedEffectsEnabled = !enhancedEffectsEnabled;
-      
-      if (enhancedEffectsEnabled && !enhancedEffectsManager) {
-        initEnhancedEffects();
-      } else if (enhancedEffectsManager) {
-        enhancedEffectsManager.toggleAllEffects();
-      }
-    };
-  }
-}
-
-/* ------------ 页面加载完成后优化 ------------ */
-window.addEventListener('load', () => {
-  // 添加CSS动画
-  const style = document.createElement('style');
-  style.textContent = `
-    /* 新增动画 */
-    @keyframes fadeIn {
-      from { opacity: 0; }
-      to { opacity: 1; }
-    }
-    
-    /* 图片加载动画 */
-    .gallery-img {
-      animation: fadeIn 0.5s ease;
-    }
-    
-    /* 按钮悬停效果 */
-    .btn:hover {
-      animation: pulse 1.5s infinite;
-    }
-    
-    @keyframes pulse {
-      0%, 100% { 
-        box-shadow: 0 0 10px var(--primary-color);
-      }
-      50% { 
-        box-shadow: 0 0 20px var(--secondary-color);
-      }
-    }
-  `;
-  document.head.appendChild(style);
-  
-  // 性能优化
-  optimizePerformance();
-});
-
-function optimizePerformance() {
-  // 减少过渡动画对浏览器性能的影响
-  const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
-  
-  if (prefersReducedMotion.matches) {
-    document.body.classList.add('reduce-motion');
-  }
-  
-  // 监听性能偏好
-  prefersReducedMotion.addEventListener('change', () => {
-    if (prefersReducedMotion.matches) {
-      document.body.classList.add('reduce-motion');
-    } else {
-      document.body.classList.remove('reduce-motion');
-    }
-  });
-  
-  // 优化滚动性能
-  window.addEventListener('scroll', () => {
-    requestAnimationFrame(() => {
-      // 滚动优化逻辑
+    tabs.forEach(t => {
+        if(t.getAttribute('data-tab') === tab) t.classList.add('active');
+        else t.classList.remove('active');
     });
-  }, { passive: true });
+    
+    contents.forEach(c => c.classList.add('hidden'));
+    document.getElementById(tab + 'Content').classList.remove('hidden');
+}
+
+/* ------------ 视频切换与播放 ------------ */
+function switchVideo(type) {
+    const smallVideo = document.getElementById('smallVideo');
+    const bigVideo = document.getElementById('bigVideo');
+    const tabs = document.querySelectorAll('#demo .gallery-tab');
+    
+    if(type === 'small') {
+        smallVideo.classList.remove('hidden');
+        bigVideo.classList.add('hidden');
+        tabs[0].classList.add('active');
+        tabs[1].classList.remove('active');
+    } else {
+        smallVideo.classList.add('hidden');
+        bigVideo.classList.remove('hidden');
+        tabs[1].classList.add('active');
+        tabs[0].classList.remove('active');
+    }
+}
+
+function playVideo(videoId, cover) {
+    const video = document.getElementById(videoId);
+    cover.style.display = 'none';
+    video.play();
+}
+
+/* ------------ 故事切换 ------------ */
+function toggleStory() {
+    const content = document.getElementById('storyContent');
+    const btn = document.getElementById('storyToggle');
+    isStoryVisible = !isStoryVisible;
+    if(isStoryVisible) {
+        content.style.display = 'block';
+        btn.innerHTML = '<i class="fa fa-chevron-up"></i> 收起故事';
+    } else {
+        content.style.display = 'none';
+        btn.innerHTML = '<i class="fa fa-chevron-down"></i> 展开故事';
+    }
+}
+
+/* ------------ 粒子特效开关 ------------ */
+function initEffectsControls() {
+    const toggleBtn = document.getElementById('effectsToggleBtn');
+    if(!toggleBtn) return;
+    
+    toggleBtn.addEventListener('click', () => {
+        enhancedEffectsEnabled = !enhancedEffectsEnabled;
+        if(enhancedEffectsEnabled) {
+            toggleBtn.innerHTML = '<i class="fa fa-magic"></i> 关闭特效';
+            // 如果需要重新启动粒子逻辑，在此处添加
+        } else {
+            toggleBtn.innerHTML = '<i class="fa fa-magic"></i> 开启特效';
+            // 如果需要停止粒子逻辑，在此处添加
+        }
+    });
+}
+
+/* ------------ 涟漪效果 ------------ */
+function initRipple() {
+    document.querySelectorAll('.btn, .nav-link, .gallery-img, .card-animate').forEach(el => {
+        el.addEventListener('click', function (e) {
+            let x = e.clientX - e.target.getBoundingClientRect().left;
+            let y = e.clientY - e.target.getBoundingClientRect().top;
+            
+            let ripple = document.createElement('span');
+            ripple.classList.add('ripple');
+            ripple.style.left = x + 'px';
+            ripple.style.top = y + 'px';
+            
+            this.appendChild(ripple);
+            
+            setTimeout(() => {
+                ripple.remove();
+            }, 600);
+        });
+    });
 }
 </script>
 </body>

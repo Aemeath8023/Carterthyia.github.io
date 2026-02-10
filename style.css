@@ -20,9 +20,9 @@ body {
     min-height: 100vh;
 }
 
-/* ================== 极限视觉 CSS (核心) ================== */
+/* ================== 极限视觉 CSS ================== */
 
-/* 粒子层硬件加速 (画布填满全屏) */
+/* 粒子层硬件加速 */
 canvas#particle-canvas {
     position: fixed;
     top: 0;
@@ -32,10 +32,10 @@ canvas#particle-canvas {
     z-index: -1;
     pointer-events: none;
     will-change: transform;
-    transform: translateZ(0); /* 开启GPU加速 */
+    transform: translateZ(0); /* GPU加速 */
 }
 
-/* 动感背景色动画 */
+/* 动感背景色 */
 body {
     background: linear-gradient(125deg, #2c003e, #000000, #000a3e);
     background-size: 400% 400%;
@@ -53,13 +53,12 @@ body {
     background: var(--card-bg-color);
     border: 1px solid rgba(255, 255, 255, 0.1);
     border-radius: 15px;
-    /* 模糊效果由JS控制变量，兼容手机端性能 */
     backdrop-filter: blur(var(--backdrop-blur, 10px));
     -webkit-backdrop-filter: blur(var(--backdrop-blur, 10px));
     transition: all 0.3s ease;
 }
 
-/* 手机端极限优化：不使用模糊，使用低透明度背景 */
+/* 手机端优化：禁用模糊 */
 @media (max-width: 768px) {
     .card-animate, .navbar {
         background: rgba(0, 0, 0, 0.7);
@@ -68,7 +67,7 @@ body {
     }
 }
 
-/* 点击涟漪特效 */
+/* 点击涟漪 */
 .ripple {
     position: absolute;
     border-radius: 50%;
@@ -82,7 +81,66 @@ body {
     to { transform: scale(4); opacity: 0; }
 }
 
-/* ================== 布局与UI样式 ================== */
+/* 增强的按钮3D效果与霓虹边框 */
+.btn-3d {
+    position: relative;
+    border: none;
+    background-color: var(--primary-color);
+    color: white;
+    border-radius: 10px;
+    transform: translateY(0);
+    transition: transform 0.1s cubic-bezier(0.4, 0, 0.2, 1),
+                box-shadow 0.1s cubic-bezier(0.4, 0, 0.2, 1);
+    will-change: transform;
+}
+
+.btn-3d:active:not(:disabled) {
+    transform: translateY(3px);
+}
+
+.btn-3d::after {
+    content: '';
+    position: absolute;
+    top: 5px;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to bottom, rgba(0, 0, 0, 0.1) 0%, rgba(0, 0, 0, 0.2) 100%);
+    border-radius: 10px;
+    z-index: -1;
+    transition: all 0.1s ease;
+}
+
+.btn-3d:active:not(:disabled)::after {
+    top: 0;
+    height: calc(100% - 3px);
+}
+
+.neon-border {
+    position: relative;
+    overflow: hidden;
+}
+
+.neon-border::before {
+    content: '';
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    right: -2px;
+    bottom: -2px;
+    background: linear-gradient(45deg, var(--primary-color), #ff6bcb, var(--primary-color));
+    border-radius: 12px;
+    z-index: -1;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    filter: blur(4px);
+}
+
+.neon-border:hover::before {
+    opacity: 0.7;
+}
+
+/* ================== UI 基础布局 ================== */
 .navbar {
     position: fixed;
     top: 0;
@@ -152,32 +210,8 @@ body {
     border: 2px solid var(--primary-color);
 }
 
-.gallery-section {
-    padding: 50px 20px;
-}
-
-.gallery-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-    gap: 15px;
-}
-
-.gallery-img {
-    width: 100%;
-    height: 200px;
-    object-fit: cover;
-    border-radius: 10px;
-    cursor: pointer;
-    transition: transform 0.3s ease;
-}
-
-.gallery-img:hover {
-    transform: scale(1.05);
-}
-
 .hidden { display: none !important; }
 
-/* 动画类 */
 .card-animate {
     opacity: 0;
     transform: translateY(20px);

@@ -1,7 +1,7 @@
 const siteConfig = {
   adminAccount: "admin",
   adminPassword: "carterthyia",
-  siteDomain: "carterthyia.cloud", // 更新为你的实际域名
+  siteDomain: "carterthyia.cloud",
   defaultTheme: "purple",
   defaultMode: "light",
   
@@ -19,7 +19,7 @@ const siteConfig = {
     aimis: {
       siteName: "爱弥斯的璀璨星穹",
       siteDescription: "自由的幻梦掌控者 · 璀璨星海梦境领主",
-      avatar: "images/P1.png", // 确保此路径存在
+      avatar: "images/P1.png", // 确保此路径图片存在
       smallVideo: null,       // 爱弥斯没有视频
       bigVideo: null
     }

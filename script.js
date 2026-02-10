@@ -26,18 +26,19 @@ window.addEventListener('DOMContentLoaded', () => {
 // ================= 2. 角色智能加载 =================
 function autoLoadRole() {
   const pageName = window.location.pathname.toLowerCase();
-  // 识别页面：文件名包含 '2' 或是 'aimis' 就加载爱弥斯配置
-  const roleKey = (pageName.includes("2") || pageName.includes("aimis")) ? "aimis" : "carter";
+  
+  // 核心逻辑：文件名包含 '2' (index2.html) 就加载爱弥斯配置
+  const roleKey = pageName.includes("2") ? "aimis" : "carter";
   const data = window.siteConfig.characters[roleKey];
 
   if (!data) return;
 
-  // A. 替换文本信息
+  // A. 替换标题和文字描述
   document.title = data.siteName;
   const descTag = document.querySelector('.site-description');
   if (descTag) descTag.textContent = data.siteDescription;
 
-  // B. 替换头像
+  // B. 替换头像 (需要 index.html 和 index2.html 的img有 id="userAvatar")
   const avatarImg = document.getElementById('userAvatar');
   if (avatarImg && data.avatar) {
     avatarImg.src = data.avatar;
@@ -59,7 +60,7 @@ function autoLoadRole() {
   }
 }
 
-// ================= 3. 极限特效系统 =================
+// ================= 3. 极限特效系统 (粒子和涟漪) =================
 
 // 特效 1: 智能粒子系统
 function initParticleSystem() {
@@ -73,11 +74,11 @@ function initParticleSystem() {
   
   let w, h, particles = [];
   
-  // 智能设备检测，手机端降低粒子数量
+  // 智能设备检测
   const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
   const particleCount = isMobile ? config.maxParticlesMobile : config.maxParticlesDesktop;
 
-  // 手机端优化：禁用高斯模糊变量
+  // 性能优化：手机端禁用高斯模糊
   if (isMobile && !config.enableBlurMobile) {
     document.documentElement.style.setProperty('--backdrop-blur', '0px');
   } else {
@@ -132,7 +133,7 @@ function initParticleSystem() {
 // 特效 2: 点击涟漪
 function initRippleEffect() {
   document.body.addEventListener('click', function(e) {
-    // 限制点击区域，避免误触元素
+    // 限制点击区域
     const target = e.target.closest('.card-animate, .btn, .gallery-img, .nav-logo');
     if (!target) return;
 
@@ -181,6 +182,5 @@ function initBackToTop() {
 }
 
 function initDefaultThemeAndMode() {
-  // 设置默认主题色
   document.documentElement.style.setProperty('--primary-color', '#8a5cf7');
 }
