@@ -1,35 +1,18 @@
 <!DOCTYPE html>
-<html lang="zh">
+<html lang="zh-CN">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>卡提希娅的星光小站｜鸣潮3.1顶级主C</title>
-    <link rel="icon" href="favicon/13.ico" type="image/x-icon" /> <!-- P1: 网站图标 -->
-    <link rel="stylesheet" href="style.css" />
-    <script src="config.js"></script>
-    <script src="script.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>卡提希娅 | 鸣潮3.1新角色</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" href="favicon/13.ico" type="image/x-icon">
 </head>
 <body>
-    <!-- 粒子背景 -->
-    <canvas id="particle-canvas"></canvas>
-
-    <!-- 导航栏 -->
-    <nav class="navbar">
-        <a href="#" class="nav-logo">卡提希娅</a>
-        <div class="nav-links">
-            <a href="#about">关于</a>
-            <a href="#combat">战斗</a>
-            <a href="#story">故事</a>
-            <a href="#gallery">图集</a>
-            <a href="#video">实机</a>
-        </div>
-    </nav>
-
-    <!-- 英雄区：P3 作为网站主视觉头像 -->
+    <!-- 英雄区 -->
     <section class="hero-section">
         <div class="profile-card">
-            <div class="avatar-wrapper">
-                <img src="images/P3.jpg" alt="卡提希娅" class="avatar-img" id="userAvatar" /> <!-- P3: 网站主视觉头像 -->
+            <div class="avatar-wrapper" onclick="window.location.href='index2.html'">
+                <img src="images/carte1.jpg" alt="卡提希娅" class="avatar-img" id="userAvatar" />
                 <div class="electronic-glitch"></div>
             </div>
             <h1 class="site-title">卡提希娅</h1>
@@ -38,177 +21,86 @@
                 <a href="#story" class="btn-primary">阅读故事</a>
                 <a href="#video" class="btn-secondary">观看实机</a>
                 <a href="#gallery" class="btn-tertiary">浏览图集</a>
-            </div>
-            <div class="tags">
-                <span class="tag">五星·气动</span>
-                <span class="tag">迅刀/巨剑</span>
-                <span class="tag">双形态切换</span>
-                <span class="tag">岁主共鸣者</span>
+                <a href="index2.html" class="btn-tertiary">→ 前往爱弥斯</a>
             </div>
         </div>
     </section>
 
-    <!-- 关于部分 -->
-    <section class="section-animate" id="about">
-        <h2>关于卡提希娅</h2>
-        <div class="card-animate">
-            <div class="character-info">
-                <p><strong>称号：</strong>芙露德莉丝（岁主共鸣者）</p>
-                <p><strong>元素属性：</strong>气动</p>
-                <p><strong>武器类型：</strong>迅刀 / 巨剑</p>
-                <p><strong>稀有度：</strong>五星</p>
-                <p><strong>所属阵营：</strong>埃格拉小镇</p>
-                <p><strong>生日：</strong>1月15日</p>
-                <p><strong>性格：</strong>温柔、坚定、富有责任感</p>
+    <!-- 故事区 -->
+    <section id="story" class="content-section">
+        <h2>✨ 角色故事</h2>
+        <div class="story-content">
+            <p>在星海尽头，她以光为刃，以影为盾。卡提希娅穿梭于现实与虚影之间，守护着被遗忘的星辰记忆。当双形态切换的刹那，时空为之震颤...</p>
+            <div class="quote-box">
+                <p>"光明与暗影，皆是我守护的誓言。"</p>
+                <span>—— 卡提希娅</span>
             </div>
         </div>
     </section>
 
-    <!-- 战斗系统 -->
-    <section class="section-animate" id="combat">
-        <h2>战斗机制</h2>
-        <div class="card-animate">
-            <div class="combat-grid">
-                <div class="combat-card">
-                    <h3>技能一：气刃回旋</h3>
-                    <p>快速挥舞迅刀，释放连续风蚀攻击，每击叠加「风之印记」。当印记满时触发暴击，造成真实伤害。</p>
-                </div>
-                <div class="combat-card">
-                    <h3>技能二：苍穹崩裂</h3>
-                    <p>蓄力后召唤巨大气刃，横扫全场，对敌人造成范围爆炸伤害，并附带击退效果。</p>
-                </div>
-                <div class="combat-card">
-                    <h3>解放技：双生形态</h3>
-                    <p>切换至巨剑形态，攻击力提升50%，并解锁「破甲斩」技能，无视敌人30%防御力。</p>
-                </div>
+    <!-- 视频区 -->
+    <section id="video" class="content-section">
+        <h2>🎬 实机演示</h2>
+        <div class="video-container">
+            <video controls poster="images/carte2.jpg">
+                <source src="videos/111.mp4" type="video/mp4">
+                您的浏览器不支持视频标签
+            </video>
+            <div class="video-info">
+                <h3>迅刀形态 · 星海斩击</h3>
+                <p>卡提希娅迅刀形态连招演示，光影交织的华丽战斗</p>
+            </div>
+        </div>
+        <div class="video-container">
+            <video controls poster="images/carte3.jpg">
+                <source src="videos/12.mp4" type="video/mp4">
+                您的浏览器不支持视频标签
+            </video>
+            <div class="video-info">
+                <h3>巨剑形态 · 暗影重击</h3>
+                <p>卡提希娅巨剑形态爆发演示，撕裂时空的终极一击</p>
             </div>
         </div>
     </section>
 
-    <!-- 故事背景（深度扩展） -->
-    <section class="section-animate" id="story">
-        <h2>卡提希娅的故事</h2>
-        <div class="card-animate">
-            <div class="story-content">
-                <p><strong>第一章：埃格拉的微光</strong></p>
-                <p>汐塔边境的埃格拉小镇终年笼罩在薄雾中，十岁的卡提希娅常坐在老橡树下擦拭父母留下的迅刀。刀镡处的星轨纹路在月光下泛着微光，那是母亲临终前塞进她掌心的遗物：“真正的力量不在于斩断什么，而在于守护什么。”那夜虚质风暴撕裂天空，父母用身体为她筑起最后的屏障。当救援队找到她时，小女孩正用小手紧紧攥着那把比她还高的刀，泪水在脸上干涸成盐渍。</p>
-                
-                <p><strong>第二章：岁主的低语</strong></p>
-                <p>三年守卫队生涯磨砺出她沉稳的剑术，但真正的转折发生在古碑遗迹。当指尖触碰到刻满符文的石碑时，体内沉睡的力量如星河倾泻——气流缠绕双臂，迅刀与巨剑的虚影在周身旋转。导师震惊地后退：“双形态共鸣者...百年未现的岁主之力！”从此，她不再只是埃格拉的守卫，更是连接古今的桥梁。深夜训练时，她常对着星空低语：“妈妈，我听见风在唱歌。”</p>
-                
-                <p><strong>第三章：星海轻歌的羁绊</strong></p>
-                <p>“星海轻歌”事件中，机械军团如潮水般涌向汐塔。卡提希娅率小队死守第三防线，能量将尽时，数据流中突然浮现蓝色光点——爱弥斯以电子幽灵之躯撕开敌阵。“需要搭把手吗，守卫者？”清冷的声音带着笑意。两人背靠背迎战暗影主宰：卡提希娅的气刃与爱弥斯的数据流交织成网，最终在黎明前击碎核心。战后，爱弥斯将一枚星形数据芯片塞进她手心：“下次别一个人扛。”</p>
-                
-                <p><strong>第四章：守护者的黎明</strong></p>
-                <p>如今的卡提希娅站在汐塔最高处，晨光为她的银发镀上金边。巨剑插在身侧，迅刀别在腰间，两种形态的共鸣在血脉中低鸣。孩童们追着她的披风奔跑，老人向她颔首致意。她抚摸刀镡上的星轨，轻声对风说：“爸爸妈妈，埃格拉的灯火，由我来守护。”远处海平线上，新的挑战正在凝聚，而她的故事，才刚刚开始...</p>
-                
-                <button class="story-toggle" onclick="toggleStory(this)">📖 展开完整故事</button>
-                <div class="story-hidden">
-                    <p><strong>第五章：量子星轨的约定</strong></p>
-                    <p>在3.1版本“星轨回响”剧情中，卡提希娅与爱弥斯发现两人力量同源——皆源自上古“星轨共鸣体”。当卡提希娅激活双形态时，爱弥斯的数据流会自然共振，形成“星轨护盾”。某夜，爱弥斯罕见地流露脆弱：“如果我的数据消散...你会记得我吗？”卡提希娅将手覆在她半透明的手背上：“你的光已刻进我的星轨。”此刻，汐塔深处传来古老钟声，预示着跨越虚实的终极试炼即将开启...</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- 图集：卡提希娅专属 -->
-    <section class="section-animate" id="gallery">
-        <h2>图集展示</h2>
-        <div class="gallery-filter">
+    <!-- 图集区 -->
+    <section id="gallery" class="content-section">
+        <h2>🖼️ 角色图集</h2>
+        <div class="filter-buttons">
             <button class="filter-btn active" data-filter="all">全部</button>
-            <button class="filter-btn" data-filter="portrait">立绘</button>
-            <button class="filter-btn" data-filter="scene">场景</button>
-            <button class="filter-btn" data-filter="event">活动</button>
+            <button class="filter-btn" data-filter="portrait">角色立绘</button>
+            <button class="filter-btn" data-filter="scene">场景插画</button>
+            <button class="filter-btn" data-filter="action">战斗姿态</button>
         </div>
         <div class="gallery-grid">
             <img src="images/carte1.jpg" alt="卡提希娅·星海轻歌" data-type="portrait" class="gallery-img">
             <img src="images/carte2.jpg" alt="卡提希娅·双形态" data-type="scene" class="gallery-img">
-            <img src="images/carte3.jpg" alt="卡提希娅·汐塔守望" data-type="event" class="gallery-img">
-            <img src="images/carte4.jpg" alt="卡提希娅·月夜独行" data-type="scene" class="gallery-img">
-            <img src="images/carte5.jpg" alt="卡提希娅·战斗特写" data-type="portrait" class="gallery-img">
-            <img src="images/carte6.jpg" alt="卡提希娅·与爱弥斯" data-type="event" class="gallery-img">
-            <img src="images/carte7.jpg" alt="卡提希娅·巨剑形态" data-type="scene" class="gallery-img">
-            <img src="images/carte8.jpg" alt="卡提希娅·迅刀流光" data-type="portrait" class="gallery-img">
-            <img src="images/carte9.jpg" alt="卡提希娅·埃格拉回忆" data-type="event" class="gallery-img">
-            <img src="images/carte10.jpg" alt="卡提希娅·星轨共鸣" data-type="scene" class="gallery-img">
-            <img src="images/carte11.jpg" alt="卡提希娅·守护誓言" data-type="portrait" class="gallery-img">
-            <img src="images/carte12.jpg" alt="卡提希娅·汐光回响" data-type="event" class="gallery-img">
-            <img src="images/carte13.jpg" alt="卡提希娅·双形态切换" data-type="scene" class="gallery-img">
-            <img src="images/carte14.jpg" alt="卡提希娅·最终决战" data-type="event" class="gallery-img">
+            <img src="images/carte3.jpg" alt="卡提希娅·迅刀连斩" data-type="action" class="gallery-img">
+            <img src="images/carte4.jpg" alt="卡提希娅·巨剑降临" data-type="action" class="gallery-img">
+            <img src="images/carte5.jpg" alt="卡提希娅·星海回眸" data-type="portrait" class="gallery-img">
+            <img src="images/carte6.jpg" alt="卡提希娅·光影交织" data-type="scene" class="gallery-img">
+            <img src="images/carte7.jpg" alt="卡提希娅·战斗特写" data-type="action" class="gallery-img">
+            <img src="images/carte8.jpg" alt="卡提希娅·温柔守护" data-type="portrait" class="gallery-img">
+            <img src="images/carte9.jpg" alt="卡提希娅·星海漫步" data-type="scene" class="gallery-img">
+            <img src="images/carte10.jpg" alt="卡提希娅·双形态切换" data-type="action" class="gallery-img">
+            <img src="images/carte11.jpg" alt="卡提希娅·月光下的誓言" data-type="portrait" class="gallery-img">
+            <img src="images/carte12.jpg" alt="卡提希娅·星海战场" data-type="scene" class="gallery-img">
+            <img src="images/carte13.jpg" alt="卡提希娅·终极奥义" data-type="action" class="gallery-img">
+            <img src="images/carte14.jpg" alt="卡提希娅·守护之光" data-type="portrait" class="gallery-img">
         </div>
     </section>
 
-    <!-- 实机演示 -->
-    <section class="section-animate" id="video">
-        <h2>实机演示</h2>
-        <div class="video-section">
-            <div class="video-container">
-                <h3>✨ 迅刀形态：风蚀连斩</h3>
-                <video class="demo-video" controls poster="images/carte2.jpg">
-                    <source src="videos/111.mp4" type="video/mp4">
-                    您的浏览器不支持视频播放。
-                </video>
-                <p class="video-desc">高频气刃叠加「风之印记」，满层触发真实伤害暴击</p>
-            </div>
-            <div class="video-container">
-                <h3>💥 巨剑形态：苍穹崩裂</h3>
-                <video class="demo-video" controls poster="images/carte7.jpg">
-                    <source src="videos/12.mp4" type="video/mp4">
-                    您的浏览器不支持视频播放。
-                </video>
-                <p class="video-desc">范围爆炸伤害+击退效果，破甲斩无视30%防御</p>
-            </div>
+    <!-- 页脚 -->
+    <footer class="site-footer">
+        <p>© 2026 鸣潮角色站 · 卡提希娅 & 爱弥斯专题</p>
+        <div class="footer-links">
+            <a href="index.html">卡提希娅站</a>
+            <a href="index2.html">爱弥斯站</a>
+            <a href="#" onclick="alert('数据来源：鸣潮官方')">数据来源</a>
         </div>
-    </section>
+    </footer>
 
-    <!-- 返回顶部 -->
-    <button class="back-to-top" onclick="scrollToTop()">↑</button>
-
-    <script>
-        // 初始化
-        document.addEventListener('DOMContentLoaded', () => {
-            initGalleryFilter();
-            initBackToTop();
-            console.log("✨ 卡提希娅站点加载完成 | P3: images/P3.jpg 作为主视觉头像");
-        });
-
-        // 故事展开
-        function toggleStory(btn) {
-            const hidden = btn.nextElementSibling;
-            hidden.style.display = hidden.style.display === 'block' ? 'none' : 'block';
-            btn.textContent = hidden.style.display === 'block' ? '📖 收起故事' : '📖 展开完整故事';
-        }
-
-        // 返回顶部
-        function scrollToTop() {
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        }
-
-        // 图集筛选
-        function initGalleryFilter() {
-            document.querySelectorAll('.filter-btn').forEach(btn => {
-                btn.addEventListener('click', () => {
-                    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-                    btn.classList.add('active');
-                    const filter = btn.dataset.filter;
-                    document.querySelectorAll('.gallery-img').forEach(img => {
-                        if (filter === 'all' || img.dataset.type === filter) {
-                            img.style.display = 'block';
-                        } else {
-                            img.style.display = 'none';
-                        }
-                    });
-                });
-            });
-        }
-
-        // 返回顶部按钮
-        function initBackToTop() {
-            const btn = document.querySelector('.back-to-top');
-            window.addEventListener('scroll', () => {
-                btn.style.display = window.scrollY > 300 ? 'block' : 'none';
-            });
-        }
-    </script>
+    <script src="config.js"></script>
+    <script src="script.js"></script>
 </body>
 </html>

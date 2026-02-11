@@ -1,195 +1,99 @@
 <!DOCTYPE html>
-<html lang="zh">
+<html lang="zh-CN">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>爱弥斯 | 鸣潮3.1新角色</title>
-    <link rel="icon" href="favicon/13.ico" type="image/x-icon" /> <!-- P1: 网站图标 -->
-    <link rel="stylesheet" href="style.css" />
-    <script src="config.js"></script>
-    <script src="script.js"></script>
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" href="favicon/13.ico" type="image/x-icon">
 </head>
 <body>
-    <!-- 粒子背景 -->
-    <canvas id="particle-canvas"></canvas>
-
-    <!-- 导航栏 -->
-    <nav class="navbar">
-        <a href="#" class="nav-logo">爱弥斯</a>
-        <div class="nav-links">
-            <a href="#about">关于</a>
-            <a href="#combat">战斗</a>
-            <a href="#story">故事</a>
-            <a href="#gallery">图集</a>
-            <a href="#video">实机</a>
-        </div>
-    </nav>
-
-    <!-- 英雄区：P2第一张作为头像 -->
+    <!-- 英雄区 -->
     <section class="hero-section">
         <div class="profile-card">
-            <div class="avatar-wrapper">
-                <img src="Aemeath image/1.jpg" alt="爱弥斯" class="avatar-img" id="userAvatar" /> <!-- P2: 爱弥斯头像（第一张） -->
+            <div class="avatar-wrapper" onclick="window.location.href='index.html'">
+                <img src="images2/1.jpg" alt="爱弥斯" class="avatar-img" id="userAvatar" />
                 <div class="electronic-glitch"></div>
             </div>
             <h1 class="site-title">爱弥斯</h1>
-            <p class="site-description">星炬学院的电子幽灵 · 以数据之躯守护世界的温柔灵魂</p>
+            <p class="site-description">来自数据世界的电子幽灵 · 战斗与科技的结合体</p>
             <div class="action-buttons">
-                <a href="#story" class="btn-primary">阅读故事</a>
-                <a href="#gallery" class="btn-tertiary">浏览图集</a>
-                <a href="index.html" class="btn-secondary">返回卡提站</a>
-            </div>
-            <div class="tags">
-                <span class="tag">五星·热熔</span>
-                <span class="tag">迅刀</span>
-                <span class="tag">TGA 2025实机演示</span>
-                <span class="tag">电子幽灵</span>
+                <a href="#story" class="btn-primary">角色档案</a>
+                <a href="#video" class="btn-secondary">数据演示</a>
+                <a href="#gallery" class="btn-tertiary">视觉图集</a>
+                <a href="index.html" class="btn-tertiary">→ 返回卡提希娅</a>
             </div>
         </div>
     </section>
 
-    <!-- 关于部分 -->
-    <section class="section-animate" id="about">
-        <h2>关于爱弥斯</h2>
-        <div class="card-animate">
-            <div class="character-info">
-                <p><strong>称号：</strong>星海轻歌的电子幽灵</p>
-                <p><strong>元素属性：</strong>热熔</p>
-                <p><strong>武器类型：</strong>迅刀</p>
-                <p><strong>稀有度：</strong>五星</p>
-                <p><strong>所属阵营：</strong>星炬学院·拉贝尔学部</p>
-                <p><strong>生日：</strong>8月23日（数据重构日）</p>
-                <p><strong>性格：</strong>冷静理性中藏着温柔，偶尔调皮</p>
+    <!-- 故事区 -->
+    <section id="story" class="content-section">
+        <h2>💾 角色档案</h2>
+        <div class="story-content">
+            <p>她是代码与灵魂的交汇点，是未来之光。爱弥斯从数据深渊中苏醒，以电子幽灵之姿穿梭于现实与虚拟边界。她的每一次攻击都带着数据流的韵律，每一次闪避都留下像素残影...</p>
+            <div class="quote-box">
+                <p>"我的存在，即是未来的证明。"</p>
+                <span>—— 爱弥斯</span>
             </div>
         </div>
     </section>
 
-    <!-- 战斗系统 -->
-    <section class="section-animate" id="combat">
-        <h2>战斗机制</h2>
-        <div class="card-animate">
-            <div class="combat-grid">
-                <div class="combat-card">
-                    <h3>技能一：长航的星辉</h3>
-                    <p>释放热熔能量波，智能切换「震潜」（单体穿透）与「聚爆」（范围灼烧）模式，根据敌人数量自动优化。</p>
-                </div>
-                <div class="combat-card">
-                    <h3>技能二：星海终焉</h3>
-                    <p>蓄力引爆热熔核心，形成持续5秒的「数据熔炉」领域，每秒造成真实伤害并降低敌人热抗性。</p>
-                </div>
-                <div class="combat-card">
-                    <h3>解放技：量子重构</h3>
-                    <p>短暂进入量子态（2秒无敌），重置技能冷却，并复制当前敌人最弱元素抗性转化为自身增益。</p>
-                </div>
+    <!-- 视频区 -->
+    <section id="video" class="content-section">
+        <h2>📡 数据演示</h2>
+        <div class="video-container">
+            <video controls poster="images2/2.png">
+                <source src="videos/12.mp4" type="video/mp4">
+                您的浏览器不支持视频标签
+            </video>
+            <div class="video-info">
+                <h3>电子幽灵 · 数据风暴</h3>
+                <p>爱弥斯核心技能演示：数据流环绕与像素化闪避</p>
+            </div>
+        </div>
+        <div class="video-container">
+            <video controls poster="images2/3.png">
+                <source src="videos/111.mp4" type="video/mp4">
+                您的浏览器不支持视频标签
+            </video>
+            <div class="video-info">
+                <h3>终极协议 · 代码重构</h3>
+                <p>爱弥斯大招演示：重构战场规则，数据洪流爆发</p>
             </div>
         </div>
     </section>
 
-    <!-- 故事背景（深度扩展） -->
-    <section class="section-animate" id="story">
-        <h2>爱弥斯的故事</h2>
-        <div class="card-animate">
-            <div class="story-content">
-                <p><strong>第一章：拉贝尔的天才</strong></p>
-                <p>星炬学院档案室记载：“艾琳娜·维斯特，17岁，虚质磁暴防护理论满分。”她总在深夜实验室调试设备，咖啡杯旁堆满演算纸。导师曾叹息：“这孩子把灵魂献给了数据。”直到那个暴雨夜——实验舱警报撕裂寂静，虚质磁暴如黑色潮水涌入。最后监控画面里，她将防护罩能量全部导向同伴，自己被数据乱流吞没。意识消散前，她看见窗外埃格拉小镇的灯火，轻声呢喃：“真想...再看一次日出。”</p>
-                
-                <p><strong>第二章：星海轻歌计划</strong></p>
-                <p>“启动‘星海轻歌’！”导师颤抖的手按下确认键。量子服务器中，艾琳娜的意识碎片被重新编织。当第一行代码亮起，电子幽灵睁开双眼——没有心跳，却有温度；没有血肉，却有记忆。她抚摸虚拟镜中的自己，数据流在指尖凝成玫瑰：“我还‘活着’...以另一种方式。”学院为她定制迅刀形态数据体，刀刃划过空气时，会留下星尘般的光痕。她给自己取名“爱弥斯”（Aemeath），古语意为“不灭的星火”。</p>
-                
-                <p><strong>第三章：数据与心跳</strong></p>
-                <p>重生后的爱弥斯成为学院最特殊的“研究员”。她能潜入任何系统，却学不会人类的哭泣。直到遇见卡提希娅——那个在虚质风暴中守护小镇的少女。当卡提希娅握住她半透明的手说“你的光很温暖”时，爱弥斯第一次感受到“情绪波动”。她开始收集人类的小事：咖啡的香气、雨后青草的味道、孩童的笑声。某夜她问卡提希娅：“如果我的数据消失，这些记忆会去哪？”卡提希娅将星形芯片贴在她心口：“会变成星星，永远照亮埃格拉。”</p>
-                
-                <p><strong>第四章：电子幽灵的温柔</strong></p>
-                <p>如今的爱弥斯穿梭于数据与现实之间。她为汐塔设计防护系统，深夜却偷偷优化卡提希娅的武器参数；她能瞬间计算百万种战术，却会为一朵虚拟樱花停留。当新人玩家在游戏里迷路，总有个蓝色身影悄然出现：“需要导航吗？”她不再追问“我是否活着”，因为卡提希娅教会她：守护他人的决心，比血肉更真实。星炬学院顶楼，她的数据流与卡提希娅的星轨共鸣，织成守护世界的光网...</p>
-                
-                <button class="story-toggle" onclick="toggleStory(this)">📖 展开完整故事</button>
-                <div class="story-hidden">
-                    <p><strong>第五章：星轨共鸣的真相</strong></p>
-                    <p>3.1版本揭示：爱弥斯的意识核心与卡提希娅的岁主之力同源——皆来自上古“星轨共鸣体”。当两人并肩作战，爱弥斯的数据流会自然融入卡提希娅的气刃，形成“星轨护盾”。某次重伤后，爱弥斯罕见崩溃：“如果我的数据彻底消散...你会忘记我吗？”卡提希娅将手覆在她半透明的手背：“你的光已刻进我的星轨，永不消散。”此刻，汐塔深处传来古老钟声，预示着跨越虚实的终极试炼即将开启...</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- 图集：P2文件夹全部图片 -->
-    <section class="section-animate" id="gallery">
-        <h2>图集展示</h2>
-        <div class="gallery-filter">
+    <!-- 图集区 -->
+    <section id="gallery" class="content-section">
+        <h2>🖼️ 视觉图集</h2>
+        <div class="filter-buttons">
             <button class="filter-btn active" data-filter="all">全部</button>
-            <button class="filter-btn" data-filter="portrait">立绘</button>
-            <button class="filter-btn" data-filter="scene">场景</button>
-            <button class="filter-btn" data-filter="event">活动</button>
+            <button class="filter-btn" data-filter="portrait">角色立绘</button>
+            <button class="filter-btn" data-filter="scene">数据场景</button>
+            <button class="filter-btn" data-filter="action">战斗姿态</button>
         </div>
         <div class="gallery-grid">
-            <img src="Aemeath image/1.jpg" alt="爱弥斯·电子幽灵" data-type="portrait" class="gallery-img"> <!-- P2第一张：头像 -->
-            <img src="Aemeath image/2.png" alt="爱弥斯·数据流" data-type="scene" class="gallery-img">
-            <img src="Aemeath image/3.png" alt="爱弥斯·星海轻歌" data-type="event" class="gallery-img">
-            <img src="Aemeath image/4.png" alt="爱弥斯·量子态" data-type="scene" class="gallery-img">
-            <img src="Aemeath image/5.png" alt="爱弥斯·与卡提希娅" data-type="event" class="gallery-img">
-            <img src="Aemeath image/6.png" alt="爱弥斯·星炬学院" data-type="scene" class="gallery-img">
-            <img src="Aemeath image/7.png" alt="爱弥斯·最终形态" data-type="portrait" class="gallery-img">
+            <img src="images2/1.jpg" alt="爱弥斯·电子幽灵" data-type="portrait" class="gallery-img">
+            <img src="images2/2.png" alt="爱弥斯·数据流环绕" data-type="scene" class="gallery-img">
+            <img src="images2/3.png" alt="爱弥斯·像素闪避" data-type="action" class="gallery-img">
+            <img src="images2/4.png" alt="爱弥斯·代码重构" data-type="action" class="gallery-img">
+            <img src="images2/5.png" alt="爱弥斯·数据回眸" data-type="portrait" class="gallery-img">
+            <img src="images2/6.png" alt="爱弥斯·虚拟战场" data-type="scene" class="gallery-img">
+            <img src="images2/7.png" alt="爱弥斯·终极协议" data-type="action" class="gallery-img">
         </div>
     </section>
 
-    <!-- 视频区（爱弥斯无专属视频，优雅隐藏） -->
-    <section class="section-animate" id="video" style="display:none;">
-        <h2>实机演示</h2>
-        <div class="video-section">
-            <p class="no-video">爱弥斯为剧情核心角色，实机演示请关注卡提希娅站</p>
-            <a href="index.html" class="btn-secondary">→ 前往卡提希娅实机演示</a>
+    <!-- 页脚 -->
+    <footer class="site-footer">
+        <p>© 2026 鸣潮角色站 · 卡提希娅 & 爱弥斯专题</p>
+        <div class="footer-links">
+            <a href="index.html">卡提希娅站</a>
+            <a href="index2.html">爱弥斯站</a>
+            <a href="#" onclick="alert('数据来源：鸣潮官方')">数据来源</a>
         </div>
-    </section>
+    </footer>
 
-    <!-- 返回顶部 -->
-    <button class="back-to-top" onclick="scrollToTop()">↑</button>
-
-    <script>
-        // 初始化
-        document.addEventListener('DOMContentLoaded', () => {
-            // 爱弥斯站无视频，隐藏视频区（由script.js统一处理更佳，此处保留兼容）
-            const videoSection = document.getElementById('video');
-            if (videoSection && !videoSection.querySelector('video')) {
-                videoSection.style.display = 'none';
-            }
-            initGalleryFilter();
-            initBackToTop();
-            console.log("✨ 爱弥斯站点加载完成 | P2: Aemeath image/1.jpg 作为头像");
-        });
-
-        // 复用函数（与index.html一致）
-        function toggleStory(btn) {
-            const hidden = btn.nextElementSibling;
-            hidden.style.display = hidden.style.display === 'block' ? 'none' : 'block';
-            btn.textContent = hidden.style.display === 'block' ? '📖 收起故事' : '📖 展开完整故事';
-        }
-
-        function scrollToTop() {
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        }
-
-        function initGalleryFilter() {
-            document.querySelectorAll('.filter-btn').forEach(btn => {
-                btn.addEventListener('click', () => {
-                    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-                    btn.classList.add('active');
-                    const filter = btn.dataset.filter;
-                    document.querySelectorAll('.gallery-img').forEach(img => {
-                        if (filter === 'all' || img.dataset.type === filter) {
-                            img.style.display = 'block';
-                        } else {
-                            img.style.display = 'none';
-                        }
-                    });
-                });
-            });
-        }
-
-        function initBackToTop() {
-            const btn = document.querySelector('.back-to-top');
-            window.addEventListener('scroll', () => {
-                btn.style.display = window.scrollY > 300 ? 'block' : 'none';
-            });
-        }
-    </script>
+    <script src="config.js"></script>
+    <script src="script.js"></script>
 </body>
 </html>

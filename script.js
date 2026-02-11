@@ -1,212 +1,100 @@
-// ================== 粒子背景 ==================
-function initParticles() {
-    const canvas = document.getElementById('particle-canvas');
-    if (!canvas) return;
-    
-    const ctx = canvas.getContext('2d');
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
-    
-    const config = siteConfig.effectsConfig || {};
-    const maxParticles = window.innerWidth > 768 ? 
-        (config.maxParticlesDesktop || 250) : 
-        (config.maxParticlesMobile || 60);
-    
-    let particles = [];
-    const mouse = { x: null, y: null };
-    
-    // 监听鼠标
-    window.addEventListener('mousemove', (e) => {
-        mouse.x = e.x;
-        mouse.y = e.y;
-    });
-    
-    // 粒子类
-    class Particle {
-        constructor(x, y) {
-            this.x = x || Math.random() * canvas.width;
-            this.y = y || Math.random() * canvas.height;
-            this.size = Math.random() * 3 + 1;
-            this.speedX = Math.random() * 3 - 1.5;
-            this.speedY = Math.random() * 3 - 1.5;
-            this.color = `hsl(${Math.random() * 60 + 240}, 70%, 60%)`;
-            this.opacity = Math.random() * 0.5 + 0.3;
-        }
-        
-        update() {
-            // 鼠标吸引
-            if (mouse.x && mouse.y) {
-                const dx = mouse.x - this.x;
-                const dy = mouse.y - this.y;
-                const distance = Math.sqrt(dx * dx + dy * dy);
-                if (distance < 150) {
-                    this.x -= dx * 0.02;
-                    this.y -= dy * 0.02;
-                }
-            }
-            
-            // 边界反弹
-            if (this.x > canvas.width || this.x < 0) this.speedX = -this.speedX;
-            if (this.y > canvas.height || this.y < 0) this.speedY = -this.speedY;
-            
-            this.x += this.speedX;
-            this.y += this.speedY;
-        }
-        
-        draw() {
-            ctx.fillStyle = `rgba(138, 43, 226, ${this.opacity})`;
-            ctx.beginPath();
-            ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-            ctx.fill();
-        }
-    }
-    
-    // 初始化粒子
-    for (let i = 0; i < maxParticles; i++) {
-        particles.push(new Particle());
-    }
-    
-    // 连接粒子
-    function connectParticles() {
-        for (let i = 0; i < particles.length; i++) {
-            for (let j = i; j < particles.length; j++) {
-                const dx = particles[i].x - particles[j].x;
-                const dy = particles[i].y - particles[j].y;
-                const distance = Math.sqrt(dx * dx + dy * dy);
-                
-                if (distance < 100) {
-                    ctx.strokeStyle = `rgba(100, 80, 180, ${1 - distance/100})`;
-                    ctx.lineWidth = 0.5;
-                    ctx.beginPath();
-                    ctx.moveTo(particles[i].x, particles[i].y);
-                    ctx.lineTo(particles[j].x, particles[j].y);
-                    ctx.stroke();
-                }
-            }
-        }
-    }
-    
-    // 动画循环
-    function animate() {
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-        ctx.fillStyle = 'rgba(15, 12, 41, 0.15)';
-        ctx.fillRect(0, 0, canvas.width, canvas.height);
-        
-        for (const particle of particles) {
-            particle.update();
-            particle.draw();
-        }
-        
-        connectParticles();
-        requestAnimationFrame(animate);
-    }
-    
-    // 响应窗口大小
-    window.addEventListener('resize', () => {
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
-    });
-    
-    animate();
-}
-
-// ================== 导航栏滚动效果 ==================
-function initNavbarScroll() {
-    const navbar = document.querySelector('.navbar');
-    if (!navbar) return;
-    
-    window.addEventListener('scroll', () => {
-        if (window.scrollY > 50) {
-            navbar.classList.add('scrolled');
-        } else {
-            navbar.classList.remove('scrolled');
-        }
-    });
-}
-
-// ================== 图集筛选 ==================
+// ======================
+// 图集过滤功能
+// ======================
 function initGalleryFilter() {
-    const filterBtns = document.querySelectorAll('.filter-btn');
-    const galleryImgs = document.querySelectorAll('.gallery-img');
-    
-    filterBtns.forEach(btn => {
-        btn.addEventListener('click', () => {
-            // 更新按钮状态
-            filterBtns.forEach(b => b.classList.remove('active'));
-            btn.classList.add('active');
+    const filters = document.querySelectorAll('.filter-btn');
+    const galleryItems = document.querySelectorAll('.gallery-img');
+
+    // 初始化：确保所有图片可见
+    galleryItems.forEach(img => {
+        img.style.opacity = '1';
+        img.style.transform = 'translateY(0)';
+        img.style.display = 'block';
+        // 添加加载错误处理
+        img.onerror = function() {
+            console.warn(`⚠️ 图片加载失败: ${this.src}`);
+            this.src = 'https://via.placeholder.com/300x400/4a00e0/ffffff?text=图片缺失';
+            this.alt = "加载失败";
+        };
+    });
+
+    // 绑定过滤事件
+    filters.forEach(filter => {
+        filter.addEventListener('click', () => {
+            // 更新激活状态
+            filters.forEach(f => f.classList.remove('active'));
+            filter.classList.add('active');
+
+            const type = filter.dataset.filter;
             
-            // 筛选图片
-            const filter = btn.dataset.filter;
-            galleryImgs.forEach(img => {
-                if (filter === 'all' || img.dataset.type === filter) {
-                    img.style.display = 'block';
-                    // 添加入场动画
+            // 过滤图片
+            galleryItems.forEach(item => {
+                if (type === 'all' || item.dataset.type === type) {
+                    item.style.display = 'block';
+                    // 添加淡入动画
                     setTimeout(() => {
-                        img.style.opacity = '1';
-                        img.style.transform = 'translateY(0)';
+                        item.style.transition = 'opacity 0.4s ease, transform 0.4s ease';
+                        item.style.opacity = '1';
+                        item.style.transform = 'translateY(0)';
                     }, 100);
                 } else {
-                    img.style.opacity = '0';
-                    img.style.transform = 'translateY(20px)';
+                    item.style.opacity = '0';
+                    item.style.transform = 'translateY(20px)';
                     setTimeout(() => {
-                        img.style.display = 'none';
+                        item.style.display = 'none';
                     }, 300);
                 }
             });
         });
     });
+
+    // 默认触发"全部"筛选
+    document.querySelector('.filter-btn[data-filter="all"]')?.click();
 }
 
-// ================== 返回顶部 ==================
-function initBackToTop() {
-    const btn = document.querySelector('.back-to-top');
-    if (!btn) return;
-    
-    window.addEventListener('scroll', () => {
-        btn.style.display = window.scrollY > 300 ? 'block' : 'none';
-    });
-    
-    btn.addEventListener('click', () => {
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-    });
-}
-
-// ================== 初始化 ==================
+// ======================
+// 页面加载初始化
+// ======================
 document.addEventListener('DOMContentLoaded', () => {
-    // 初始化粒子背景
-    if (siteConfig.effectsConfig?.enableAdvancedEffects !== false) {
-        initParticles();
-    }
+    console.log(`🚀 ${currentSite === 'carter' ? '卡提希娅' : '爱弥斯'} 站点已加载`);
     
-    // 导航栏滚动效果
-    initNavbarScroll();
-    
-    // 图集筛选
+    // 初始化图集过滤器
     initGalleryFilter();
     
-    // 返回顶部
-    initBackToTop();
+    // 添加图片悬停效果
+    document.querySelectorAll('.gallery-img').forEach(img => {
+        img.addEventListener('mouseenter', () => {
+            img.style.transform = 'scale(1.05)';
+            img.style.boxShadow = '0 0 15px rgba(138, 43, 226, 0.7)';
+        });
+        img.addEventListener('mouseleave', () => {
+            img.style.transform = 'scale(1)';
+            img.style.boxShadow = 'none';
+        });
+    });
     
-    // 站点配置初始化
-    if (typeof initSiteConfig === 'function') {
-        initSiteConfig();
-    }
-    
-    // 控制台欢迎信息
-    console.log(`
-╔════════════════════════════════════════════════════════════╗
-║                                                            ║
-║   ✨ 卡提希娅 & 爱弥斯双站系统加载完成 ✨                 ║
-║                                                            ║
-║   📌 路径说明：                                            ║
-║      P1 = favicon/13.ico      (网站图标)                   ║
-║      P2 = Aemeath image/1.jpg (爱弥斯头像｜第一张)         ║
-║      P3 = images/P3.jpg       (网站主视觉头像｜首页大图)   ║
-║                                                            ║
-║   🌐 访问：                                                ║
-║      卡提希娅站：index.html                                ║
-║      爱弥斯站：index2.html                                 ║
-║                                                            ║
-╚════════════════════════════════════════════════════════════╝
-    `);
+    // 检查关键资源
+    setTimeout(() => {
+        const missingImages = Array.from(document.images).filter(img => 
+            !img.complete || (img.naturalWidth === 0 && img.naturalHeight === 0)
+        );
+        
+        if (missingImages.length > 0) {
+            console.warn(`⚠️ 检测到 ${missingImages.length} 张图片加载失败`);
+            missingImages.forEach(img => console.warn(`  - ${img.src}`));
+        } else {
+            console.log('✅ 所有图片资源加载正常');
+        }
+    }, 2000);
 });
+
+// ======================
+// 跳转辅助函数
+// ======================
+function goToCharacter(site) {
+    if (site === 'carter') {
+        window.location.href = 'index.html';
+    } else if (site === 'aimis') {
+        window.location.href = 'index2.html';
+    }
+}
