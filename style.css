@@ -1,29 +1,29 @@
-/* ================== 通用全局重置 ================== */
+/* =============== 全局重置 =============== */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: "楷体", "PingFang SC", "Microsoft YaHei", sans-serif;
 }
 
 :root {
-    --primary-color: #8a5cf7;
-    --dark-bg-color: #000000;
-    --card-bg-color: rgba(255, 255, 255, 0.05);
-    --text-color: #ffffff;
+    /* 主题色（保留你原有变量） */
+    --primary-color: #9c27b0;
+    --secondary-color: #e0b0ff;
+    --text-color: #333;
+    --bg-color: #f8f9fa;
+    --card-bg: #ffffff;
+    --shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    --transition: all 0.3s ease;
 }
 
-body {
-    background-color: #000000;
-    color: var(--text-color);
-    overflow-x: hidden;
-    min-height: 100vh;
+[data-mode="dark"] {
+    --text-color: #e0e0e0;
+    --bg-color: #121212;
+    --card-bg: #1e1e1e;
 }
 
-/* ================== 极限视觉 CSS ================== */
-
-/* 粒子层硬件加速 */
-canvas#particle-canvas {
+/* =============== 粒子画布 =============== */
+#particle-canvas {
     position: fixed;
     top: 0;
     left: 0;
@@ -31,194 +31,328 @@ canvas#particle-canvas {
     height: 100%;
     z-index: -1;
     pointer-events: none;
-    will-change: transform;
-    transform: translateZ(0); /* GPU加速 */
 }
 
-/* 动感背景色 */
-body {
-    background: linear-gradient(125deg, #2c003e, #000000, #000a3e);
-    background-size: 400% 400%;
-    animation: gradientFlow 15s ease infinite;
-}
-
-@keyframes gradientFlow {
-    0% { background-position: 0% 50%; }
-    50% { background-position: 100% 50%; }
-    100% { background-position: 0% 50%; }
-}
-
-/* 卡片高斯模糊与边框 */
-.card-animate, .navbar {
-    background: var(--card-bg-color);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: 15px;
-    backdrop-filter: blur(var(--backdrop-blur, 10px));
-    -webkit-backdrop-filter: blur(var(--backdrop-blur, 10px));
-    transition: all 0.3s ease;
-}
-
-/* 手机端优化：禁用模糊 */
-@media (max-width: 768px) {
-    .card-animate, .navbar {
-        background: rgba(0, 0, 0, 0.7);
-        backdrop-filter: none;
-        -webkit-backdrop-filter: none;
-    }
-}
-
-/* 点击涟漪 */
-.ripple {
-    position: absolute;
-    border-radius: 50%;
-    background: rgba(255, 255, 255, 0.4);
-    transform: scale(0);
-    animation: rippleEffect 0.6s linear;
-    pointer-events: none;
-}
-
-@keyframes rippleEffect {
-    to { transform: scale(4); opacity: 0; }
-}
-
-/* 增强的按钮3D效果与霓虹边框 */
-.btn-3d {
-    position: relative;
-    border: none;
-    background-color: var(--primary-color);
-    color: white;
-    border-radius: 10px;
-    transform: translateY(0);
-    transition: transform 0.1s cubic-bezier(0.4, 0, 0.2, 1),
-                box-shadow 0.1s cubic-bezier(0.4, 0, 0.2, 1);
-    will-change: transform;
-}
-
-.btn-3d:active:not(:disabled) {
-    transform: translateY(3px);
-}
-
-.btn-3d::after {
-    content: '';
-    position: absolute;
-    top: 5px;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(to bottom, rgba(0, 0, 0, 0.1) 0%, rgba(0, 0, 0, 0.2) 100%);
-    border-radius: 10px;
-    z-index: -1;
-    transition: all 0.1s ease;
-}
-
-.btn-3d:active:not(:disabled)::after {
-    top: 0;
-    height: calc(100% - 3px);
-}
-
-.neon-border {
-    position: relative;
-    overflow: hidden;
-}
-
-.neon-border::before {
-    content: '';
-    position: absolute;
-    top: -2px;
-    left: -2px;
-    right: -2px;
-    bottom: -2px;
-    background: linear-gradient(45deg, var(--primary-color), #ff6bcb, var(--primary-color));
-    border-radius: 12px;
-    z-index: -1;
-    opacity: 0;
-    transition: opacity 0.3s ease;
-    filter: blur(4px);
-}
-
-.neon-border:hover::before {
-    opacity: 0.7;
-}
-
-/* ================== UI 基础布局 ================== */
+/* =============== 导航栏 =============== */
 .navbar {
     position: fixed;
     top: 0;
     width: 100%;
+    padding: 15px 5%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: rgba(255, 255, 255, 0.95);
+    box-shadow: var(--shadow);
     z-index: 1000;
-    height: 60px;
-    display: flex;
-    align-items: center;
-    padding: 0 20px;
+    transition: var(--transition);
 }
-
+.navbar.scrolled {
+    background: rgba(255, 255, 255, 0.98);
+    box-shadow: 0 2px 15px rgba(0, 0, 0, 0.15);
+}
+[data-mode="dark"] .navbar {
+    background: rgba(30, 30, 30, 0.95);
+}
+[data-mode="dark"] .navbar.scrolled {
+    background: rgba(30, 30, 30, 0.98);
+}
 .nav-logo {
-    color: white;
-    text-decoration: none;
-    font-size: 1.2rem;
+    font-size: 1.5rem;
     font-weight: bold;
+    color: var(--primary-color);
+    text-decoration: none;
 }
-
-.hero-section {
-    padding: 100px 20px 50px;
+.nav-links {
     display: flex;
-    justify-content: center;
-    align-items: center;
+    gap: 25px;
+}
+.nav-links a {
+    color: var(--text-color);
+    text-decoration: none;
+    font-weight: 500;
+    transition: var(--transition);
+    position: relative;
+    padding: 5px 0;
+}
+.nav-links a:hover {
+    color: var(--primary-color);
+}
+.nav-links a::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: var(--primary-color);
+    transition: var(--transition);
+}
+.nav-links a:hover::after {
+    width: 100%;
 }
 
+/* =============== 英雄区域 =============== */
+.hero-section {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    background: linear-gradient(135deg, var(--bg-color) 0%, #f0e6f5 100%);
+    position: relative;
+}
 .profile-card {
     text-align: center;
-    padding: 30px;
-    max-width: 500px;
-    width: 100%;
+    background: var(--card-bg);
+    border-radius: 20px;
+    padding: 40px;
+    box-shadow: var(--shadow);
+    max-width: 600px;
+    width: 90%;
+    position: relative;
+    z-index: 10;
 }
-
 .avatar-wrapper {
-    width: 120px;
-    height: 120px;
-    margin: 0 auto 20px;
-    border-radius: 50%;
-    overflow: hidden;
-    border: 3px solid var(--primary-color);
-    box-shadow: 0 0 15px var(--primary-color);
+    position: relative;
+    display: inline-block;
+    margin-bottom: 25px;
 }
-
 .avatar-img {
-    width: 100%;
-    height: 100%;
+    width: 180px;
+    height: 180px;
+    border-radius: 50%;
     object-fit: cover;
+    border: 4px solid var(--primary-color);
+    box-shadow: 0 0 20px rgba(156, 39, 176, 0.4);
+    transition: var(--transition);
 }
-
+.avatar-img:hover {
+    transform: scale(1.05);
+}
 .site-title {
-    font-size: 2rem;
-    margin-bottom: 10px;
+    font-size: 2.5rem;
+    margin: 15px 0;
+    color: var(--primary-color);
+    font-weight: bold;
 }
-
 .site-description {
-    font-size: 1rem;
-    opacity: 0.8;
+    font-size: 1.2rem;
+    color: var(--text-color);
+    opacity: 0.85;
+    line-height: 1.6;
 }
 
-.video-section {
-    padding: 20px;
-    text-align: center;
+/* =============== 电子幽灵特效（爱弥斯专属） =============== */
+.electronic-glitch {
+    position: absolute;
+    top: -8px; left: -8px; right: -8px; bottom: -8px;
+    border: 3px solid rgba(255, 105, 180, 0.75);
+    border-radius: 50%;
+    pointer-events: none;
+    animation: glitch-pulse 1.8s infinite alternate;
+    opacity: 0.7;
+    filter: blur(1.5px);
+    z-index: -1;
+}
+@keyframes glitch-pulse {
+    0% { transform: scale(1); opacity: 0.4; }
+    100% { transform: scale(1.08); opacity: 0.9; }
 }
 
-.video-container video {
-    max-width: 100%;
-    border-radius: 10px;
-    border: 2px solid var(--primary-color);
-}
-
-.hidden { display: none !important; }
-
-.card-animate {
+/* =============== 内容区块 =============== */
+.section-animate, .card-animate {
     opacity: 0;
     transform: translateY(20px);
     transition: opacity 0.6s ease, transform 0.6s ease;
 }
-
-.card-animate.visible {
+.section-animate.animate, .card-animate.animate {
     opacity: 1;
     transform: translateY(0);
+}
+.section-animate {
+    padding: 80px 5%;
+    max-width: 1000px;
+    margin: 0 auto;
+}
+.card-animate {
+    background: var(--card-bg);
+    border-radius: 16px;
+    padding: 35px;
+    margin-bottom: 30px;
+    box-shadow: var(--shadow);
+}
+h2 {
+    text-align: center;
+    font-size: 2.2rem;
+    margin-bottom: 30px;
+    color: var(--primary-color);
+    position: relative;
+    display: inline-block;
+}
+h2::after {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60px;
+    height: 4px;
+    background: var(--primary-color);
+    border-radius: 2px;
+}
+
+/* =============== 角色信息 =============== */
+.character-info {
+    line-height: 1.8;
+    color: var(--text-color);
+    font-size: 1.1rem;
+}
+.character-info p, .character-info ul {
+    margin-bottom: 12px;
+}
+.character-info strong {
+    color: var(--primary-color);
+    margin-right: 8px;
+}
+
+/* =============== 故事背景 =============== */
+.story-content {
+    line-height: 1.9;
+    color: var(--text-color);
+    font-size: 1.05rem;
+}
+.story-content p {
+    margin-bottom: 20px;
+    text-indent: 2em;
+}
+.story-content p:first-child {
+    text-indent: 0;
+    font-weight: bold;
+    color: var(--primary-color);
+    margin-bottom: 15px;
+}
+
+/* =============== 画廊（含爱弥斯P1-P8） =============== */
+.gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 18px;
+    margin-top: 25px;
+}
+.gallery-img {
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+    border-radius: 12px;
+    border: 2px solid rgba(255, 105, 180, 0.3);
+    transition: var(--transition);
+    cursor: pointer;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+}
+.gallery-img:hover {
+    transform: translateY(-5px) scale(1.03);
+    border-color: rgba(255, 105, 180, 0.85);
+    box-shadow: 0 8px 25px rgba(255, 105, 180, 0.35);
+}
+
+/* =============== 返回顶部按钮 =============== */
+.back-to-top {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: var(--primary-color);
+    color: white;
+    border: none;
+    font-size: 1.2rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 15px rgba(156, 39, 176, 0.4);
+    transition: var(--transition);
+    z-index: 999;
+}
+.back-to-top:hover {
+    transform: translateY(-3px);
+    background: #7b1fa2;
+}
+.back-to-top.hidden {
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(20px);
+}
+
+/* =============== 涟漪效果 =============== */
+.ripple {
+    position: fixed;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.7);
+    transform: scale(0);
+    animation: ripple 0.6s linear;
+    pointer-events: none;
+    z-index: 9999;
+}
+@keyframes ripple {
+    to {
+        transform: scale(4);
+        opacity: 0;
+    }
+}
+
+/* =============== 响应式设计 =============== */
+@media (max-width: 768px) {
+    .navbar {
+        flex-direction: column;
+        gap: 15px;
+        padding: 15px;
+    }
+    .nav-links {
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 15px;
+    }
+    .hero-section {
+        padding: 10px;
+    }
+    .profile-card {
+        padding: 25px 20px;
+    }
+    .avatar-img {
+        width: 150px;
+        height: 150px;
+    }
+    .site-title {
+        font-size: 2rem;
+    }
+    .section-animate {
+        padding: 60px 3%;
+    }
+    .card-animate {
+        padding: 25px;
+    }
+    h2 {
+        font-size: 1.8rem;
+    }
+    .gallery-grid {
+        grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    }
+    .gallery-img {
+        height: 140px;
+    }
+}
+
+/* =============== 暗色模式优化 =============== */
+[data-mode="dark"] .profile-card,
+[data-mode="dark"] .card-animate {
+    box-shadow: 0 4px 25px rgba(0, 0, 0, 0.3);
+}
+[data-mode="dark"] .gallery-img {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+}
+[data-mode="dark"] .back-to-top {
+    box-shadow: 0 4px 15px rgba(100, 30, 130, 0.5);
 }
