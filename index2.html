@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>爱弥斯 | 鸣潮3.1新角色</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" href="favicon/13.ico" type="image/x-icon">
+</head>
+<body>
+    <!-- 英雄区 -->
+    <section class="hero-section">
+        <div class="profile-card">
+            <div class="avatar-wrapper" onclick="window.location.href='index.html'">
+                <img src="images2/1.jpg" alt="爱弥斯" class="avatar-img" id="userAvatar" />
+                <div class="electronic-glitch"></div>
+            </div>
+            <h1 class="site-title">爱弥斯</h1>
+            <p class="site-description">来自数据世界的电子幽灵 · 战斗与科技的结合体</p>
+            <div class="action-buttons">
+                <a href="#story" class="btn-primary">角色档案</a>
+                <a href="#video" class="btn-secondary">数据演示</a>
+                <a href="#gallery" class="btn-tertiary">视觉图集</a>
+                <a href="portal.html" class="btn-tertiary">双站入口</a>
+                <a href="index.html" class="btn-tertiary">→ 返回卡提希娅</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- 故事区 -->
+    <section id="story" class="content-section">
+        <h2>💾 角色档案</h2>
+        <div class="story-content">
+            <p>她是代码与灵魂的交汇点，是未来之光。爱弥斯从数据深渊中苏醒，以电子幽灵之姿穿梭于现实与虚拟边界。她的每一次攻击都带着数据流的韵律，每一次闪避都留下像素残影...</p>
+            <div class="quote-box">
+                <p>"我的存在，即是未来的证明。"</p>
+                <span>—— 爱弥斯</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- 视频区 -->
+    <section id="video" class="content-section">
+        <h2>📡 数据演示</h2>
+        <div class="video-container">
+            <video controls poster="images2/2.png">
+                <source src="videos/12.mp4" type="video/mp4">
+                您的浏览器不支持视频标签
+            </video>
+            <div class="video-info">
+                <h3>电子幽灵 · 数据风暴</h3>
+                <p>爱弥斯核心技能演示：数据流环绕与像素化闪避</p>
+            </div>
+        </div>
+        <div class="video-container">
+            <video controls poster="images2/3.png">
+                <source src="videos/111.mp4" type="video/mp4">
+                您的浏览器不支持视频标签
+            </video>
+            <div class="video-info">
+                <h3>终极协议 · 代码重构</h3>
+                <p>爱弥斯大招演示：重构战场规则，数据洪流爆发</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- 图集区 -->
+    <section id="gallery" class="content-section">
+        <h2>🖼️ 视觉图集</h2>
+        <div class="filter-buttons">
+            <button class="filter-btn active" data-filter="all">全部</button>
+            <button class="filter-btn" data-filter="portrait">角色立绘</button>
+            <button class="filter-btn" data-filter="scene">数据场景</button>
+            <button class="filter-btn" data-filter="action">战斗姿态</button>
+        </div>
+        <div class="gallery-grid">
+            <img src="images2/1.jpg" alt="爱弥斯·电子幽灵" data-type="portrait" class="gallery-img">
+            <img src="images2/2.png" alt="爱弥斯·数据流环绕" data-type="scene" class="gallery-img">
+            <img src="images2/3.png" alt="爱弥斯·像素闪避" data-type="action" class="gallery-img">
+            <img src="images2/4.png" alt="爱弥斯·代码重构" data-type="action" class="gallery-img">
+            <img src="images2/5.png" alt="爱弥斯·数据回眸" data-type="portrait" class="gallery-img">
+            <img src="images2/6.png" alt="爱弥斯·虚拟战场" data-type="scene" class="gallery-img">
+            <img src="images2/7.png" alt="爱弥斯·终极协议" data-type="action" class="gallery-img">
+        </div>
+    </section>
+
+    <!-- 页脚 -->
+    <footer class="site-footer">
+        <p>© 2026 鸣潮角色站 · 卡提希娅 & 爱弥斯专题</p>
+        <div class="footer-links">
+            <a href="portal.html">双站入口</a>
+            <a href="index.html">卡提希娅站</a>
+            <a href="index2.html">爱弥斯站</a>
+            <a href="#" onclick="alert('数据来源：鸣潮官方')">数据来源</a>
+        </div>
+    </footer>
+
+    <script src="config.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
