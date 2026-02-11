@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>鸣潮双站入口 | 卡提希娅 & 爱弥斯</title>
+  <link rel="icon" href="favicon/13.ico" type="image/x-icon">
+  <style>
+    :root {
+      --bg-a: #0f172a;
+      --bg-b: #1e293b;
+      --card: rgba(255, 255, 255, 0.1);
+      --line: rgba(255, 255, 255, 0.22);
+      --text: #f8fafc;
+      --muted: #cbd5e1;
+      --btn-a: #22d3ee;
+      --btn-b: #3b82f6;
+      --btn-c: #a78bfa;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      min-height: 100vh;
+      font-family: "Microsoft YaHei", "PingFang SC", sans-serif;
+      color: var(--text);
+      background: radial-gradient(circle at 15% 20%, #334155 0%, transparent 40%),
+                  radial-gradient(circle at 85% 15%, #1d4ed8 0%, transparent 35%),
+                  linear-gradient(140deg, var(--bg-a), var(--bg-b));
+      display: flex;
+      flex-direction: column;
+    }
+    .wrap {
+      width: min(1100px, 92%);
+      margin: 48px auto 26px;
+      flex: 1;
+    }
+    .hero {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+    .hero h1 {
+      font-size: clamp(28px, 4vw, 42px);
+      margin-bottom: 10px;
+      letter-spacing: 1px;
+    }
+    .hero p {
+      color: var(--muted);
+      font-size: clamp(14px, 2vw, 18px);
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 20px;
+    }
+    .card {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      backdrop-filter: blur(8px);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      min-height: 420px;
+    }
+    .thumb {
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      object-fit: cover;
+      border-bottom: 1px solid var(--line);
+    }
+    .content {
+      padding: 18px 18px 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      flex: 1;
+    }
+    .content h2 {
+      font-size: 24px;
+    }
+    .content p {
+      color: var(--muted);
+      line-height: 1.6;
+      flex: 1;
+    }
+    .btn {
+      display: inline-block;
+      text-align: center;
+      text-decoration: none;
+      color: #fff;
+      border-radius: 10px;
+      padding: 12px 14px;
+      font-weight: 600;
+      transition: transform 0.2s ease, opacity 0.2s ease;
+    }
+    .btn:hover { transform: translateY(-2px); opacity: 0.95; }
+    .btn-carter { background: linear-gradient(135deg, var(--btn-c), var(--btn-b)); }
+    .btn-aimisi { background: linear-gradient(135deg, var(--btn-a), var(--btn-b)); }
+    footer {
+      text-align: center;
+      color: var(--muted);
+      padding: 10px 16px 22px;
+      font-size: 13px;
+    }
+    @media (max-width: 860px) {
+      .grid { grid-template-columns: 1fr; }
+      .wrap { margin-top: 28px; }
+    }
+  </style>
+</head>
+<body>
+  <main class="wrap">
+    <section class="hero">
+      <h1>鸣潮角色双站入口</h1>
+      <p>在不改动卡提希娅站点的基础上，整合卡提希娅与爱弥斯两套专题页面。</p>
+    </section>
+
+    <section class="grid" aria-label="站点入口列表">
+      <article class="card">
+        <img class="thumb" src="images/1.jpg" alt="卡提希娅站点缩略图">
+        <div class="content">
+          <h2>卡提希娅站</h2>
+          <p>星光主题角色站，包含角色设定、故事背景、攻略、图库与实机演示内容。</p>
+          <a class="btn btn-carter" href="index.html">进入卡提希娅站</a>
+        </div>
+      </article>
+
+      <article class="card">
+        <img class="thumb" src="images2/1.jpg" alt="爱弥斯站点缩略图">
+        <div class="content">
+          <h2>爱弥斯站</h2>
+          <p>数据电子风专题页，包含角色档案、技能演示视频和视觉图集。</p>
+          <a class="btn btn-aimisi" href="index2.html">进入爱弥斯站</a>
+        </div>
+      </article>
+    </section>
+  </main>
+
+  <footer>
+    <p>© 2026 鸣潮角色站聚合入口 | Version 1.0</p>
+  </footer>
+</body>
+</html>
