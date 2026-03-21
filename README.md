@@ -1,3 +1,6 @@
+<img width="1961" height="1354" alt="image" src="https://github.com/user-attachments/assets/33b5405e-28b7-4669-89c0-c1c072e69c3d" />
+
+
 # 鸣 潮角色卡提 | 角色图鉴与攻略站 🌊
 ![GitHub stars](https://img.shields.io/github/stars/Rainly8023/鸣潮角色卡提?style=flat-square&color=ff6b6b)
 ![GitHub forks](https://img.shields.io/github/forks/Rainly8023/鸣潮角色卡提?style=flat-square&color=4ecdc4)
