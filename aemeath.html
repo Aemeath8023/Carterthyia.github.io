@@ -6,6 +6,12 @@
 <title>AEMEATH.EXE | 爱弥斯的数字档案</title>
 <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Share+Tech+Mono&family=Noto+Sans+SC:wght@300;400;700&display=swap" rel="stylesheet">
 <style>
+  html, body {
+  all: initial;
+  background: #010a12 !important;
+  color: #d1f7ff !important;
+  font-family: 'Noto Sans SC', sans-serif !important;
+}
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 html,body{background:#010a12!important;color:#d1f7ff!important;font-family:'Noto Sans SC',sans-serif!important;min-height:100vh;overflow-x:hidden}
 body *{color:inherit}
@@ -186,3 +192,15 @@ updateSyncTime();setInterval(updateSyncTime,1000);
 </script>
 </body>
 </html>
+<script>
+/* 强制隔离主站JS污染 */
+document.body.classList.remove('dark-mode');
+
+/* 锁死颜色 */
+document.documentElement.style.setProperty('--primary-color', '#05d9e8');
+document.documentElement.style.setProperty('--secondary-color', '#ff2a6d');
+
+/* 禁止主站脚本改页面 */
+window.switchTheme = () => {};
+window.toggleDarkMode = () => {};
+</script>
