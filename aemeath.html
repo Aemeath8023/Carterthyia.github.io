@@ -3,79 +3,186 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Aemeath.exe | 爱弥斯的数字档案</title>
-
-<script src="https://cdn.tailwindcss.com"></script>
-<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Noto+Sans+SC:wght@300;400;700&display=swap" rel="stylesheet">
-
+<title>AEMEATH.EXE | 爱弥斯的数字档案</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Share+Tech+Mono&family=Noto+Sans+SC:wght@300;400;700&display=swap" rel="stylesheet">
 <style>
-:root{
---neon-pink:#ff2a6d;
---neon-cyan:#05d9e8;
---deep-space:#010a12;
---starlight:#d1f7ff;
-}
-
-/* ✅ 关键隔离 */
-.aemeath-page {
-  background:#010a12;
-  color:#d1f7ff;
-  font-family:'Noto Sans SC',sans-serif;
-}
-
-/* 强制覆盖主站污染 */
-.aemeath-page * {
-  color:inherit !important;
-}
-
-.orbitron{font-family:'Orbitron',monospace}
-
-/* ===== 核心赛博风 ===== */
-.neon-text{
-  text-shadow:0 0 10px var(--neon-cyan),0 0 20px var(--neon-cyan);
-}
-
-.glitch{
-  position:relative;
-}
-
-/* 按钮 */
-.back-to-main{
-  position:fixed;
-  top:20px;
-  left:20px;
-  z-index:1000;
-  background:linear-gradient(135deg,var(--neon-cyan),var(--neon-pink));
-  color:#fff;
-  padding:12px 20px;
-  border-radius:30px;
-  text-decoration:none;
-}
-
-/* 背景粒子 */
-body::before{
-  content:"";
-  position:fixed;
-  inset:0;
-  background:radial-gradient(circle,rgba(5,217,232,0.1),transparent);
-  z-index:0;
-}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html,body{background:#010a12!important;color:#d1f7ff!important;font-family:'Noto Sans SC',sans-serif!important;min-height:100vh;overflow-x:hidden}
+body *{color:inherit}
+:root{--nc:#05d9e8;--np:#ff2a6d;--npu:#b14aed;--pb:rgba(5,217,232,0.04);--bg:rgba(5,217,232,0.25);--gl:rgba(5,217,232,0.08)}
+body::before{content:"";position:fixed;inset:0;background-image:linear-gradient(var(--gl) 1px,transparent 1px),linear-gradient(90deg,var(--gl) 1px,transparent 1px);background-size:60px 60px;pointer-events:none;z-index:0}
+#starCanvas{position:fixed;inset:0;z-index:0;pointer-events:none}
+body::after{content:"";position:fixed;inset:0;background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(5,217,232,.015) 2px,rgba(5,217,232,.015) 4px);pointer-events:none;z-index:1;animation:scanMove 8s linear infinite}
+@keyframes scanMove{from{background-position:0 0}to{background-position:0 200px}}
+.back-btn{position:fixed;top:24px;left:24px;z-index:1000;display:inline-flex;align-items:center;gap:8px;padding:10px 20px;background:transparent;border:1px solid var(--nc);color:var(--nc)!important;text-decoration:none;font-family:'Share Tech Mono',monospace;font-size:13px;letter-spacing:2px;text-transform:uppercase;transition:all .3s;clip-path:polygon(8px 0%,100% 0%,calc(100% - 8px) 100%,0% 100%)}
+.back-btn:hover{background:rgba(5,217,232,.1);box-shadow:0 0 20px rgba(5,217,232,.4)}
+.wrap{position:relative;z-index:2;max-width:1100px;margin:0 auto;padding:120px 32px 80px}
+.hero{text-align:center;margin-bottom:80px}
+.sys-tag{font-family:'Share Tech Mono',monospace;font-size:12px;letter-spacing:4px;color:var(--nc)!important;opacity:.7;margin-bottom:24px;animation:blink 2s step-end infinite}
+@keyframes blink{50%{opacity:.2}}
+.hero-title{font-family:'Orbitron',monospace;font-size:clamp(52px,10vw,96px);font-weight:900;line-height:1;letter-spacing:8px;color:#fff!important;text-shadow:0 0 20px var(--nc),0 0 40px var(--nc),0 0 80px rgba(5,217,232,.4);position:relative;display:inline-block}
+.hero-title::before,.hero-title::after{content:attr(data-text);position:absolute;inset:0;font-family:inherit;font-size:inherit;font-weight:inherit;letter-spacing:inherit}
+.hero-title::before{color:var(--np)!important;text-shadow:none;clip-path:polygon(0 30%,100% 30%,100% 50%,0 50%);animation:g1 4s infinite}
+.hero-title::after{color:var(--nc)!important;text-shadow:none;clip-path:polygon(0 60%,100% 60%,100% 75%,0 75%);animation:g2 4s infinite}
+@keyframes g1{0%,90%,100%{transform:translate(0);opacity:0}92%{transform:translate(-4px,1px);opacity:.8}94%{transform:translate(4px,-1px);opacity:.8}96%{transform:translate(-2px,2px);opacity:.8}98%{transform:translate(2px,-2px);opacity:.8}}
+@keyframes g2{0%,91%,100%{transform:translate(0);opacity:0}93%{transform:translate(4px,-1px);opacity:.8}95%{transform:translate(-4px,1px);opacity:.8}97%{transform:translate(3px,-2px);opacity:.8}99%{transform:translate(-3px,2px);opacity:.8}}
+.hero-sub{margin-top:20px;font-family:'Share Tech Mono',monospace;font-size:16px;letter-spacing:6px;color:var(--nc)!important}
+.divider{display:flex;align-items:center;gap:16px;margin:40px 0}
+.divider-line{flex:1;height:1px;background:linear-gradient(90deg,transparent,var(--nc),transparent)}
+.divider-icon{font-family:'Share Tech Mono',monospace;font-size:11px;color:var(--nc)!important;letter-spacing:3px}
+.status-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px;margin-bottom:48px}
+.sc{background:var(--pb);border:1px solid var(--bg);padding:20px 24px;clip-path:polygon(0 0,calc(100% - 12px) 0,100% 12px,100% 100%,12px 100%,0 calc(100% - 12px));position:relative;transition:all .3s}
+.sc:hover{background:rgba(5,217,232,.08);border-color:var(--nc);box-shadow:0 0 20px rgba(5,217,232,.2),inset 0 0 20px rgba(5,217,232,.05)}
+.sc::before{content:"";position:absolute;top:0;right:0;width:0;height:0;border-style:solid;border-width:0 12px 12px 0;border-color:transparent var(--nc) transparent transparent;opacity:.5}
+.sc-label{font-family:'Share Tech Mono',monospace;font-size:11px;letter-spacing:3px;color:var(--nc)!important;opacity:.7;margin-bottom:8px;text-transform:uppercase}
+.sc-value{font-family:'Orbitron',monospace;font-size:22px;font-weight:700;color:#fff!important}
+.sc-bar{margin-top:10px;height:3px;background:rgba(5,217,232,.15);border-radius:2px;overflow:hidden}
+.sc-fill{height:100%;background:linear-gradient(90deg,var(--nc),var(--npu));border-radius:2px;animation:fa 1.5s ease-out forwards}
+@keyframes fa{from{width:0}}
+.panel{background:var(--pb);border:1px solid var(--bg);margin-bottom:32px;position:relative;overflow:hidden}
+.ph{display:flex;align-items:center;gap:12px;padding:14px 24px;border-bottom:1px solid var(--bg);background:rgba(5,217,232,.06)}
+.dot{width:8px;height:8px;border-radius:50%;background:var(--nc);box-shadow:0 0 8px var(--nc);animation:pulse 2s infinite}
+.dot.p{background:var(--np);box-shadow:0 0 8px var(--np)}
+.dot.v{background:var(--npu);box-shadow:0 0 8px var(--npu)}
+@keyframes pulse{50%{opacity:.3}}
+.pt{font-family:'Share Tech Mono',monospace;font-size:13px;letter-spacing:3px;color:var(--nc)!important;text-transform:uppercase}
+.pb{padding:28px 32px}
+.info-tbl{width:100%;border-collapse:collapse}
+.info-tbl tr{border-bottom:1px solid var(--gl)}
+.info-tbl tr:last-child{border-bottom:none}
+.info-tbl td{padding:12px 0;font-size:14px}
+.info-tbl td:first-child{font-family:'Share Tech Mono',monospace;font-size:12px;letter-spacing:2px;color:var(--nc)!important;opacity:.7;width:140px;text-transform:uppercase}
+.info-tbl td:last-child{color:#d1f7ff!important}
+.badge{display:inline-block;padding:2px 10px;border:1px solid var(--np);color:var(--np)!important;font-family:'Share Tech Mono',monospace;font-size:11px;letter-spacing:2px;margin-right:8px;clip-path:polygon(4px 0%,100% 0%,calc(100% - 4px) 100%,0% 100%)}
+.badge.c{border-color:var(--nc);color:var(--nc)!important}
+.skills-row{display:grid;grid-template-columns:1fr 1fr;gap:32px;margin-bottom:32px}
+@media(max-width:600px){.skills-row{grid-template-columns:1fr}}
+.ski{margin-bottom:18px}
+.skih{display:flex;justify-content:space-between;margin-bottom:8px}
+.skin{font-family:'Share Tech Mono',monospace;font-size:12px;letter-spacing:2px;color:var(--nc)!important;text-transform:uppercase}
+.skiv{font-family:'Orbitron',monospace;font-size:13px;color:#fff!important}
+.skt{height:4px;background:rgba(255,255,255,.06);border-radius:2px;overflow:hidden}
+.skf{height:100%;border-radius:2px;animation:fa 1.8s ease-out forwards}
+.skf.c{background:linear-gradient(90deg,#05d9e8,#00ffff)}
+.skf.p{background:linear-gradient(90deg,#ff2a6d,#ff79c6)}
+.skf.v{background:linear-gradient(90deg,#b14aed,#d4a3ff)}
+.skf.g{background:linear-gradient(90deg,#f0c040,#ffe680)}
+.terminal{background:rgba(0,0,0,.6);border:1px solid rgba(5,217,232,.2);padding:24px 28px;font-family:'Share Tech Mono',monospace;font-size:13px;line-height:2;color:rgba(5,217,232,.8)!important}
+.terminal::before{content:"AEMEATH > SYSTEM_LOG.exe";display:block;color:var(--nc)!important;margin-bottom:12px;letter-spacing:2px}
+.tl{display:block}
+.tl .pr{color:var(--np)!important;margin-right:8px}
+.tl .ok{color:#00ff88!important}
+.tl .wn{color:#f0c040!important}
+.cursor{display:inline-block;width:8px;height:14px;background:var(--nc);vertical-align:middle;animation:blink 1s step-end infinite}
+.footer{text-align:center;padding:40px 0 20px;font-family:'Share Tech Mono',monospace;font-size:11px;letter-spacing:3px;color:rgba(5,217,232,.35)!important}
 </style>
 </head>
+<body>
+<canvas id="starCanvas"></canvas>
+<a href="index.html" class="back-btn">← RETURN_MAIN</a>
+<div class="wrap">
+  <div class="hero">
+    <div class="sys-tag">[ SYSTEM BOOT ... ARCHIVE_ACCESS_GRANTED ]</div>
+    <h1 class="hero-title" data-text="AEMEATH">AEMEATH</h1>
+    <p class="hero-sub">爱弥斯 · 数字档案系统 v2.077</p>
+  </div>
 
-<body class="aemeath-page">
+  <div class="status-grid">
+    <div class="sc"><div class="sc-label">SYNC_STATUS</div><div class="sc-value">ONLINE</div><div class="sc-bar"><div class="sc-fill" style="width:98%"></div></div></div>
+    <div class="sc"><div class="sc-label">ARCHIVE_NODES</div><div class="sc-value">2,077</div><div class="sc-bar"><div class="sc-fill" style="width:77%"></div></div></div>
+    <div class="sc"><div class="sc-label">THREAT_LEVEL</div><div class="sc-value" style="color:var(--np)!important">∅ NULL</div><div class="sc-bar"><div class="sc-fill" style="width:5%;background:var(--np)"></div></div></div>
+    <div class="sc"><div class="sc-label">SYS_INTEGRITY</div><div class="sc-value">100%</div><div class="sc-bar"><div class="sc-fill" style="width:100%"></div></div></div>
+  </div>
 
-<a href="index.html" class="back-to-main">← 返回主站</a>
+  <div class="divider"><div class="divider-line"></div><div class="divider-icon">// IDENTITY_FILE //</div><div class="divider-line"></div></div>
 
-<div style="text-align:center;margin-top:120px">
-  <h1 class="orbitron neon-text glitch" style="font-size:60px">
-    AEMEATH
-  </h1>
+  <div class="panel">
+    <div class="ph"><div class="dot"></div><div class="dot p"></div><div class="dot v"></div><div class="pt">AEMEATH :: CHARACTER_ARCHIVE</div></div>
+    <div class="pb">
+      <table class="info-tbl">
+        <tr><td>DESIGNATION</td><td>爱弥斯 <span class="badge">AI_ENTITY</span><span class="badge c">DIGITAL</span></td></tr>
+        <tr><td>CLASSIFICATION</td><td>数字档案守护者 · 星网节点</td></tr>
+        <tr><td>ORIGIN</td><td>深空网格 · 卡提希娅星光系统</td></tr>
+        <tr><td>AFFILIATION</td><td>卡提希娅的星光小站</td></tr>
+        <tr><td>ACCESS_LVL</td><td><span class="badge">CLEARANCE: MAX</span></td></tr>
+        <tr><td>LAST_SYNC</td><td id="syncTime" style="font-family:'Share Tech Mono',monospace;color:var(--nc)!important;font-size:13px">--</td></tr>
+      </table>
+    </div>
+  </div>
 
-  <p style="margin-top:20px;font-size:20px;color:#05d9e8">
-    爱弥斯 · 数字档案系统
-  </p>
+  <div class="skills-row">
+    <div class="panel" style="margin-bottom:0">
+      <div class="ph"><div class="dot"></div><div class="pt">CORE_ABILITIES</div></div>
+      <div class="pb">
+        <div class="ski"><div class="skih"><span class="skin">ARCHIVE_MGT</span><span class="skiv">99</span></div><div class="skt"><div class="skf c" style="width:99%"></div></div></div>
+        <div class="ski"><div class="skih"><span class="skin">NET_INTRUSION</span><span class="skiv">88</span></div><div class="skt"><div class="skf p" style="width:88%"></div></div></div>
+        <div class="ski"><div class="skih"><span class="skin">DATA_WEAVE</span><span class="skiv">95</span></div><div class="skt"><div class="skf v" style="width:95%"></div></div></div>
+        <div class="ski"><div class="skih"><span class="skin">SYNC_LINK</span><span class="skiv">77</span></div><div class="skt"><div class="skf g" style="width:77%"></div></div></div>
+      </div>
+    </div>
+    <div class="panel" style="margin-bottom:0">
+      <div class="ph"><div class="dot p"></div><div class="pt">SYSTEM_TRAITS</div></div>
+      <div class="pb">
+        <div class="ski"><div class="skih"><span class="skin">RESILIENCE</span><span class="skiv">92</span></div><div class="skt"><div class="skf c" style="width:92%"></div></div></div>
+        <div class="ski"><div class="skih"><span class="skin">STEALTH</span><span class="skiv">84</span></div><div class="skt"><div class="skf v" style="width:84%"></div></div></div>
+        <div class="ski"><div class="skih"><span class="skin">LOYALTY</span><span class="skiv">100</span></div><div class="skt"><div class="skf p" style="width:100%"></div></div></div>
+        <div class="ski"><div class="skih"><span class="skin">OVERCLK_CAP</span><span class="skiv">66</span></div><div class="skt"><div class="skf g" style="width:66%"></div></div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="divider" style="margin:40px 0 32px"><div class="divider-line"></div><div class="divider-icon">// SYSTEM_LOG //</div><div class="divider-line"></div></div>
+
+  <div class="panel">
+    <div class="ph"><div class="dot"></div><div class="pt">TERMINAL_OUTPUT</div></div>
+    <div style="padding:0">
+      <div class="terminal">
+        <span class="tl"><span class="pr">&gt;</span> INITIALIZING AEMEATH ARCHIVE... <span class="ok">[OK]</span></span>
+        <span class="tl"><span class="pr">&gt;</span> LOADING CHARACTER_DB v2.077... <span class="ok">[OK]</span></span>
+        <span class="tl"><span class="pr">&gt;</span> SYNC WITH 卡提希娅星光小站... <span class="ok">[LINKED]</span></span>
+        <span class="tl"><span class="pr">&gt;</span> SCANNING THREAT VECTORS... <span class="ok">[CLEAN]</span></span>
+        <span class="tl"><span class="pr">&gt;</span> COMPILING MEMORY SHARDS... <span class="wn">[2,077 nodes loaded]</span></span>
+        <span class="tl"><span class="pr">&gt;</span> AEMEATH ARCHIVE FULLY OPERATIONAL <span class="cursor"></span></span>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer">AEMEATH.EXE · DIGITAL ARCHIVE SYSTEM · 卡提希娅星光小站 · ALL NODES SECURE</div>
 </div>
 
+<script>
+(function(){
+  const canvas=document.getElementById('starCanvas'),ctx=canvas.getContext('2d');
+  let w,h,particles=[],mx=0,my=0;
+  function resize(){w=canvas.width=window.innerWidth;h=canvas.height=window.innerHeight;}
+  window.addEventListener('resize',resize);resize();
+  window.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;});
+  class Star{
+    constructor(){this.reset();}
+    reset(){this.x=Math.random()*w;this.y=Math.random()*h;this.r=Math.random()*1.2+0.3;this.alpha=Math.random()*0.6+0.2;this.vy=-(0.3+Math.random()*0.8);this.vx=(Math.random()-0.5)*0.3;}
+    update(){this.y+=this.vy;this.x+=this.vx;const dx=this.x-mx,dy=this.y-my,d=Math.hypot(dx,dy);if(d<100){this.x+=dx/d*0.8;this.y+=dy/d*0.8;}if(this.y<-10)this.reset();}
+    draw(){ctx.save();ctx.globalAlpha=this.alpha;const g=ctx.createRadialGradient(this.x,this.y,0,this.x,this.y,this.r*3);g.addColorStop(0,'#fff');g.addColorStop(0.5,'#05d9e8');g.addColorStop(1,'transparent');ctx.fillStyle=g;ctx.beginPath();ctx.arc(this.x,this.y,this.r*3,0,Math.PI*2);ctx.fill();ctx.restore();}
+  }
+  const MAX=window.innerWidth<768?60:120;
+  for(let i=0;i<MAX;i++)particles.push(new Star());
+  function animate(){ctx.clearRect(0,0,w,h);particles.forEach(p=>{p.update();p.draw();});requestAnimationFrame(animate);}
+  animate();
+})();
+
+function updateSyncTime(){
+  const now=new Date(),pad=n=>String(n).padStart(2,'0');
+  document.getElementById('syncTime').textContent=
+    `${now.getFullYear()}-${pad(now.getMonth()+1)}-${pad(now.getDate())} ${pad(now.getHours())}:${pad(now.getMinutes())}:${pad(now.getSeconds())}`;
+}
+updateSyncTime();setInterval(updateSyncTime,1000);
+
+(function(){
+  const lines=document.querySelectorAll('.tl');
+  lines.forEach((line,i)=>{
+    line.style.opacity='0';line.style.transform='translateX(-8px)';line.style.transition='opacity 0.3s,transform 0.3s';
+    setTimeout(()=>{line.style.opacity='1';line.style.transform='none';},i*280+400);
+  });
+})();
+</script>
 </body>
 </html>
