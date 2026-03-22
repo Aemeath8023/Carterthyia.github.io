@@ -5,64 +5,1081 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>卡提希娅的星光小站</title>
 
-  <!-- Favicon -->
   <link rel="icon" href="favicon/13.ico?v=20240626" type="image/x-icon">
   <link rel="shortcut icon" href="favicon/13.ico?v=20240626" type="image/x-icon">
   <link rel="icon" type="image/png" sizes="16x16" href="favicon/16.png?v=20240626">
   <link rel="icon" type="image/png" sizes="32x32" href="favicon/1.png?v=20240626">
 
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@300;400;600&family=Noto+Sans+SC:wght@300;400;700&family=ZCOOL+QingKe+HuangYou&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css">
 
-  <!-- ✅ 已修复 -->
-  <link rel="stylesheet" href="css/main.css">
+  <style>
+  /* ============ RESET ============ */
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+
+  /* ============ VARIABLES ============ */
+  :root {
+    --primary:   #8a5cf7;
+    --secondary: #c084fc;
+    --accent:    #f472b6;
+    --bg:        #faf5ff;
+    --bg2:       #f3e8ff;
+    --text:      #3b1a6b;
+    --text-soft: #7c5cbf;
+    --white:     #ffffff;
+    --card-bg:   rgba(255,255,255,0.7);
+    --shadow:    rgba(138,92,247,0.15);
+    --transition: 0.35s cubic-bezier(.4,0,.2,1);
+  }
+
+  /* Dark mode */
+  body.dark-mode {
+    --primary:   #a78bfa;
+    --secondary: #c084fc;
+    --accent:    #f9a8d4;
+    --bg:        #0f0720;
+    --bg2:       #1a0d35;
+    --text:      #e9d5ff;
+    --text-soft: #c4b5fd;
+    --card-bg:   rgba(26,13,53,0.8);
+    --shadow:    rgba(167,139,250,0.2);
+  }
+
+  /* ============ BASE ============ */
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Noto Sans SC', sans-serif;
+    font-size: 15px;
+    line-height: 1.8;
+    transition: background var(--transition), color var(--transition);
+    overflow-x: hidden;
+  }
+
+  /* ============ STAR CANVAS ============ */
+  #starBg {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0.5;
+  }
+
+  /* ============ NAVBAR ============ */
+  .navbar {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 999;
+    background: rgba(250,245,255,0.85);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border-bottom: 1px solid rgba(138,92,247,0.12);
+    transition: background var(--transition), box-shadow var(--transition);
+  }
+  body.dark-mode .navbar {
+    background: rgba(15,7,32,0.88);
+    border-bottom-color: rgba(167,139,250,0.15);
+  }
+  .navbar.scrolled { box-shadow: 0 4px 24px var(--shadow); }
+
+  .nav-container {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 24px;
+    height: 64px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .nav-logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-family: 'ZCOOL QingKe HuangYou', cursive;
+    font-size: 18px;
+    color: var(--primary);
+    text-decoration: none;
+  }
+  .nav-logo i { font-size: 16px; color: var(--accent); }
+
+  .nav-menu {
+    display: flex;
+    gap: 4px;
+    list-style: none;
+  }
+
+  .nav-link {
+    display: block;
+    padding: 6px 14px;
+    border-radius: 20px;
+    color: var(--text-soft);
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 400;
+    transition: all var(--transition);
+  }
+  .nav-link:hover, .nav-link.active {
+    background: rgba(138,92,247,0.1);
+    color: var(--primary);
+  }
+  .nav-link.special { color: var(--accent) !important; }
+  .nav-link.special:hover { background: rgba(244,114,182,0.1); }
+
+  .nav-toggle {
+    display: none;
+    cursor: pointer;
+    font-size: 20px;
+    color: var(--primary);
+  }
+
+  /* ============ CONTROL PANEL ============ */
+  .control-panel {
+    position: fixed;
+    right: 20px;
+    top: 80px;
+    z-index: 900;
+    background: var(--card-bg);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(138,92,247,0.2);
+    border-radius: 16px;
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    box-shadow: 0 8px 32px var(--shadow);
+    min-width: 140px;
+  }
+  .control-panel h3 {
+    font-size: 12px;
+    color: var(--text-soft);
+    letter-spacing: 1px;
+    margin-bottom: 4px;
+  }
+  .control-btn {
+    padding: 7px 14px;
+    border: 1px solid rgba(138,92,247,0.25);
+    border-radius: 20px;
+    background: transparent;
+    color: var(--text);
+    font-size: 12px;
+    cursor: pointer;
+    transition: all var(--transition);
+    font-family: inherit;
+  }
+  .control-btn:hover {
+    background: var(--primary);
+    color: #fff;
+    border-color: var(--primary);
+  }
+  #customColorPicker {
+    width: 100%;
+    height: 32px;
+    border-radius: 8px;
+    border: 1px solid rgba(138,92,247,0.25);
+    cursor: pointer;
+    background: transparent;
+    padding: 2px;
+  }
+
+  /* ============ SECTIONS COMMON ============ */
+  section {
+    position: relative;
+    z-index: 1;
+    padding: 100px 24px 80px;
+  }
+
+  .section-inner {
+    max-width: 960px;
+    margin: 0 auto;
+  }
+
+  .section-tag {
+    display: inline-block;
+    font-size: 11px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 12px;
+    font-family: 'Noto Serif SC', serif;
+  }
+
+  .section-title {
+    font-family: 'ZCOOL QingKe HuangYou', cursive;
+    font-size: clamp(28px, 5vw, 42px);
+    color: var(--primary);
+    margin-bottom: 16px;
+    line-height: 1.2;
+  }
+
+  .section-divider {
+    width: 48px;
+    height: 3px;
+    background: linear-gradient(90deg, var(--primary), var(--accent));
+    border-radius: 2px;
+    margin-bottom: 40px;
+  }
+
+  /* Section animate */
+  .section-animate {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+  .section-animate.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* ============ HOME ============ */
+  #home {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding-top: 80px;
+    background: linear-gradient(160deg, var(--bg) 60%, var(--bg2));
+  }
+
+  .home-container { max-width: 600px; }
+
+  .carterthyia-avatar {
+    width: 180px;
+    height: 180px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 4px solid var(--white);
+    box-shadow: 0 0 0 8px rgba(138,92,247,0.15), 0 16px 48px var(--shadow);
+    margin-bottom: 28px;
+    animation: float 4s ease-in-out infinite;
+  }
+  @keyframes float {
+    0%,100% { transform: translateY(0); }
+    50%      { transform: translateY(-10px); }
+  }
+
+  .character-title {
+    font-family: 'ZCOOL QingKe HuangYou', cursive;
+    font-size: clamp(40px, 8vw, 72px);
+    color: var(--primary);
+    line-height: 1;
+    margin-bottom: 12px;
+  }
+  /* Typewriter cursor */
+  .typewriter::after {
+    content: '|';
+    animation: blink 1s step-end infinite;
+    color: var(--accent);
+  }
+  @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
+
+  .character-desc {
+    font-size: 15px;
+    color: var(--text-soft);
+    letter-spacing: 3px;
+    margin-bottom: 36px;
+  }
+
+  .btn {
+    display: inline-block;
+    padding: 14px 36px;
+    background: linear-gradient(135deg, var(--primary), var(--accent));
+    color: #fff;
+    border-radius: 30px;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    box-shadow: 0 8px 24px rgba(138,92,247,0.35);
+    transition: transform var(--transition), box-shadow var(--transition);
+  }
+  .btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 32px rgba(138,92,247,0.5);
+  }
+
+  .scroll-hint {
+    position: absolute;
+    bottom: 32px;
+    left: 50%;
+    transform: translateX(-50%);
+    color: var(--text-soft);
+    font-size: 12px;
+    letter-spacing: 2px;
+    animation: bounce 2s infinite;
+  }
+  @keyframes bounce { 0%,100%{transform:translateX(-50%) translateY(0)} 50%{transform:translateX(-50%) translateY(6px)} }
+
+  /* ============ ABOUT ============ */
+  #about { background: var(--bg2); }
+
+  .about-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 32px;
+    align-items: start;
+  }
+
+  .about-card {
+    background: var(--card-bg);
+    border: 1px solid rgba(138,92,247,0.15);
+    border-radius: 20px;
+    padding: 28px;
+    backdrop-filter: blur(8px);
+    transition: transform var(--transition), box-shadow var(--transition);
+  }
+  .about-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 36px var(--shadow);
+  }
+  .about-card h3 {
+    font-family: 'ZCOOL QingKe HuangYou', cursive;
+    font-size: 20px;
+    color: var(--primary);
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .about-card h3 i { color: var(--accent); font-size: 16px; }
+
+  .stat-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 0;
+    border-bottom: 1px solid rgba(138,92,247,0.08);
+    font-size: 13px;
+  }
+  .stat-row:last-child { border-bottom: none; }
+  .stat-label { color: var(--text-soft); }
+  .stat-value { color: var(--primary); font-weight: 700; }
+
+  .tag-cloud { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 8px; }
+  .tag {
+    padding: 4px 14px;
+    border-radius: 20px;
+    background: rgba(138,92,247,0.1);
+    color: var(--primary);
+    font-size: 12px;
+    border: 1px solid rgba(138,92,247,0.2);
+  }
+
+  .stat-bar-row { margin-bottom: 12px; }
+  .stat-bar-label {
+    display: flex;
+    justify-content: space-between;
+    font-size: 12px;
+    color: var(--text-soft);
+    margin-bottom: 4px;
+  }
+  .stat-bar-track {
+    height: 6px;
+    background: rgba(138,92,247,0.1);
+    border-radius: 3px;
+    overflow: hidden;
+  }
+  .stat-bar-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--primary), var(--accent));
+    border-radius: 3px;
+    transition: width 1.2s cubic-bezier(.4,0,.2,1);
+    width: 0;
+  }
+  .visible .stat-bar-fill { width: var(--w); }
+
+  /* ============ STORY ============ */
+  #story { background: var(--bg); }
+
+  .story-timeline {
+    position: relative;
+    padding-left: 32px;
+  }
+  .story-timeline::before {
+    content: '';
+    position: absolute;
+    left: 8px; top: 0; bottom: 0;
+    width: 2px;
+    background: linear-gradient(180deg, var(--primary), var(--accent), transparent);
+    border-radius: 1px;
+  }
+
+  .story-node {
+    position: relative;
+    margin-bottom: 40px;
+    background: var(--card-bg);
+    border: 1px solid rgba(138,92,247,0.15);
+    border-radius: 16px;
+    padding: 24px 24px 24px 28px;
+    backdrop-filter: blur(8px);
+  }
+  .story-node::before {
+    content: '';
+    position: absolute;
+    left: -28px; top: 28px;
+    width: 12px; height: 12px;
+    border-radius: 50%;
+    background: var(--primary);
+    border: 3px solid var(--bg);
+    box-shadow: 0 0 0 3px var(--primary);
+  }
+  .story-node h3 {
+    font-family: 'ZCOOL QingKe HuangYou', cursive;
+    font-size: 18px;
+    color: var(--primary);
+    margin-bottom: 8px;
+  }
+  .story-node p { color: var(--text-soft); font-size: 14px; line-height: 1.9; }
+  .story-node .chapter-tag {
+    display: inline-block;
+    font-size: 11px;
+    padding: 2px 10px;
+    background: rgba(244,114,182,0.1);
+    color: var(--accent);
+    border-radius: 10px;
+    margin-bottom: 8px;
+    letter-spacing: 1px;
+  }
+
+  /* ============ GUIDE ============ */
+  #guide { background: var(--bg2); }
+
+  .tab-bar {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 32px;
+    flex-wrap: wrap;
+  }
+  .tab-btn {
+    padding: 8px 20px;
+    border-radius: 20px;
+    border: 1px solid rgba(138,92,247,0.25);
+    background: transparent;
+    color: var(--text-soft);
+    font-size: 13px;
+    cursor: pointer;
+    transition: all var(--transition);
+    font-family: inherit;
+  }
+  .tab-btn.active, .tab-btn:hover {
+    background: var(--primary);
+    color: #fff;
+    border-color: var(--primary);
+  }
+
+  .guide-content { display: none; }
+  .guide-content.active { display: block; }
+
+  .guide-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 20px;
+  }
+  .guide-card {
+    background: var(--card-bg);
+    border: 1px solid rgba(138,92,247,0.15);
+    border-radius: 16px;
+    padding: 22px;
+    backdrop-filter: blur(8px);
+    transition: transform var(--transition), box-shadow var(--transition);
+  }
+  .guide-card:hover { transform: translateY(-3px); box-shadow: 0 8px 24px var(--shadow); }
+  .guide-card .guide-icon { font-size: 28px; margin-bottom: 10px; }
+  .guide-card h4 {
+    font-size: 15px;
+    color: var(--primary);
+    margin-bottom: 8px;
+    font-weight: 700;
+  }
+  .guide-card p { font-size: 13px; color: var(--text-soft); line-height: 1.8; }
+
+  /* ============ GALLERY ============ */
+  #gallery { background: var(--bg); }
+
+  .gallery-filter {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 28px;
+    flex-wrap: wrap;
+  }
+  .gallery-tab {
+    padding: 6px 18px;
+    border-radius: 20px;
+    border: 1px solid rgba(138,92,247,0.25);
+    background: transparent;
+    color: var(--text-soft);
+    font-size: 12px;
+    cursor: pointer;
+    transition: all var(--transition);
+    font-family: inherit;
+  }
+  .gallery-tab.active, .gallery-tab:hover {
+    background: var(--primary);
+    color: #fff;
+    border-color: var(--primary);
+  }
+
+  .gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 16px;
+  }
+  .gallery-img {
+    border-radius: 16px;
+    overflow: hidden;
+    aspect-ratio: 3/4;
+    background: var(--bg2);
+    cursor: pointer;
+    position: relative;
+    border: 1px solid rgba(138,92,247,0.1);
+    transition: transform var(--transition), box-shadow var(--transition);
+  }
+  .gallery-img img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.5s ease;
+  }
+  .gallery-img:hover { transform: translateY(-4px); box-shadow: 0 12px 32px var(--shadow); }
+  .gallery-img:hover img { transform: scale(1.05); }
+  .gallery-img .img-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(transparent 50%, rgba(138,92,247,0.7));
+    opacity: 0;
+    transition: opacity var(--transition);
+    display: flex;
+    align-items: flex-end;
+    padding: 16px;
+    color: #fff;
+    font-size: 13px;
+  }
+  .gallery-img:hover .img-overlay { opacity: 1; }
+
+  /* Image Modal */
+  .img-modal {
+    position: fixed;
+    inset: 0;
+    z-index: 2000;
+    background: rgba(0,0,0,0.85);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity var(--transition);
+  }
+  .img-modal.open { opacity: 1; pointer-events: all; }
+  .img-modal img {
+    max-width: 90vw;
+    max-height: 90vh;
+    border-radius: 12px;
+    box-shadow: 0 24px 80px rgba(0,0,0,0.6);
+  }
+  .img-modal-close {
+    position: absolute;
+    top: 24px; right: 24px;
+    color: #fff;
+    font-size: 28px;
+    cursor: pointer;
+    width: 44px; height: 44px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.1);
+    display: flex; align-items: center; justify-content: center;
+    transition: background var(--transition);
+  }
+  .img-modal-close:hover { background: rgba(255,255,255,0.25); }
+
+  /* ============ DEMO ============ */
+  #demo { background: var(--bg2); }
+
+  .video-tabs {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 28px;
+  }
+
+  .video-wrap {
+    border-radius: 20px;
+    overflow: hidden;
+    background: #000;
+    position: relative;
+    max-width: 720px;
+    aspect-ratio: 16/9;
+    box-shadow: 0 16px 48px rgba(0,0,0,0.3);
+  }
+  .video-wrap video {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+  .video-cover {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0,0,0,0.4);
+    cursor: pointer;
+    transition: background var(--transition);
+  }
+  .video-cover:hover { background: rgba(0,0,0,0.2); }
+  .play-btn {
+    width: 64px; height: 64px;
+    border-radius: 50%;
+    background: rgba(138,92,247,0.9);
+    display: flex; align-items: center; justify-content: center;
+    color: #fff;
+    font-size: 22px;
+    box-shadow: 0 0 32px rgba(138,92,247,0.5);
+    transition: transform var(--transition);
+  }
+  .video-cover:hover .play-btn { transform: scale(1.1); }
+
+  /* ============ BACK TO TOP ============ */
+  .back-to-top {
+    position: fixed;
+    bottom: 32px; right: 24px;
+    z-index: 800;
+    width: 44px; height: 44px;
+    border-radius: 50%;
+    background: var(--primary);
+    color: #fff;
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 4px 16px var(--shadow);
+    opacity: 0;
+    pointer-events: none;
+    transition: all var(--transition);
+  }
+  .back-to-top.visible { opacity: 1; pointer-events: all; }
+  .back-to-top:hover { transform: translateY(-3px); }
+
+  /* ============ MOBILE ============ */
+  @media (max-width: 768px) {
+    .nav-menu { display: none; flex-direction: column; position: absolute; top: 64px; left: 0; right: 0; background: var(--bg); padding: 16px; border-bottom: 1px solid rgba(138,92,247,0.12); }
+    .nav-menu.active { display: flex; }
+    .nav-toggle { display: block; }
+    .about-grid { grid-template-columns: 1fr; }
+    .control-panel { right: 8px; top: 72px; min-width: 120px; }
+  }
+  </style>
 </head>
 
 <body class="main-site">
 
-  <!-- 导航 -->
-  <nav class="navbar">
-    <div class="nav-container">
-      <div class="nav-logo"><i class="fa fa-star"></i><span>卡提希娅的星光小站</span></div>
-      <ul class="nav-menu">
-        <li class="nav-item"><a href="#home" class="nav-link">首页</a></li>
-        <li class="nav-item"><a href="#about" class="nav-link">角色设定</a></li>
-        <li class="nav-item"><a href="#story" class="nav-link">故事背景</a></li>
-        <li class="nav-item"><a href="#guide" class="nav-link">游戏攻略</a></li>
-        <li class="nav-item"><a href="#gallery" class="nav-link">角色图库</a></li>
-        <li class="nav-item"><a href="#demo" class="nav-link">实机演示</a></li>
-        <li class="nav-item">
-          <a href="aemeath.html" class="nav-link" style="color:#ff2a6d">
-            <i class="fa fa-database"></i> 爱弥斯档案
-          </a>
-        </li>
-      </ul>
-      <div class="nav-toggle"><i class="fa fa-bars"></i></div>
-    </div>
-  </nav>
+<canvas id="starBg"></canvas>
 
-  <!-- 控制面板 -->
-  <div class="control-panel">
-    <h3><i class="fa fa-sliders"></i> 个性化设置</h3>
-    <button class="control-btn" onclick="switchTheme('purple')">银紫色主题</button>
-    <button class="control-btn" onclick="switchTheme('blue')">冰蓝色主题</button>
-    <input type="color" id="customColorPicker">
-    <button class="control-btn" onclick="applyCustomTheme()">应用</button>
-    <button class="control-btn" onclick="toggleDarkMode()">深色模式</button>
+<!-- NAVBAR -->
+<nav class="navbar" id="navbar">
+  <div class="nav-container">
+    <a class="nav-logo" href="#home"><i class="fa fa-star"></i><span>卡提希娅的星光小站</span></a>
+    <ul class="nav-menu" id="navMenu">
+      <li><a href="#home"    class="nav-link">首页</a></li>
+      <li><a href="#about"   class="nav-link">角色设定</a></li>
+      <li><a href="#story"   class="nav-link">故事背景</a></li>
+      <li><a href="#guide"   class="nav-link">游戏攻略</a></li>
+      <li><a href="#gallery" class="nav-link">角色图库</a></li>
+      <li><a href="#demo"    class="nav-link">实机演示</a></li>
+      <li><a href="aemeath.html" class="nav-link special"><i class="fa fa-database"></i> 爱弥斯档案</a></li>
+    </ul>
+    <div class="nav-toggle" id="navToggle"><i class="fa fa-bars"></i></div>
   </div>
+</nav>
 
-  <!-- 首页 -->
-  <section id="home" class="home-section section-animate">
-    <div class="home-container">
-      <img src="1.jpg" class="carterthyia-avatar">
-      <h1 class="character-title typewriter">卡提希娅</h1>
-      <p class="character-desc">温柔使者 · 双形态战斗达人</p>
-      <a href="aemeath.html" class="btn">进入爱弥斯</a>
+<!-- CONTROL PANEL -->
+<div class="control-panel">
+  <h3><i class="fa fa-sliders"></i> 个性化</h3>
+  <button class="control-btn" onclick="switchTheme('purple')">✦ 星光紫</button>
+  <button class="control-btn" onclick="switchTheme('blue')">❄ 冰晶蓝</button>
+  <input type="color" id="customColorPicker" title="自定义颜色">
+  <button class="control-btn" onclick="applyCustomTheme()">应用颜色</button>
+  <button class="control-btn" id="darkBtn" onclick="toggleDarkMode()"><i class="fa fa-moon"></i> 深色</button>
+</div>
+
+<!-- ===== HOME ===== -->
+<section id="home" class="section-animate">
+  <div class="home-container">
+    <img src="1.jpg" class="carterthyia-avatar" alt="卡提希娅" onerror="this.style.background='linear-gradient(135deg,#8a5cf7,#f472b6)';this.removeAttribute('src')">
+    <h1 class="character-title typewriter">卡提希娅</h1>
+    <p class="character-desc">温柔使者 · 双形态战斗达人</p>
+    <a href="aemeath.html" class="btn">✦ 进入爱弥斯档案</a>
+  </div>
+  <div class="scroll-hint"><i class="fa fa-angle-double-down"></i> 向下探索</div>
+</section>
+
+<!-- ===== ABOUT ===== -->
+<section id="about" class="section-animate">
+  <div class="section-inner">
+    <span class="section-tag">// Character Profile</span>
+    <h2 class="section-title">角色设定</h2>
+    <div class="section-divider"></div>
+
+    <div class="about-grid">
+      <!-- 基本信息 -->
+      <div class="about-card">
+        <h3><i class="fa fa-user-circle"></i> 基本档案</h3>
+        <div class="stat-row"><span class="stat-label">名称</span><span class="stat-value">卡提希娅</span></div>
+        <div class="stat-row"><span class="stat-label">英文名</span><span class="stat-value">Carterthyia</span></div>
+        <div class="stat-row"><span class="stat-label">定位</span><span class="stat-value">温柔使者</span></div>
+        <div class="stat-row"><span class="stat-label">形态</span><span class="stat-value">双形态战斗</span></div>
+        <div class="stat-row"><span class="stat-label">阵营</span><span class="stat-value">星光守护者</span></div>
+        <div class="tag-cloud" style="margin-top:16px">
+          <span class="tag">治愈系</span>
+          <span class="tag">高爆发</span>
+          <span class="tag">变形</span>
+          <span class="tag">光属性</span>
+          <span class="tag">SSR</span>
+        </div>
+      </div>
+
+      <!-- 属性面板 -->
+      <div class="about-card">
+        <h3><i class="fa fa-bar-chart"></i> 战斗属性</h3>
+        <div class="stat-bar-row" style="--w:92%">
+          <div class="stat-bar-label"><span>攻击</span><span>92</span></div>
+          <div class="stat-bar-track"><div class="stat-bar-fill"></div></div>
+        </div>
+        <div class="stat-bar-row" style="--w:78%">
+          <div class="stat-bar-label"><span>防御</span><span>78</span></div>
+          <div class="stat-bar-track"><div class="stat-bar-fill"></div></div>
+        </div>
+        <div class="stat-bar-row" style="--w:96%">
+          <div class="stat-bar-label"><span>治愈</span><span>96</span></div>
+          <div class="stat-bar-track"><div class="stat-bar-fill"></div></div>
+        </div>
+        <div class="stat-bar-row" style="--w:85%">
+          <div class="stat-bar-label"><span>速度</span><span>85</span></div>
+          <div class="stat-bar-track"><div class="stat-bar-fill"></div></div>
+        </div>
+        <div class="stat-bar-row" style="--w:99%">
+          <div class="stat-bar-label"><span>魅力</span><span>MAX</span></div>
+          <div class="stat-bar-track"><div class="stat-bar-fill"></div></div>
+        </div>
+      </div>
+
+      <!-- 技能 -->
+      <div class="about-card">
+        <h3><i class="fa fa-magic"></i> 核心技能</h3>
+        <div class="stat-row"><span class="stat-label">⚡ 星光冲击</span><span class="stat-value">高爆发</span></div>
+        <div class="stat-row"><span class="stat-label">✨ 温柔庇护</span><span class="stat-value">范围治愈</span></div>
+        <div class="stat-row"><span class="stat-label">🌙 形态切换</span><span class="stat-value">战斗变形</span></div>
+        <div class="stat-row"><span class="stat-label">💫 星光护盾</span><span class="stat-value">减伤30%</span></div>
+        <div class="stat-row"><span class="stat-label">🔮 终极：星河裂变</span><span class="stat-value">大招</span></div>
+      </div>
+
+      <!-- 特性 -->
+      <div class="about-card">
+        <h3><i class="fa fa-heart"></i> 角色特性</h3>
+        <p style="color:var(--text-soft);font-size:13px;line-height:1.9">
+          卡提希娅拥有独特的双形态能力——平时以温柔的治愈者形象示人，战斗时可切换为锐利的战士模式。
+          她的星光属性赋予了她在黑暗中发光的能力，也让她成为队伍中最不可或缺的核心角色。
+        </p>
+        <div class="tag-cloud" style="margin-top:16px">
+          <span class="tag">被动：星光再生</span>
+          <span class="tag">联动：爱弥斯</span>
+        </div>
+      </div>
     </div>
-  </section>
+  </div>
+</section>
 
-  <!-- JS -->
-  <script src="config.js"></script>
-  <script src="script.js"></script>
+<!-- ===== STORY ===== -->
+<section id="story" class="section-animate">
+  <div class="section-inner">
+    <span class="section-tag">// Lore & Background</span>
+    <h2 class="section-title">故事背景</h2>
+    <div class="section-divider"></div>
 
+    <div class="story-timeline">
+      <div class="story-node">
+        <span class="chapter-tag">序章</span>
+        <h3>星光降临</h3>
+        <p>在一个被黑暗侵蚀的世界，一颗异星的光芒穿越虚空坠落。那一夜，所有守望者都看见了那道划破天际的星轨——卡提希娅，就此诞生于光与影的交界。</p>
+      </div>
+      <div class="story-node">
+        <span class="chapter-tag">第一章</span>
+        <h3>双生契约</h3>
+        <p>卡提希娅在流浪途中邂逅了神秘的数字存在爱弥斯（Aemeath）。两者之间形成了跨越物质与数字界限的羁绊，这份契约赋予了她双形态切换的能力。</p>
+      </div>
+      <div class="story-node">
+        <span class="chapter-tag">第二章</span>
+        <h3>温柔的代价</h3>
+        <p>每一次切换形态都会消耗卡提希娅的星光能量。为了守护挚友，她在与强敌的战斗中几度陷入能量枯竭的边缘。然而正是这份温柔，成为了她最强大的武器。</p>
+      </div>
+      <div class="story-node">
+        <span class="chapter-tag">现在</span>
+        <h3>守光者</h3>
+        <p>如今，卡提希娅与爱弥斯共同守护着这片星光。她的故事还在继续书写，每一个造访这里的人，都将成为她故事中的一部分。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== GUIDE ===== -->
+<section id="guide" class="section-animate">
+  <div class="section-inner">
+    <span class="section-tag">// Game Guide</span>
+    <h2 class="section-title">游戏攻略</h2>
+    <div class="section-divider"></div>
+
+    <div class="tab-bar">
+      <button class="tab-btn active" data-tab="basic" onclick="switchGuideTab('basic')">基础玩法</button>
+      <button class="tab-btn" data-tab="combo" onclick="switchGuideTab('combo')">连招技巧</button>
+      <button class="tab-btn" data-tab="build" onclick="switchGuideTab('build')">推荐配装</button>
+      <button class="tab-btn" data-tab="team" onclick="switchGuideTab('team')">队伍搭配</button>
+    </div>
+
+    <div id="basicContent" class="guide-content active">
+      <div class="guide-grid">
+        <div class="guide-card"><div class="guide-icon">⚡</div><h4>形态切换时机</h4><p>建议在敌方蓄力时切换战斗形态，打断节奏并触发反击连锁。切换 CD 约 8 秒，合理规划节奏。</p></div>
+        <div class="guide-card"><div class="guide-icon">✨</div><h4>星光能量管理</h4><p>保持能量槽在 40% 以上方可安全切换。低于此值时优先使用治愈技能回充，避免形态锁定。</p></div>
+        <div class="guide-card"><div class="guide-icon">🛡</div><h4>护盾优先级</h4><p>星光护盾可叠加两层，建议在 Boss 战前提前叠满。护盾存续 12 秒，优先保护脆皮输出位。</p></div>
+        <div class="guide-card"><div class="guide-icon">🎯</div><h4>仇恨控制</h4><p>卡提希娅治愈量大，容易吸引仇恨。配合沉默技能或位移技能，可有效规避集火风险。</p></div>
+      </div>
+    </div>
+
+    <div id="comboContent" class="guide-content">
+      <div class="guide-grid">
+        <div class="guide-card"><div class="guide-icon">🔥</div><h4>速攻连招</h4><p>星光冲击 → 形态切换 → 终极技 → 普攻 ×3。此连招在 3 秒内可打出约 280% 攻击力的爆发伤害。</p></div>
+        <div class="guide-card"><div class="guide-icon">💫</div><h4>持续输出流</h4><p>维持治愈形态，利用被动星光再生持续回血，配合队友控制技能稳步推进，适合长战。</p></div>
+        <div class="guide-card"><div class="guide-icon">🌙</div><h4>双形态循环</h4><p>战斗形态 2 技能 → 切换治愈 → 大治愈 → 切换战斗 → 终极。约 20 秒一次完整循环。</p></div>
+      </div>
+    </div>
+
+    <div id="buildContent" class="guide-content">
+      <div class="guide-grid">
+        <div class="guide-card"><div class="guide-icon">💍</div><h4>主流输出配装</h4><p>星辉之核（主武器）+ 光辉圣冠 + 星河碎片 ×2。侧重攻击词条，暴击率维持在 75% 以上。</p></div>
+        <div class="guide-card"><div class="guide-icon">🌿</div><h4>辅助治愈配装</h4><p>温柔之心（主武器）+ 生命织网 + 星光护符 ×2。生命值词条优先，治愈加成可达 +45%。</p></div>
+        <div class="guide-card"><div class="guide-icon">⚖️</div><h4>均衡配装</h4><p>晨星之刃 + 双属性混搭套装。适合新手前期过渡，兼顾输出与续航，上手门槛低。</p></div>
+      </div>
+    </div>
+
+    <div id="teamContent" class="guide-content">
+      <div class="guide-grid">
+        <div class="guide-card"><div class="guide-icon">👥</div><h4>标准阵容</h4><p>卡提希娅（治愈核心）+ 高爆发 DPS ×2 + 控制辅助。卡提希娅专注回血与护盾，DPS 负责爆发。</p></div>
+        <div class="guide-card"><div class="guide-icon">💥</div><h4>双核爆发阵</h4><p>卡提希娅（战斗形态主C）+ 爱弥斯联动 + 辅助×2。触发双生契约被动，爆发伤害提升 35%。</p></div>
+        <div class="guide-card"><div class="guide-icon">🏰</div><h4>龟速稳进阵</h4><p>卡提希娅 + 重甲坦克 + 群控 + 远程 DPS。适合高难度副本，牺牲速度换取极高容错率。</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== GALLERY ===== -->
+<section id="gallery" class="section-animate">
+  <div class="section-inner">
+    <span class="section-tag">// Gallery</span>
+    <h2 class="section-title">角色图库</h2>
+    <div class="section-divider"></div>
+
+    <div class="gallery-filter">
+      <button class="gallery-tab active" data-type="all" onclick="filterGallery('all',this)">全部</button>
+      <button class="gallery-tab" data-type="art" onclick="filterGallery('art',this)">立绘</button>
+      <button class="gallery-tab" data-type="battle" onclick="filterGallery('battle',this)">战斗</button>
+      <button class="gallery-tab" data-type="daily" onclick="filterGallery('daily',this)">日常</button>
+    </div>
+
+    <div class="gallery-grid" id="galleryGrid">
+      <div class="gallery-img" data-type="art" onclick="openModal('1.jpg','立绘 · 光明形态')">
+        <img src="1.jpg" alt="立绘1" onerror="this.parentElement.style.background='linear-gradient(135deg,#8a5cf7,#f472b6)'">
+        <div class="img-overlay">立绘 · 光明形态</div>
+      </div>
+      <div class="gallery-img" data-type="art" onclick="openModal('2.jpg','立绘 · 战斗形态')">
+        <img src="2.jpg" alt="立绘2" onerror="this.parentElement.style.background='linear-gradient(135deg,#f472b6,#8a5cf7)'">
+        <div class="img-overlay">立绘 · 战斗形态</div>
+      </div>
+      <div class="gallery-img" data-type="battle" onclick="openModal('3.jpg','战斗 · 星光冲击')">
+        <img src="3.jpg" alt="战斗1" onerror="this.parentElement.style.background='linear-gradient(135deg,#a855f7,#ec4899)'">
+        <div class="img-overlay">战斗 · 星光冲击</div>
+      </div>
+      <div class="gallery-img" data-type="battle" onclick="openModal('4.jpg','战斗 · 终极技')">
+        <img src="4.jpg" alt="战斗2" onerror="this.parentElement.style.background='linear-gradient(135deg,#7c3aed,#db2777)'">
+        <div class="img-overlay">战斗 · 终极技</div>
+      </div>
+      <div class="gallery-img" data-type="daily" onclick="openModal('5.jpg','日常 · 休闲时光')">
+        <img src="5.jpg" alt="日常1" onerror="this.parentElement.style.background='linear-gradient(135deg,#c084fc,#f9a8d4)'">
+        <div class="img-overlay">日常 · 休闲时光</div>
+      </div>
+      <div class="gallery-img" data-type="daily" onclick="openModal('6.jpg','日常 · 与爱弥斯')">
+        <img src="6.jpg" alt="日常2" onerror="this.parentElement.style.background='linear-gradient(135deg,#a78bfa,#fbcfe8)'">
+        <div class="img-overlay">日常 · 与爱弥斯</div>
+      </div>
+      <div class="gallery-img" data-type="art" onclick="openModal('7.jpg','特别立绘')">
+        <img src="7.jpg" alt="特别" onerror="this.parentElement.style.background='linear-gradient(135deg,#8b5cf6,#f472b6)'">
+        <div class="img-overlay">特别立绘</div>
+      </div>
+      <div class="gallery-img" data-type="battle" onclick="openModal('8.jpg','战斗 · 形态切换')">
+        <img src="8.jpg" alt="战斗3" onerror="this.parentElement.style.background='linear-gradient(135deg,#6d28d9,#be185d)'">
+        <div class="img-overlay">战斗 · 形态切换</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Image Modal -->
+<div class="img-modal" id="imgModal" onclick="closeModal()">
+  <div class="img-modal-close"><i class="fa fa-times"></i></div>
+  <img id="modalImg" src="" alt="">
+</div>
+
+<!-- ===== DEMO ===== -->
+<section id="demo" class="section-animate">
+  <div class="section-inner">
+    <span class="section-tag">// Gameplay Demo</span>
+    <h2 class="section-title">实机演示</h2>
+    <div class="section-divider"></div>
+
+    <div class="video-tabs">
+      <button class="tab-btn active" onclick="switchVideo('small',this)">小卡演示</button>
+      <button class="tab-btn" onclick="switchVideo('big',this)">大卡演示</button>
+    </div>
+
+    <div class="video-wrap" id="smallVideo">
+      <video id="videoSmall" controls poster="1.jpg">
+        <source src="videos/111.mp4" type="video/mp4">
+        您的浏览器不支持视频播放。
+      </video>
+    </div>
+
+    <div class="video-wrap" id="bigVideo" style="display:none">
+      <video id="videoBig" controls poster="2.jpg">
+        <source src="videos/12.mp4" type="video/mp4">
+        您的浏览器不支持视频播放。
+      </video>
+    </div>
+  </div>
+</section>
+
+<!-- Back to top -->
+<div class="back-to-top" id="backTop" onclick="window.scrollTo({top:0,behavior:'smooth'})">
+  <i class="fa fa-chevron-up"></i>
+</div>
+
+<script src="config.js"></script>
+<script>
+// ===== STARS =====
+(function(){
+  const c = document.getElementById('starBg');
+  const ctx = c.getContext('2d');
+  let W, H;
+  function resize(){ W = c.width = innerWidth; H = c.height = innerHeight; }
+  window.addEventListener('resize', resize); resize();
+
+  const stars = Array.from({length:120}, () => ({
+    x: Math.random()*1e4, y: Math.random()*1e4,
+    r: Math.random()*1.5+0.3,
+    a: Math.random(),
+    speed: Math.random()*0.005+0.002
+  }));
+
+  function draw(){
+    ctx.clearRect(0,0,W,H);
+    stars.forEach(s => {
+      s.a += s.speed;
+      const alpha = (Math.sin(s.a)+1)/2 * 0.7 + 0.1;
+      ctx.beginPath();
+      ctx.arc(s.x % W, s.y % H, s.r, 0, Math.PI*2);
+      ctx.fillStyle = `rgba(192,132,252,${alpha})`;
+      ctx.fill();
+    });
+    requestAnimationFrame(draw);
+  }
+  draw();
+})();
+
+// ===== SCROLL ANIMATE =====
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if(e.isIntersecting) e.target.classList.add('visible');
+  });
+}, { threshold: 0.1 });
+document.querySelectorAll('.section-animate').forEach(el => observer.observe(el));
+
+// ===== NAVBAR =====
+const navbar = document.getElementById('navbar');
+window.addEventListener('scroll', () => {
+  navbar.classList.toggle('scrolled', scrollY > 50);
+  document.getElementById('backTop').classList.toggle('visible', scrollY > 300);
+});
+document.getElementById('navToggle').addEventListener('click', () => {
+  document.getElementById('navMenu').classList.toggle('active');
+});
+
+// ===== THEME =====
+const cfg = window.siteConfig || {};
+let currentTheme = cfg.defaultTheme || 'purple';
+let isDark = cfg.defaultMode === 'dark';
+
+function switchTheme(t) {
+  currentTheme = t;
+  const r = document.documentElement;
+  const themes = {
+    purple: { primary:'#8a5cf7', secondary:'#c084fc', accent:'#f472b6', bg:'#faf5ff', bg2:'#f3e8ff', text:'#3b1a6b', soft:'#7c5cbf' },
+    blue:   { primary:'#3b82f6', secondary:'#60a5fa', accent:'#38bdf8', bg:'#eff6ff', bg2:'#dbeafe', text:'#1e3a5f', soft:'#4b7ab5' }
+  };
+  const th = themes[t] || themes.purple;
+  Object.entries(th).forEach(([k,v]) => r.style.setProperty(`--${k.replace('bg2','bg2')}`, v));
+  r.style.setProperty('--bg2', th.bg2);
+}
+function applyCustomTheme() {
+  const c = document.getElementById('customColorPicker').value;
+  const r = document.documentElement;
+  r.style.setProperty('--primary', c);
+  r.style.setProperty('--secondary', c + 'bb');
+  r.style.setProperty('--accent', shiftHue(c, 30));
+}
+function shiftHue(hex, deg) {
+  // simple hue shift approximation
+  const n = parseInt(hex.slice(1),16);
+  const r = (n>>16)&255, g=(n>>8)&255, b=n&255;
+  return `rgb(${Math.min(255,r+deg)},${g},${Math.max(0,b-deg)})`;
+}
+function toggleDarkMode() {
+  isDark = !isDark;
+  document.body.classList.toggle('dark-mode', isDark);
+  const btn = document.getElementById('darkBtn');
+  btn.innerHTML = isDark ? '<i class="fa fa-sun-o"></i> 亮色' : '<i class="fa fa-moon"></i> 深色';
+}
+switchTheme(currentTheme);
+if(isDark) toggleDarkMode();
+
+// ===== GUIDE TABS =====
+function switchGuideTab(tab) {
+  document.querySelectorAll('.guide-content').forEach(el => el.classList.remove('active'));
+  document.querySelectorAll('.tab-btn[data-tab]').forEach(el => el.classList.remove('active'));
+  document.getElementById(tab+'Content').classList.add('active');
+  document.querySelector(`.tab-btn[data-tab="${tab}"]`).classList.add('active');
+}
+
+// ===== GALLERY =====
+function filterGallery(type, btn) {
+  document.querySelectorAll('.gallery-tab').forEach(t => t.classList.remove('active'));
+  btn.classList.add('active');
+  document.querySelectorAll('.gallery-img').forEach(img => {
+    const show = type === 'all' || img.dataset.type === type;
+    img.style.display = show ? 'block' : 'none';
+  });
+}
+function openModal(src, alt) {
+  const m = document.getElementById('imgModal');
+  document.getElementById('modalImg').src = src;
+  m.classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeModal() {
+  document.getElementById('imgModal').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+// ===== VIDEO =====
+function switchVideo(type, btn) {
+  document.querySelectorAll('.video-tabs .tab-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('smallVideo').style.display = type === 'small' ? 'block' : 'none';
+  document.getElementById('bigVideo').style.display = type === 'big' ? 'block' : 'none';
+}
+</script>
 </body>
 </html>

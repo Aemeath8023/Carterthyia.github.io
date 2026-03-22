@@ -3,204 +3,338 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>AEMEATH.EXE | 爱弥斯的数字档案</title>
-<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Share+Tech+Mono&family=Noto+Sans+SC:wght@300;400;700&display=swap" rel="stylesheet">
+<title>AEMEATH.EXE | 爱弥斯·数字档案</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Noto+Sans+SC:wght@300;400;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+
 <style>
-  html, body {
-  all: initial;
-  background: #010a12 !important;
-  color: #d1f7ff !important;
-  font-family: 'Noto Sans SC', sans-serif !important;
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html, body {
+  width: 100%; min-height: 100vh;
+  background: #010a12;
+  color: #d1f7ff;
+  font-family: 'Noto Sans SC', sans-serif;
+  font-size: 15px; line-height: 1.7;
+  overflow-x: hidden;
 }
-*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-html,body{background:#010a12!important;color:#d1f7ff!important;font-family:'Noto Sans SC',sans-serif!important;min-height:100vh;overflow-x:hidden}
-body *{color:inherit}
-:root{--nc:#05d9e8;--np:#ff2a6d;--npu:#b14aed;--pb:rgba(5,217,232,0.04);--bg:rgba(5,217,232,0.25);--gl:rgba(5,217,232,0.08)}
-body::before{content:"";position:fixed;inset:0;background-image:linear-gradient(var(--gl) 1px,transparent 1px),linear-gradient(90deg,var(--gl) 1px,transparent 1px);background-size:60px 60px;pointer-events:none;z-index:0}
-#starCanvas{position:fixed;inset:0;z-index:0;pointer-events:none}
-body::after{content:"";position:fixed;inset:0;background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(5,217,232,.015) 2px,rgba(5,217,232,.015) 4px);pointer-events:none;z-index:1;animation:scanMove 8s linear infinite}
-@keyframes scanMove{from{background-position:0 0}to{background-position:0 200px}}
-.back-btn{position:fixed;top:24px;left:24px;z-index:1000;display:inline-flex;align-items:center;gap:8px;padding:10px 20px;background:transparent;border:1px solid var(--nc);color:var(--nc)!important;text-decoration:none;font-family:'Share Tech Mono',monospace;font-size:13px;letter-spacing:2px;text-transform:uppercase;transition:all .3s;clip-path:polygon(8px 0%,100% 0%,calc(100% - 8px) 100%,0% 100%)}
-.back-btn:hover{background:rgba(5,217,232,.1);box-shadow:0 0 20px rgba(5,217,232,.4)}
-.wrap{position:relative;z-index:2;max-width:1100px;margin:0 auto;padding:120px 32px 80px}
-.hero{text-align:center;margin-bottom:80px}
-.sys-tag{font-family:'Share Tech Mono',monospace;font-size:12px;letter-spacing:4px;color:var(--nc)!important;opacity:.7;margin-bottom:24px;animation:blink 2s step-end infinite}
-@keyframes blink{50%{opacity:.2}}
-.hero-title{font-family:'Orbitron',monospace;font-size:clamp(52px,10vw,96px);font-weight:900;line-height:1;letter-spacing:8px;color:#fff!important;text-shadow:0 0 20px var(--nc),0 0 40px var(--nc),0 0 80px rgba(5,217,232,.4);position:relative;display:inline-block}
-.hero-title::before,.hero-title::after{content:attr(data-text);position:absolute;inset:0;font-family:inherit;font-size:inherit;font-weight:inherit;letter-spacing:inherit}
-.hero-title::before{color:var(--np)!important;text-shadow:none;clip-path:polygon(0 30%,100% 30%,100% 50%,0 50%);animation:g1 4s infinite}
-.hero-title::after{color:var(--nc)!important;text-shadow:none;clip-path:polygon(0 60%,100% 60%,100% 75%,0 75%);animation:g2 4s infinite}
-@keyframes g1{0%,90%,100%{transform:translate(0);opacity:0}92%{transform:translate(-4px,1px);opacity:.8}94%{transform:translate(4px,-1px);opacity:.8}96%{transform:translate(-2px,2px);opacity:.8}98%{transform:translate(2px,-2px);opacity:.8}}
-@keyframes g2{0%,91%,100%{transform:translate(0);opacity:0}93%{transform:translate(4px,-1px);opacity:.8}95%{transform:translate(-4px,1px);opacity:.8}97%{transform:translate(3px,-2px);opacity:.8}99%{transform:translate(-3px,2px);opacity:.8}}
-.hero-sub{margin-top:20px;font-family:'Share Tech Mono',monospace;font-size:16px;letter-spacing:6px;color:var(--nc)!important}
-.divider{display:flex;align-items:center;gap:16px;margin:40px 0}
-.divider-line{flex:1;height:1px;background:linear-gradient(90deg,transparent,var(--nc),transparent)}
-.divider-icon{font-family:'Share Tech Mono',monospace;font-size:11px;color:var(--nc)!important;letter-spacing:3px}
-.status-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px;margin-bottom:48px}
-.sc{background:var(--pb);border:1px solid var(--bg);padding:20px 24px;clip-path:polygon(0 0,calc(100% - 12px) 0,100% 12px,100% 100%,12px 100%,0 calc(100% - 12px));position:relative;transition:all .3s}
-.sc:hover{background:rgba(5,217,232,.08);border-color:var(--nc);box-shadow:0 0 20px rgba(5,217,232,.2),inset 0 0 20px rgba(5,217,232,.05)}
-.sc::before{content:"";position:absolute;top:0;right:0;width:0;height:0;border-style:solid;border-width:0 12px 12px 0;border-color:transparent var(--nc) transparent transparent;opacity:.5}
-.sc-label{font-family:'Share Tech Mono',monospace;font-size:11px;letter-spacing:3px;color:var(--nc)!important;opacity:.7;margin-bottom:8px;text-transform:uppercase}
-.sc-value{font-family:'Orbitron',monospace;font-size:22px;font-weight:700;color:#fff!important}
-.sc-bar{margin-top:10px;height:3px;background:rgba(5,217,232,.15);border-radius:2px;overflow:hidden}
-.sc-fill{height:100%;background:linear-gradient(90deg,var(--nc),var(--npu));border-radius:2px;animation:fa 1.5s ease-out forwards}
-@keyframes fa{from{width:0}}
-.panel{background:var(--pb);border:1px solid var(--bg);margin-bottom:32px;position:relative;overflow:hidden}
-.ph{display:flex;align-items:center;gap:12px;padding:14px 24px;border-bottom:1px solid var(--bg);background:rgba(5,217,232,.06)}
-.dot{width:8px;height:8px;border-radius:50%;background:var(--nc);box-shadow:0 0 8px var(--nc);animation:pulse 2s infinite}
-.dot.p{background:var(--np);box-shadow:0 0 8px var(--np)}
-.dot.v{background:var(--npu);box-shadow:0 0 8px var(--npu)}
-@keyframes pulse{50%{opacity:.3}}
-.pt{font-family:'Share Tech Mono',monospace;font-size:13px;letter-spacing:3px;color:var(--nc)!important;text-transform:uppercase}
-.pb{padding:28px 32px}
-.info-tbl{width:100%;border-collapse:collapse}
-.info-tbl tr{border-bottom:1px solid var(--gl)}
-.info-tbl tr:last-child{border-bottom:none}
-.info-tbl td{padding:12px 0;font-size:14px}
-.info-tbl td:first-child{font-family:'Share Tech Mono',monospace;font-size:12px;letter-spacing:2px;color:var(--nc)!important;opacity:.7;width:140px;text-transform:uppercase}
-.info-tbl td:last-child{color:#d1f7ff!important}
-.badge{display:inline-block;padding:2px 10px;border:1px solid var(--np);color:var(--np)!important;font-family:'Share Tech Mono',monospace;font-size:11px;letter-spacing:2px;margin-right:8px;clip-path:polygon(4px 0%,100% 0%,calc(100% - 4px) 100%,0% 100%)}
-.badge.c{border-color:var(--nc);color:var(--nc)!important}
-.skills-row{display:grid;grid-template-columns:1fr 1fr;gap:32px;margin-bottom:32px}
-@media(max-width:600px){.skills-row{grid-template-columns:1fr}}
-.ski{margin-bottom:18px}
-.skih{display:flex;justify-content:space-between;margin-bottom:8px}
-.skin{font-family:'Share Tech Mono',monospace;font-size:12px;letter-spacing:2px;color:var(--nc)!important;text-transform:uppercase}
-.skiv{font-family:'Orbitron',monospace;font-size:13px;color:#fff!important}
-.skt{height:4px;background:rgba(255,255,255,.06);border-radius:2px;overflow:hidden}
-.skf{height:100%;border-radius:2px;animation:fa 1.8s ease-out forwards}
-.skf.c{background:linear-gradient(90deg,#05d9e8,#00ffff)}
-.skf.p{background:linear-gradient(90deg,#ff2a6d,#ff79c6)}
-.skf.v{background:linear-gradient(90deg,#b14aed,#d4a3ff)}
-.skf.g{background:linear-gradient(90deg,#f0c040,#ffe680)}
-.terminal{background:rgba(0,0,0,.6);border:1px solid rgba(5,217,232,.2);padding:24px 28px;font-family:'Share Tech Mono',monospace;font-size:13px;line-height:2;color:rgba(5,217,232,.8)!important}
-.terminal::before{content:"AEMEATH > SYSTEM_LOG.exe";display:block;color:var(--nc)!important;margin-bottom:12px;letter-spacing:2px}
-.tl{display:block}
-.tl .pr{color:var(--np)!important;margin-right:8px}
-.tl .ok{color:#00ff88!important}
-.tl .wn{color:#f0c040!important}
-.cursor{display:inline-block;width:8px;height:14px;background:var(--nc);vertical-align:middle;animation:blink 1s step-end infinite}
-.footer{text-align:center;padding:40px 0 20px;font-family:'Share Tech Mono',monospace;font-size:11px;letter-spacing:3px;color:rgba(5,217,232,.35)!important}
+:root {
+  --cyan:   #05d9e8;
+  --pink:   #ff2a6d;
+  --purple: #b04aff;
+  --panel:  rgba(5,217,232,0.05);
+  --border: rgba(5,217,232,0.2);
+  --dim:    #7ecfdc;
+}
+
+/* 扫描线 */
+body::before {
+  content:"";position:fixed;inset:0;pointer-events:none;z-index:0;
+  background:repeating-linear-gradient(0deg,transparent,transparent 3px,rgba(5,217,232,0.012) 3px,rgba(5,217,232,0.012) 4px);
+}
+
+#aeCanvas { position:fixed;inset:0;z-index:0;pointer-events:none; }
+
+/* 返回按钮 */
+.back-btn {
+  position:fixed;top:24px;left:24px;z-index:999;
+  display:inline-flex;align-items:center;gap:8px;
+  padding:10px 22px;
+  border:1px solid var(--cyan);color:var(--cyan);
+  background:rgba(5,217,232,0.04);
+  font-family:'Share Tech Mono',monospace;font-size:12px;letter-spacing:3px;
+  text-decoration:none;text-transform:uppercase;
+  clip-path:polygon(12px 0%,100% 0%,calc(100% - 12px) 100%,0% 100%);
+  transition:all .25s;backdrop-filter:blur(8px);
+}
+.back-btn:hover { background:rgba(5,217,232,0.15);box-shadow:0 0 20px rgba(5,217,232,0.4);color:#fff; }
+
+/* 主容器 */
+.ae-main { position:relative;z-index:1;max-width:1000px;margin:0 auto;padding:130px 28px 80px; }
+
+/* HERO */
+.hero { text-align:center;margin-bottom:56px; }
+.hero-eyebrow {
+  font-family:'Share Tech Mono',monospace;font-size:11px;
+  letter-spacing:6px;color:var(--cyan);text-transform:uppercase;
+  margin-bottom:24px;opacity:.7;
+}
+.hero-title {
+  font-family:'Orbitron',monospace;
+  font-size:clamp(52px,12vw,100px);font-weight:900;
+  letter-spacing:10px;line-height:1;color:#fff;
+  text-shadow:0 0 8px var(--cyan),0 0 24px var(--cyan),0 0 60px rgba(5,217,232,0.35);
+  position:relative;display:inline-block;
+}
+.hero-title::before,.hero-title::after {
+  content:attr(data-text);position:absolute;top:0;left:0;width:100%;overflow:hidden;
+  font-family:'Orbitron',monospace;font-weight:900;letter-spacing:10px;
+}
+.hero-title::before {
+  color:var(--pink);text-shadow:-2px 0 var(--pink);
+  clip-path:polygon(0 0,100% 0,100% 30%,0 30%);animation:glitch-a 5s infinite;
+}
+.hero-title::after {
+  color:var(--cyan);text-shadow:2px 0 var(--cyan);
+  clip-path:polygon(0 65%,100% 65%,100% 100%,0 100%);animation:glitch-b 5s infinite;
+}
+@keyframes glitch-a {
+  0%,78%,100%{opacity:0;transform:translate(0)}
+  80%{opacity:.9;transform:translate(-4px,-2px)}
+  83%{opacity:.9;transform:translate(4px,0)}
+  86%{opacity:0}
+}
+@keyframes glitch-b {
+  0%,82%,100%{opacity:0;transform:translate(0)}
+  84%{opacity:.8;transform:translate(4px,2px)}
+  87%{opacity:.8;transform:translate(-3px,0)}
+  90%{opacity:0}
+}
+.hero-line { width:240px;height:1px;background:linear-gradient(90deg,transparent,var(--cyan),transparent);margin:28px auto; }
+.hero-sub { font-family:'Share Tech Mono',monospace;font-size:14px;letter-spacing:5px;color:var(--dim); }
+
+/* 状态行 */
+.status-bar {
+  display:flex;justify-content:center;gap:36px;flex-wrap:wrap;
+  font-family:'Share Tech Mono',monospace;font-size:11px;letter-spacing:2px;color:var(--dim);
+  margin-bottom:52px;
+}
+.dot { display:inline-block;width:7px;height:7px;border-radius:50%;margin-right:7px;animation:pulse 2s ease-in-out infinite; }
+.dot-g { background:#00ff88;box-shadow:0 0 8px #00ff88; }
+.dot-c { background:var(--cyan);box-shadow:0 0 8px var(--cyan);animation-delay:.5s; }
+.dot-p { background:var(--pink);box-shadow:0 0 8px var(--pink);animation-delay:1s; }
+@keyframes pulse { 0%,100%{opacity:1;transform:scale(1)}50%{opacity:.4;transform:scale(.7)} }
+
+/* 终端 */
+.terminal {
+  background:rgba(0,0,0,0.55);border:1px solid var(--border);border-left:3px solid var(--cyan);
+  padding:24px 32px;font-family:'Share Tech Mono',monospace;font-size:13px;line-height:2.1;
+  margin-bottom:52px;backdrop-filter:blur(4px);
+}
+.terminal-head { font-size:10px;letter-spacing:3px;color:var(--cyan);margin-bottom:14px;opacity:.7; }
+.t-p{color:var(--pink)}.t-c{color:var(--cyan)}.t-w{color:#fff}.t-g{color:#00ff88}.t-d{color:var(--dim)}
+.blink { display:inline-block;width:8px;height:14px;background:var(--cyan);vertical-align:middle;animation:blink 1s step-end infinite; }
+@keyframes blink { 0%,100%{opacity:1}50%{opacity:0} }
+
+/* 面板网格 */
+.panel-grid { display:grid;grid-template-columns:repeat(auto-fit,minmax(270px,1fr));gap:20px;margin-bottom:56px; }
+.panel {
+  background:var(--panel);border:1px solid var(--border);
+  padding:28px 24px;position:relative;
+  clip-path:polygon(0 0,calc(100% - 18px) 0,100% 18px,100% 100%,18px 100%,0 calc(100% - 18px));
+  transition:border-color .3s,box-shadow .3s,transform .3s;backdrop-filter:blur(6px);
+}
+.panel::after {
+  content:"";position:absolute;top:-1px;right:17px;
+  width:26px;height:1px;background:var(--cyan);
+  transform:rotate(45deg) translateX(9px);transform-origin:right center;
+}
+.panel:hover { border-color:var(--cyan);box-shadow:0 0 28px rgba(5,217,232,0.18),inset 0 0 28px rgba(5,217,232,0.04);transform:translateY(-5px); }
+.panel-num { font-family:'Share Tech Mono',monospace;font-size:10px;letter-spacing:3px;color:var(--cyan);opacity:.6;margin-bottom:8px; }
+.panel-icon { font-size:26px;margin-bottom:10px; }
+.panel-title { font-family:'Orbitron',monospace;font-size:16px;font-weight:700;color:#fff;margin-bottom:10px;line-height:1.3; }
+.panel-text { font-size:13px;color:var(--dim);line-height:1.8; }
+.badge {
+  display:inline-block;font-family:'Share Tech Mono',monospace;font-size:10px;
+  letter-spacing:2px;padding:3px 10px;border-radius:2px;margin-top:12px;
+}
+.badge-ok     { background:rgba(0,255,136,.12);color:#00ff88;border:1px solid rgba(0,255,136,.3); }
+.badge-locked { background:rgba(255,42,109,.1);color:var(--pink);border:1px solid rgba(255,42,109,.25); }
+.badge-sync   { background:rgba(5,217,232,.1);color:var(--cyan);border:1px solid rgba(5,217,232,.25); }
+
+/* 进度条 */
+.meter-block {
+  background:var(--panel);border:1px solid var(--border);
+  padding:32px 36px;margin-bottom:52px;backdrop-filter:blur(6px);
+}
+.meter-title { font-family:'Orbitron',monospace;font-size:13px;letter-spacing:3px;color:var(--cyan);margin-bottom:24px; }
+.meter-row { margin-bottom:18px; }
+.meter-label { display:flex;justify-content:space-between;font-family:'Share Tech Mono',monospace;font-size:12px;color:var(--dim);margin-bottom:6px;letter-spacing:1px; }
+.meter-track { height:5px;background:rgba(5,217,232,0.1);border-radius:3px;overflow:hidden; }
+.meter-fill { height:100%;border-radius:3px;background:linear-gradient(90deg,var(--cyan),var(--purple));width:0;transition:width 1.2s ease .2s; }
+.meter-fill.pink { background:linear-gradient(90deg,var(--pink),var(--purple)); }
+
+/* 页脚 */
+.ae-footer {
+  text-align:center;font-family:'Share Tech Mono',monospace;font-size:10px;
+  letter-spacing:3px;color:rgba(5,217,232,0.25);
+  padding-top:36px;border-top:1px solid rgba(5,217,232,0.08);line-height:2;
+}
+
+@media(max-width:600px){
+  .ae-main{padding:110px 16px 60px}
+  .status-bar{gap:18px}
+  .back-btn{font-size:10px;padding:8px 14px}
+  .terminal{padding:18px 18px}
+  .meter-block{padding:24px 20px}
+}
 </style>
 </head>
 <body>
-<canvas id="starCanvas"></canvas>
-<a href="index.html" class="back-btn">← RETURN_MAIN</a>
-<div class="wrap">
+
+<canvas id="aeCanvas"></canvas>
+<a href="index.html" class="back-btn">← RETURN</a>
+
+<div class="ae-main">
+
   <div class="hero">
-    <div class="sys-tag">[ SYSTEM BOOT ... ARCHIVE_ACCESS_GRANTED ]</div>
+    <p class="hero-eyebrow">// SYSTEM BOOT · ARCHIVE INITIALIZED · v2.1.0</p>
     <h1 class="hero-title" data-text="AEMEATH">AEMEATH</h1>
-    <p class="hero-sub">爱弥斯 · 数字档案系统 v2.077</p>
+    <div class="hero-line"></div>
+    <p class="hero-sub">爱弥斯 · 数字档案系统</p>
   </div>
 
-  <div class="status-grid">
-    <div class="sc"><div class="sc-label">SYNC_STATUS</div><div class="sc-value">ONLINE</div><div class="sc-bar"><div class="sc-fill" style="width:98%"></div></div></div>
-    <div class="sc"><div class="sc-label">ARCHIVE_NODES</div><div class="sc-value">2,077</div><div class="sc-bar"><div class="sc-fill" style="width:77%"></div></div></div>
-    <div class="sc"><div class="sc-label">THREAT_LEVEL</div><div class="sc-value" style="color:var(--np)!important">∅ NULL</div><div class="sc-bar"><div class="sc-fill" style="width:5%;background:var(--np)"></div></div></div>
-    <div class="sc"><div class="sc-label">SYS_INTEGRITY</div><div class="sc-value">100%</div><div class="sc-bar"><div class="sc-fill" style="width:100%"></div></div></div>
+  <div class="status-bar">
+    <span><span class="dot dot-g"></span>SYSTEM ONLINE</span>
+    <span><span class="dot dot-c"></span>ARCHIVE SYNCED</span>
+    <span><span class="dot dot-p"></span>NEURAL LINK ACTIVE</span>
   </div>
 
-  <div class="divider"><div class="divider-line"></div><div class="divider-icon">// IDENTITY_FILE //</div><div class="divider-line"></div></div>
+  <div class="terminal">
+    <div class="terminal-head">AEMEATH://ARCHIVE_SHELL · SESSION #3721</div>
+    <div><span class="t-p">aemeath@core:~$ </span><span class="t-w">init --archive --verify --watch</span></div>
+    <div><span class="t-d">[0.001] Kernel loading... </span></div>
+    <div><span class="t-d">[0.038] Neural encryption layer &nbsp;&nbsp;&nbsp;</span><span class="t-g">OK</span></div>
+    <div><span class="t-d">[0.071] Data integrity check &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="t-g">PASSED</span></div>
+    <div><span class="t-d">[0.102] Memory shards detected &nbsp;&nbsp;&nbsp;</span><span class="t-w">6 / 6</span></div>
+    <div><span class="t-d">[0.134] Archive nodes online &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="t-w">7 / 7</span></div>
+    <div><span class="t-d">[0.160] Energy matrix &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="t-c">87.4 %</span></div>
+    <div><span class="t-p">aemeath@core:~$ </span><span class="t-w">watch --live</span></div>
+    <div><span class="t-d">Monitoring live stream... </span><span class="blink"></span></div>
+  </div>
 
-  <div class="panel">
-    <div class="ph"><div class="dot"></div><div class="dot p"></div><div class="dot v"></div><div class="pt">AEMEATH :: CHARACTER_ARCHIVE</div></div>
-    <div class="pb">
-      <table class="info-tbl">
-        <tr><td>DESIGNATION</td><td>爱弥斯 <span class="badge">AI_ENTITY</span><span class="badge c">DIGITAL</span></td></tr>
-        <tr><td>CLASSIFICATION</td><td>数字档案守护者 · 星网节点</td></tr>
-        <tr><td>ORIGIN</td><td>深空网格 · 卡提希娅星光系统</td></tr>
-        <tr><td>AFFILIATION</td><td>卡提希娅的星光小站</td></tr>
-        <tr><td>ACCESS_LVL</td><td><span class="badge">CLEARANCE: MAX</span></td></tr>
-        <tr><td>LAST_SYNC</td><td id="syncTime" style="font-family:'Share Tech Mono',monospace;color:var(--nc)!important;font-size:13px">--</td></tr>
-      </table>
+  <div class="panel-grid">
+    <div class="panel">
+      <div class="panel-num">MODULE // 01</div>
+      <div class="panel-icon">⬡</div>
+      <div class="panel-title">身份档案</div>
+      <div class="panel-text">基础特征、形态参数与神经编码记录。包含生物特征索引与战斗权限凭证。</div>
+      <span class="badge badge-ok">VERIFIED</span>
+    </div>
+    <div class="panel">
+      <div class="panel-num">MODULE // 02</div>
+      <div class="panel-icon">◈</div>
+      <div class="panel-title">战斗日志</div>
+      <div class="panel-text">实战数据流记录。形态切换能耗、攻击序列与伤害输出均已完整存档。</div>
+      <span class="badge badge-sync">SYNCING</span>
+    </div>
+    <div class="panel">
+      <div class="panel-num">MODULE // 03</div>
+      <div class="panel-icon">⬟</div>
+      <div class="panel-title">记忆碎片</div>
+      <div class="panel-text">深层意识扫描片段，共 6 枚。部分数据已加密，需三阶权限方可解锁。</div>
+      <span class="badge badge-locked">ENCRYPTED</span>
+    </div>
+    <div class="panel">
+      <div class="panel-num">MODULE // 04</div>
+      <div class="panel-icon">⬠</div>
+      <div class="panel-title">关系网络</div>
+      <div class="panel-text">与卡提希娅及其他节点的连接强度图谱，权重数据实时动态更新。</div>
+      <span class="badge badge-ok">ACTIVE</span>
+    </div>
+    <div class="panel">
+      <div class="panel-num">MODULE // 05</div>
+      <div class="panel-icon">◇</div>
+      <div class="panel-title">能量矩阵</div>
+      <div class="panel-text">核心能量池状态监测，当前充能率 <span style="color:#00ff88;font-family:'Share Tech Mono'">87.4%</span>，输出功率稳定。</div>
+      <span class="badge badge-sync">LIVE</span>
+    </div>
+    <div class="panel">
+      <div class="panel-num">MODULE // 06</div>
+      <div class="panel-icon">⬡</div>
+      <div class="panel-title">系统日志</div>
+      <div class="panel-text">近期操作记录与异常事件快照，最后同步时间戳 <span style="color:var(--cyan);font-family:'Share Tech Mono'">T+00:00:12</span>。</div>
+      <span class="badge badge-ok">CLEAN</span>
     </div>
   </div>
 
-  <div class="skills-row">
-    <div class="panel" style="margin-bottom:0">
-      <div class="ph"><div class="dot"></div><div class="pt">CORE_ABILITIES</div></div>
-      <div class="pb">
-        <div class="ski"><div class="skih"><span class="skin">ARCHIVE_MGT</span><span class="skiv">99</span></div><div class="skt"><div class="skf c" style="width:99%"></div></div></div>
-        <div class="ski"><div class="skih"><span class="skin">NET_INTRUSION</span><span class="skiv">88</span></div><div class="skt"><div class="skf p" style="width:88%"></div></div></div>
-        <div class="ski"><div class="skih"><span class="skin">DATA_WEAVE</span><span class="skiv">95</span></div><div class="skt"><div class="skf v" style="width:95%"></div></div></div>
-        <div class="ski"><div class="skih"><span class="skin">SYNC_LINK</span><span class="skiv">77</span></div><div class="skt"><div class="skf g" style="width:77%"></div></div></div>
-      </div>
+  <div class="meter-block" id="meterBlock">
+    <div class="meter-title">// SYSTEM METRICS</div>
+    <div class="meter-row">
+      <div class="meter-label"><span>ENERGY CORE</span><span>87.4%</span></div>
+      <div class="meter-track"><div class="meter-fill" data-w="87.4%"></div></div>
     </div>
-    <div class="panel" style="margin-bottom:0">
-      <div class="ph"><div class="dot p"></div><div class="pt">SYSTEM_TRAITS</div></div>
-      <div class="pb">
-        <div class="ski"><div class="skih"><span class="skin">RESILIENCE</span><span class="skiv">92</span></div><div class="skt"><div class="skf c" style="width:92%"></div></div></div>
-        <div class="ski"><div class="skih"><span class="skin">STEALTH</span><span class="skiv">84</span></div><div class="skt"><div class="skf v" style="width:84%"></div></div></div>
-        <div class="ski"><div class="skih"><span class="skin">LOYALTY</span><span class="skiv">100</span></div><div class="skt"><div class="skf p" style="width:100%"></div></div></div>
-        <div class="ski"><div class="skih"><span class="skin">OVERCLK_CAP</span><span class="skiv">66</span></div><div class="skt"><div class="skf g" style="width:66%"></div></div></div>
-      </div>
+    <div class="meter-row">
+      <div class="meter-label"><span>MEMORY INTEGRITY</span><span>100%</span></div>
+      <div class="meter-track"><div class="meter-fill" data-w="100%"></div></div>
     </div>
-  </div>
-
-  <div class="divider" style="margin:40px 0 32px"><div class="divider-line"></div><div class="divider-icon">// SYSTEM_LOG //</div><div class="divider-line"></div></div>
-
-  <div class="panel">
-    <div class="ph"><div class="dot"></div><div class="pt">TERMINAL_OUTPUT</div></div>
-    <div style="padding:0">
-      <div class="terminal">
-        <span class="tl"><span class="pr">&gt;</span> INITIALIZING AEMEATH ARCHIVE... <span class="ok">[OK]</span></span>
-        <span class="tl"><span class="pr">&gt;</span> LOADING CHARACTER_DB v2.077... <span class="ok">[OK]</span></span>
-        <span class="tl"><span class="pr">&gt;</span> SYNC WITH 卡提希娅星光小站... <span class="ok">[LINKED]</span></span>
-        <span class="tl"><span class="pr">&gt;</span> SCANNING THREAT VECTORS... <span class="ok">[CLEAN]</span></span>
-        <span class="tl"><span class="pr">&gt;</span> COMPILING MEMORY SHARDS... <span class="wn">[2,077 nodes loaded]</span></span>
-        <span class="tl"><span class="pr">&gt;</span> AEMEATH ARCHIVE FULLY OPERATIONAL <span class="cursor"></span></span>
-      </div>
+    <div class="meter-row">
+      <div class="meter-label"><span>NEURAL SYNC</span><span>73.2%</span></div>
+      <div class="meter-track"><div class="meter-fill pink" data-w="73.2%"></div></div>
+    </div>
+    <div class="meter-row">
+      <div class="meter-label"><span>ARCHIVE NODES</span><span>7 / 7</span></div>
+      <div class="meter-track"><div class="meter-fill" data-w="100%"></div></div>
+    </div>
+    <div class="meter-row">
+      <div class="meter-label"><span>ENCRYPTED SHARDS</span><span>4 / 6</span></div>
+      <div class="meter-track"><div class="meter-fill pink" data-w="66.6%"></div></div>
     </div>
   </div>
 
-  <div class="footer">AEMEATH.EXE · DIGITAL ARCHIVE SYSTEM · 卡提希娅星光小站 · ALL NODES SECURE</div>
+  <div class="ae-footer">
+    AEMEATH ARCHIVE SYSTEM &nbsp;·&nbsp; BUILD 2.1.0<br>
+    ALL DATA ENCRYPTED &nbsp;·&nbsp; UNAUTHORIZED ACCESS PROHIBITED<br>
+    &copy; AEMEATH · CARTETHYIA STARLIGHT STATION
+  </div>
+
 </div>
 
 <script>
-(function(){
-  const canvas=document.getElementById('starCanvas'),ctx=canvas.getContext('2d');
-  let w,h,particles=[],mx=0,my=0;
-  function resize(){w=canvas.width=window.innerWidth;h=canvas.height=window.innerHeight;}
-  window.addEventListener('resize',resize);resize();
-  window.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;});
-  class Star{
-    constructor(){this.reset();}
-    reset(){this.x=Math.random()*w;this.y=Math.random()*h;this.r=Math.random()*1.2+0.3;this.alpha=Math.random()*0.6+0.2;this.vy=-(0.3+Math.random()*0.8);this.vx=(Math.random()-0.5)*0.3;}
-    update(){this.y+=this.vy;this.x+=this.vx;const dx=this.x-mx,dy=this.y-my,d=Math.hypot(dx,dy);if(d<100){this.x+=dx/d*0.8;this.y+=dy/d*0.8;}if(this.y<-10)this.reset();}
-    draw(){ctx.save();ctx.globalAlpha=this.alpha;const g=ctx.createRadialGradient(this.x,this.y,0,this.x,this.y,this.r*3);g.addColorStop(0,'#fff');g.addColorStop(0.5,'#05d9e8');g.addColorStop(1,'transparent');ctx.fillStyle=g;ctx.beginPath();ctx.arc(this.x,this.y,this.r*3,0,Math.PI*2);ctx.fill();ctx.restore();}
+(function () {
+  // 星空
+  const canvas = document.getElementById('aeCanvas');
+  const ctx = canvas.getContext('2d');
+  let W, H, mx = 0, my = 0;
+  const COLORS = ['#05d9e8','#ff2a6d','#b04aff','#ffffff','#7ecfdc'];
+  const resize = () => { W = canvas.width = innerWidth; H = canvas.height = innerHeight; };
+  window.addEventListener('resize', resize); resize();
+  window.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; });
+
+  class Star {
+    constructor(init) {
+      this.reset();
+      if (init) this.y = Math.random() * H;
+    }
+    reset() {
+      this.x = Math.random() * W; this.y = H + 10;
+      this.vy = -(0.3 + Math.random() * 1.2);
+      this.vx = (Math.random() - 0.5) * 0.4;
+      this.r = Math.random() * 1.3 + 0.4;
+      this.alpha = Math.random() * 0.6 + 0.4;
+      this.color = COLORS[Math.floor(Math.random() * COLORS.length)];
+    }
+    update() {
+      this.x += this.vx; this.y += this.vy;
+      const dx = this.x - mx, dy = this.y - my, d = Math.hypot(dx, dy);
+      if (d < 110) { this.x += dx/d*1.4; this.y += dy/d*1.4; }
+      if (this.y < -10 || this.x < -10 || this.x > W+10) this.reset();
+    }
+    draw() {
+      ctx.save(); ctx.globalAlpha = this.alpha;
+      const g = ctx.createRadialGradient(this.x,this.y,0,this.x,this.y,this.r*3.5);
+      g.addColorStop(0, this.color); g.addColorStop(1, 'transparent');
+      ctx.fillStyle = g; ctx.beginPath();
+      ctx.arc(this.x, this.y, this.r*3.5, 0, Math.PI*2); ctx.fill();
+      ctx.restore();
+    }
   }
-  const MAX=window.innerWidth<768?60:120;
-  for(let i=0;i<MAX;i++)particles.push(new Star());
-  function animate(){ctx.clearRect(0,0,w,h);particles.forEach(p=>{p.update();p.draw();});requestAnimationFrame(animate);}
-  animate();
-})();
 
-function updateSyncTime(){
-  const now=new Date(),pad=n=>String(n).padStart(2,'0');
-  document.getElementById('syncTime').textContent=
-    `${now.getFullYear()}-${pad(now.getMonth()+1)}-${pad(now.getDate())} ${pad(now.getHours())}:${pad(now.getMinutes())}:${pad(now.getSeconds())}`;
-}
-updateSyncTime();setInterval(updateSyncTime,1000);
+  const count = Math.min(180, Math.floor(innerWidth * innerHeight / 7000));
+  const stars = Array.from({ length: count }, () => new Star(true));
+  const tick = () => { ctx.clearRect(0,0,W,H); stars.forEach(s=>{s.update();s.draw();}); requestAnimationFrame(tick); };
+  tick();
 
-(function(){
-  const lines=document.querySelectorAll('.tl');
-  lines.forEach((line,i)=>{
-    line.style.opacity='0';line.style.transform='translateX(-8px)';line.style.transition='opacity 0.3s,transform 0.3s';
-    setTimeout(()=>{line.style.opacity='1';line.style.transform='none';},i*280+400);
-  });
+  // 进度条滚动触发
+  const fills = document.querySelectorAll('.meter-fill');
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        fills.forEach(f => f.style.width = f.dataset.w);
+        obs.disconnect();
+      }
+    });
+  }, { threshold: 0.3 });
+  obs.observe(document.getElementById('meterBlock'));
 })();
 </script>
 </body>
 </html>
-<script>
-/* 强制隔离主站JS污染 */
-document.body.classList.remove('dark-mode');
-
-/* 锁死颜色 */
-document.documentElement.style.setProperty('--primary-color', '#05d9e8');
-document.documentElement.style.setProperty('--secondary-color', '#ff2a6d');
-
-/* 禁止主站脚本改页面 */
-window.switchTheme = () => {};
-window.toggleDarkMode = () => {};
-</script>
