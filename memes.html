@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>爱播整活办 | AIBO MEME</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css">
+  <style>
+    /* 继承了主站的配色 */
+    :root { --p: #00c9a7; --bg: #050a0f; }
+    body { background: var(--bg); color: #fff; font-family: "PingFang SC", sans-serif; margin: 0; padding: 20px; }
+    
+    .nav-header { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 1px solid #222; margin-bottom: 30px; }
+    .nav-header a { color: #fff; text-decoration: none; font-size: 14px; border: 1px solid #444; padding: 5px 15px; border-radius: 4px; }
+    .nav-header a:hover { border-color: var(--p); color: var(--p); }
+
+    h1 { text-align: center; font-size: 28px; letter-spacing: 4px; color: var(--p); margin-bottom: 5px; }
+    p.sub { text-align: center; color: #666; font-size: 12px; margin-bottom: 40px; }
+
+    /* 瀑布流布局 */
+    .fan-list { 
+      columns: 3; column-gap: 15px; max-width: 1200px; margin: 0 auto; 
+    }
+    @media (max-width: 800px) { .fan-list { columns: 2; } }
+
+    .fan-item { 
+      break-inside: avoid; margin-bottom: 15px; position: relative; 
+      border: 1px solid #222; overflow: hidden; cursor: pointer; transition: 0.3s;
+    }
+    .fan-item img { width: 100%; display: block; filter: grayscale(0.2); transition: 0.3s; }
+    .fan-item:hover { border-color: var(--p); transform: translateY(-5px); box-shadow: 0 10px 20px rgba(0,201,167,0.2); }
+    .fan-item:hover img { filter: grayscale(0); }
+
+    .fan-over { 
+      position: absolute; bottom: 0; left: 0; right: 0; 
+      background: rgba(0, 201, 167, 0.8); color: #000; 
+      padding: 5px; font-size: 12px; font-weight: bold;
+      text-align: center; transform: translateY(100%); transition: 0.3s;
+    }
+    .fan-item:hover .fan-over { transform: translateY(0); }
+
+    /* 灯箱简单实现 (配合 openLb) */
+    #lb { position: fixed; inset: 0; background: rgba(0,0,0,0.9); display: none; align-items: center; justify-content: center; z-index: 1000; cursor: zoom-out; }
+    #lb.on { display: flex; }
+    #lb img { max-width: 90%; max-height: 90%; box-shadow: 0 0 30px rgba(0,0,0,0.5); border: 2px solid #333; }
+  </style>
+</head>
+<body>
+
+  <div class="nav-header">
+    <div style="font-weight:bold">AIBO_DATABASE_EXE</div>
+    <a href="index.html">← 返回主站</a>
+  </div>
+
+  <h1>爱播鬼畜表情</h1>
+  <p class="sub">单纯整活，请勿上升至主播 (๑•̀ㅂ•́)و✧</p>
+
+  <div class="fan-list">
+    <div class="fan-item" onclick="openLb('./images3/anchor1.png')">
+      <img src="./images3/anchor1.png" loading="lazy">
+      <div class="fan-over">表情 · 01</div>
+    </div>
+    <div class="fan-item" onclick="openLb('./images3/anchor2.png')">
+      <img src="./images3/anchor2.png" loading="lazy">
+      <div class="fan-over">表情 · 02</div>
+    </div>
+    <div class="fan-item" onclick="openLb('./images3/anchor3.png')">
+      <img src="./images3/anchor3.png" loading="lazy">
+      <div class="fan-over">表情 · 03</div>
+    </div>
+    <div class="fan-item" onclick="openLb('./images3/anchor4.png')">
+      <img src="./images3/anchor4.png" loading="lazy">
+      <div class="fan-over">表情 · 04</div>
+    </div>
+    <div class="fan-item" onclick="openLb('./images3/anchor5.png')">
+      <img src="./images3/anchor5.png" loading="lazy">
+      <div class="fan-over">表情 · 05</div>
+    </div>
+    <div class="fan-item" onclick="openLb('./images3/anchor6.png')">
+      <img src="./images3/anchor6.png" loading="lazy">
+      <div class="fan-over">表情 · 06</div>
+    </div>
+    <div class="fan-item" onclick="openLb('./images3/gay1.png')">
+      <img src="./images3/gay1.png" loading="lazy">
+      <div class="fan-over">表情 · 07</div>
+    </div>
+    <div class="fan-item" onclick="openLb('./images3/gay2.png')">
+      <img src="./images3/gay2.png" loading="lazy">
+      <div class="fan-over">表情 · 08</div>
+    </div>
+    <div class="fan-item" onclick="openLb('./images3/gay3.png')">
+      <img src="./images3/gay3.png" loading="lazy">
+      <div class="fan-over">表情 · 09</div>
+    </div>
+    <div class="fan-item" onclick="openLb('./images3/gay4.png')">
+      <img src="./images3/gay4.png" loading="lazy">
+      <div class="fan-over">表情 · 10</div>
+    </div>
+    <div class="fan-item" onclick="openLb('./images3/gay5.png')">
+      <img src="./images3/gay5.png" loading="lazy">
+      <div class="fan-over">表情 · 11</div>
+    </div>
+    <div class="fan-item" onclick="openLb('./images3/gay6.png')">
+      <img src="./images3/gay6.png" loading="lazy">
+      <div class="fan-over">表情 · 12</div>
+    </div>
+  </div>
+
+  <div id="lb" onclick="closeLb()">
+    <img id="lbImg" src="">
+  </div>
+
+  <script>
+    function openLb(src) {
+      document.getElementById('lbImg').src = src;
+      document.getElementById('lb').classList.add('on');
+    }
+    function closeLb() {
+      document.getElementById('lb').classList.remove('on');
+    }
+  </script>
+
+</body>
+</html>

@@ -1,12 +1,13 @@
 main:
   push:
     docker:
-      image: nginx:alpine  # 用 Nginx 容器托管静态文件（最稳定的静态托管方案）
+      image: nginx:alpine
       volumes:
-        - ./:/usr/share/nginx/html  # 将仓库文件映射到 Nginx 根目录
+        - ./:/usr/share/nginx/html
   stages:
     - deploy
   deploy:
     stage: deploy
     script:
-      - echo "静态网站构建完成"
+      - echo "检测到多页面结构更新 (Home, Hong_Kong, Travel, Memes)"
+      - echo "静态网站部署成功"
