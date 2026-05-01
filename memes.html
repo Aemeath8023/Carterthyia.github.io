@@ -8,245 +8,308 @@
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
   <style>
     :root { --p: #00c9a7; --bg: #050a0f; }
-    body { background: var(--bg); color: #fff; font-family: "PingFang SC", sans-serif; margin: 0; padding: 20px; }
+    *, *::before, *::after { box-sizing: border-box; }
+    body { background: var(--bg); color: #fff; font-family: "PingFang SC", sans-serif; margin: 0; padding: 20px; overflow-x: hidden; }
 
-    .nav-header { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 1px solid #222; margin-bottom: 30px; }
-    .nav-header a { color: #fff; text-decoration: none; font-size: 14px; border: 1px solid #444; padding: 5px 15px; border-radius: 4px; }
+    /* ── 顶部导航 ── */
+    .nav-header { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 1px solid #1a1a1a; margin-bottom: 30px; }
+    .nav-header a { color: #fff; text-decoration: none; font-size: 14px; border: 1px solid #333; padding: 5px 15px; border-radius: 4px; transition: .2s; }
     .nav-header a:hover { border-color: var(--p); color: var(--p); }
 
-    h1 { text-align: center; font-size: 28px; letter-spacing: 4px; color: var(--p); margin-bottom: 5px; }
-    p.sub { text-align: center; color: #666; font-size: 12px; margin-bottom: 20px; }
+    h1 { text-align: center; font-size: 28px; letter-spacing: 4px; color: var(--p); margin-bottom: 5px;
+      text-shadow: 0 0 20px rgba(0,201,167,.4); }
+    p.sub { text-align: center; color: #555; font-size: 12px; margin-bottom: 20px; }
 
-    /* 工具栏 */
-    .toolbar {
-      max-width: 1200px; margin: 0 auto 24px; display: flex; gap: 10px; align-items: center; flex-wrap: wrap;
-    }
-    .sort-label { color: #888; font-size: 13px; margin-right: 2px; }
+    /* ── 工具栏 ── */
+    .toolbar { max-width: 1200px; margin: 0 auto 24px; display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+    .sort-label { color: #666; font-size: 13px; }
     .sort-btn {
-      background: transparent; border: 1px solid #444; color: #aaa;
-      padding: 5px 14px; border-radius: 4px; cursor: pointer; font-size: 13px; transition: 0.2s;
+      background: transparent; border: 1px solid #333; color: #888;
+      padding: 5px 14px; border-radius: 4px; cursor: pointer; font-size: 13px;
+      transition: border-color .2s, color .2s, box-shadow .2s;
     }
-    .sort-btn.active, .sort-btn:hover { border-color: var(--p); color: var(--p); }
+    .sort-btn.active, .sort-btn:hover { border-color: var(--p); color: var(--p); box-shadow: 0 0 8px rgba(0,201,167,.25); }
     .upload-btn {
       margin-left: auto; background: var(--p); color: #000; border: none;
       padding: 7px 20px; border-radius: 4px; cursor: pointer; font-size: 14px;
-      font-weight: bold; display: flex; align-items: center; gap: 6px; transition: 0.2s;
+      font-weight: bold; display: flex; align-items: center; gap: 6px;
+      position: relative; overflow: hidden;
+      box-shadow: 0 0 0 rgba(0,201,167,0);
+      transition: box-shadow .3s, opacity .2s;
     }
-    .upload-btn:hover { opacity: 0.85; }
+    .upload-btn:hover { box-shadow: 0 0 20px rgba(0,201,167,.5); }
+    /* 按钮呼吸光环 */
+    .upload-btn::before {
+      content: ''; position: absolute; inset: -2px;
+      border-radius: 6px;
+      background: conic-gradient(from var(--a,0deg), #00c9a7, #00ffd5, #00c9a7);
+      animation: spin 3s linear infinite;
+      z-index: -1; opacity: 0; transition: opacity .3s;
+    }
+    .upload-btn:hover::before { opacity: 1; }
+    @keyframes spin { to { --a: 360deg; } }
+    @property --a { syntax: '<angle>'; initial-value: 0deg; inherits: false; }
 
-    /* 缩略图网格 */
+    /* ── 网格 ── */
     .fan-list {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
-      gap: 10px;
-      max-width: 1200px;
-      margin: 0 auto;
+      grid-template-columns: repeat(auto-fill, minmax(138px, 1fr));
+      gap: 10px; max-width: 1200px; margin: 0 auto;
     }
-    @media (max-width: 600px) {
-      .fan-list { grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); gap: 7px; }
-    }
+    @media (max-width: 600px) { .fan-list { grid-template-columns: repeat(auto-fill, minmax(95px,1fr)); gap: 7px; } }
 
-    /* 每个缩略图卡片 */
+    /* ── 卡片 ── */
     .fan-item {
-      position: relative;
-      width: 100%;
-      aspect-ratio: 1 / 1;
-      border-radius: 6px;
-      overflow: hidden;
-      cursor: pointer;
-      border: 1px solid #1a1a1a;
-      background: #0d1117;
+      position: relative; width: 100%; aspect-ratio: 1/1;
+      border-radius: 8px; overflow: hidden; cursor: pointer;
+      border: 1px solid #1c1c1c; background: #090e12;
+      transform-style: preserve-3d; perspective: 600px;
+      transition: border-color .3s, box-shadow .3s;
 
-      /* 入场动画 */
-      opacity: 0;
-      transform: scale(0.85) translateY(12px);
-      animation: popIn 0.35s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+      /* 入场 */
+      opacity: 0; transform: scale(.82) translateY(16px);
+      animation: popIn .45s cubic-bezier(.34,1.56,.64,1) forwards;
     }
+    @keyframes popIn { to { opacity:1; transform:scale(1) translateY(0); } }
 
-    @keyframes popIn {
-      to { opacity: 1; transform: scale(1) translateY(0); }
-    }
+    /* 交错延迟 */
+    .fan-item:nth-child(1)  { animation-delay:.03s }
+    .fan-item:nth-child(2)  { animation-delay:.06s }
+    .fan-item:nth-child(3)  { animation-delay:.09s }
+    .fan-item:nth-child(4)  { animation-delay:.12s }
+    .fan-item:nth-child(5)  { animation-delay:.15s }
+    .fan-item:nth-child(6)  { animation-delay:.18s }
+    .fan-item:nth-child(7)  { animation-delay:.21s }
+    .fan-item:nth-child(8)  { animation-delay:.24s }
+    .fan-item:nth-child(9)  { animation-delay:.27s }
+    .fan-item:nth-child(10) { animation-delay:.30s }
+    .fan-item:nth-child(11) { animation-delay:.33s }
+    .fan-item:nth-child(12) { animation-delay:.36s }
+    .fan-item:nth-child(n+13){ animation-delay:.38s }
 
-    /* 图片/视频填满正方形 */
-    .fan-item img,
-    .fan-item video {
-      width: 100%; height: 100%;
-      object-fit: cover;
-      display: block;
-      transition: transform 0.35s ease, filter 0.35s ease;
-      filter: grayscale(0.15) brightness(0.9);
-    }
-
-    /* Hover：放大 + 亮起 + 边框发光 */
+    /* hover 发光边框 */
     .fan-item:hover {
       border-color: var(--p);
-      box-shadow: 0 0 0 1px var(--p), 0 6px 24px rgba(0,201,167,0.35);
-      z-index: 2;
-    }
-    .fan-item:hover img,
-    .fan-item:hover video {
-      transform: scale(1.08);
-      filter: grayscale(0) brightness(1);
+      box-shadow: 0 0 0 1px var(--p), 0 8px 32px rgba(0,201,167,.35), inset 0 0 20px rgba(0,201,167,.05);
     }
 
-    /* 悬停遮罩 */
-    .fan-item::after {
+    /* 图片/视频 */
+    .fan-item img, .fan-item video {
+      width: 100%; height: 100%; object-fit: cover; display: block;
+      transition: transform .4s ease, filter .35s ease;
+      filter: grayscale(.1) brightness(.88);
+      will-change: transform;
+    }
+    .fan-item:hover img, .fan-item:hover video {
+      transform: scale(1.1); filter: grayscale(0) brightness(1);
+    }
+
+    /* 扫光 overlay */
+    .fan-item::before {
       content: '';
-      position: absolute; inset: 0;
-      background: linear-gradient(160deg, rgba(0,201,167,0.18) 0%, transparent 60%);
-      opacity: 0;
-      transition: opacity 0.3s;
+      position: absolute; top: 0; left: -75%;
+      width: 50%; height: 100%;
+      background: linear-gradient(120deg, transparent 30%, rgba(255,255,255,.12) 50%, transparent 70%);
+      transform: skewX(-20deg);
+      transition: none; z-index: 3; pointer-events: none;
+    }
+    .fan-item:hover::before {
+      animation: sweep .55s ease forwards;
+    }
+    @keyframes sweep { to { left: 130%; } }
+
+    /* 渐变遮罩底层 */
+    .fan-item::after {
+      content: ''; position: absolute; inset: 0;
+      background: linear-gradient(170deg, rgba(0,201,167,.12) 0%, transparent 55%);
+      opacity: 0; transition: opacity .3s; pointer-events: none; z-index: 2;
     }
     .fan-item:hover::after { opacity: 1; }
 
     /* 标题条 */
     .fan-over {
-      position: absolute; bottom: 0; left: 0; right: 0;
-      background: linear-gradient(to top, rgba(0,0,0,0.85) 0%, transparent 100%);
-      color: #fff; padding: 18px 6px 5px;
-      font-size: 11px; text-align: center;
-      transform: translateY(100%); transition: transform 0.28s ease;
+      position: absolute; bottom: 0; left: 0; right: 0; z-index: 4;
+      background: linear-gradient(to top, rgba(0,0,0,.88) 0%, transparent 100%);
+      color: #e0e0e0; padding: 20px 6px 5px;
+      font-size: 10px; text-align: center;
+      transform: translateY(100%); transition: transform .3s ease;
       white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
     }
     .fan-item:hover .fan-over { transform: translateY(0); }
 
     /* 视频播放图标 */
     .video-icon {
-      position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
-      width: 36px; height: 36px; background: rgba(0,201,167,0.85); border-radius: 50%;
-      display: flex; align-items: center; justify-content: center; pointer-events: none;
-      transition: transform 0.25s, opacity 0.25s;
+      position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%);
+      width: 34px; height: 34px; background: rgba(0,201,167,.88); border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      pointer-events: none; z-index: 4;
+      transition: transform .25s, box-shadow .25s;
     }
-    .video-icon i { color: #000; font-size: 13px; margin-left: 2px; }
-    .fan-item:hover .video-icon { transform: translate(-50%,-50%) scale(1.15); opacity: 0.9; }
+    .video-icon i { color: #000; font-size: 12px; margin-left: 2px; }
+    .fan-item:hover .video-icon {
+      transform: translate(-50%,-50%) scale(1.2);
+      box-shadow: 0 0 16px rgba(0,201,167,.6);
+    }
 
-    /* 类型角标 */
-    .type-badge {
-      position: absolute; top: 5px; left: 5px;
-      background: rgba(0,0,0,0.6); color: var(--p);
-      font-size: 9px; padding: 2px 5px; border-radius: 3px;
-      letter-spacing: 0.5px;
+    /* 扫描线（仅视频） */
+    .scanline {
+      position: absolute; inset: 0; z-index: 3; pointer-events: none; overflow: hidden;
     }
+    .scanline::after {
+      content: '';
+      position: absolute; left: 0; right: 0; height: 2px;
+      background: linear-gradient(90deg, transparent, rgba(0,201,167,.5), transparent);
+      top: -100%;
+      opacity: 0;
+      transition: opacity .2s;
+    }
+    .fan-item:hover .scanline::after {
+      opacity: 1;
+      animation: scanDown .8s linear infinite;
+    }
+    @keyframes scanDown { to { top: 110%; } }
+
+    /* 角标 */
+    .type-badge {
+      position: absolute; top: 5px; left: 5px; z-index: 5;
+      background: rgba(0,0,0,.65); color: var(--p);
+      font-size: 8px; padding: 2px 5px; border-radius: 3px;
+      letter-spacing: .8px; font-weight: bold;
+      transition: background .2s;
+    }
+    .fan-item:hover .type-badge { background: rgba(0,201,167,.25); }
 
     /* 删除按钮 */
     .delete-btn {
       position: absolute; top: 5px; right: 5px;
-      background: rgba(255,50,50,0.85); border: none; color: #fff;
+      background: rgba(220,40,40,.85); border: none; color: #fff;
       width: 20px; height: 20px; border-radius: 50%;
-      cursor: pointer; font-size: 12px; display: none;
+      cursor: pointer; font-size: 13px; display: none;
       align-items: center; justify-content: center; z-index: 10; line-height: 1;
+      transition: transform .2s, background .2s;
     }
     .fan-item:hover .delete-btn { display: flex; }
-    .delete-btn:hover { background: #ff1a1a; }
+    .delete-btn:hover { background: #ff1a1a; transform: scale(1.2) rotate(90deg); }
 
-    /* 入场动画交错延迟 */
-    .fan-item:nth-child(1)  { animation-delay: 0.02s }
-    .fan-item:nth-child(2)  { animation-delay: 0.04s }
-    .fan-item:nth-child(3)  { animation-delay: 0.06s }
-    .fan-item:nth-child(4)  { animation-delay: 0.08s }
-    .fan-item:nth-child(5)  { animation-delay: 0.10s }
-    .fan-item:nth-child(6)  { animation-delay: 0.12s }
-    .fan-item:nth-child(7)  { animation-delay: 0.14s }
-    .fan-item:nth-child(8)  { animation-delay: 0.16s }
-    .fan-item:nth-child(9)  { animation-delay: 0.18s }
-    .fan-item:nth-child(10) { animation-delay: 0.20s }
-    .fan-item:nth-child(11) { animation-delay: 0.22s }
-    .fan-item:nth-child(12) { animation-delay: 0.24s }
-    .fan-item:nth-child(n+13) { animation-delay: 0.26s }
+    /* Ripple */
+    .ripple {
+      position: absolute; border-radius: 50%;
+      background: rgba(0,201,167,.35);
+      transform: scale(0); animation: rippleOut .55s linear;
+      pointer-events: none; z-index: 6;
+    }
+    @keyframes rippleOut { to { transform: scale(4); opacity: 0; } }
 
-    /* 骨架屏占位 */
+    /* 骨架屏 */
     .skeleton {
-      aspect-ratio: 1/1; border-radius: 6px;
-      background: linear-gradient(90deg, #0d1117 25%, #131c22 50%, #0d1117 75%);
+      aspect-ratio: 1/1; border-radius: 8px;
+      background: linear-gradient(90deg, #0d1117 25%, #14202a 50%, #0d1117 75%);
       background-size: 200% 100%;
-      animation: shimmer 1.4s infinite;
+      animation: shimmer 1.5s infinite;
     }
     @keyframes shimmer { to { background-position: -200% 0; } }
 
-    /* 灯箱 */
+    /* ── 灯箱 ── */
     #lb {
-      position: fixed; inset: 0; background: rgba(0,0,0,0.94);
+      position: fixed; inset: 0;
+      background: rgba(0,0,0,0); backdrop-filter: blur(0px);
       display: none; align-items: center; justify-content: center; z-index: 1000;
-      animation: fadeIn 0.2s ease;
+      transition: background .3s, backdrop-filter .3s;
     }
-    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-    #lb.on { display: flex; }
+    #lb.on { display: flex; background: rgba(0,0,0,.9); backdrop-filter: blur(10px); }
     #lbImg {
-      max-width: 92vw; max-height: 90vh;
-      border-radius: 6px; border: 1px solid #333;
-      box-shadow: 0 0 60px rgba(0,201,167,0.15);
+      max-width: 92vw; max-height: 90vh; border-radius: 8px;
+      border: 1px solid #2a2a2a;
+      box-shadow: 0 0 80px rgba(0,201,167,.2);
       display: none;
-      animation: zoomIn 0.25s cubic-bezier(0.34,1.56,0.64,1);
+      animation: lbZoom .3s cubic-bezier(.34,1.56,.64,1);
     }
-    @keyframes zoomIn { from { transform: scale(0.88); opacity: 0; } to { transform: scale(1); opacity: 1; } }
     #lbImg.on { display: block; }
     #lbVideo {
-      max-width: 92vw; max-height: 90vh;
-      border-radius: 6px; border: 1px solid #333;
-      box-shadow: 0 0 60px rgba(0,201,167,0.15);
+      max-width: 92vw; max-height: 90vh; border-radius: 8px;
+      border: 1px solid #2a2a2a;
+      box-shadow: 0 0 80px rgba(0,201,167,.2);
       display: none;
-      animation: zoomIn 0.25s cubic-bezier(0.34,1.56,0.64,1);
+      animation: lbZoom .3s cubic-bezier(.34,1.56,.64,1);
     }
     #lbVideo.on { display: block; }
+    @keyframes lbZoom { from { transform: scale(.88); opacity:0; } to { transform: scale(1); opacity:1; } }
     .lb-close {
-      position: fixed; top: 18px; right: 26px; font-size: 30px; color: #fff;
-      cursor: pointer; z-index: 1001; opacity: 0.6; transition: 0.2s; line-height: 1;
+      position: fixed; top: 18px; right: 26px; font-size: 30px;
+      color: #fff; cursor: pointer; z-index: 1001; opacity: .55;
+      transition: opacity .2s, transform .3s, color .2s; line-height: 1;
     }
-    .lb-close:hover { opacity: 1; color: var(--p); transform: rotate(90deg); }
+    .lb-close:hover { opacity: 1; color: var(--p); transform: rotate(90deg) scale(1.1); }
 
-    /* 上传弹窗 */
+    /* ── 上传弹窗 ── */
     #uploadModal {
-      position: fixed; inset: 0; background: rgba(0,0,0,0.8);
+      position: fixed; inset: 0; background: rgba(0,0,0,.8);
       display: none; align-items: center; justify-content: center; z-index: 2000;
+      backdrop-filter: blur(6px);
     }
     #uploadModal.on { display: flex; }
+    #uploadModal.on .modal-box { animation: slideUp .3s cubic-bezier(.34,1.3,.64,1); }
+    @keyframes slideUp { from { transform: translateY(30px); opacity:0; } to { transform: translateY(0); opacity:1; } }
     .modal-box {
-      background: #0d1a1f; border: 1px solid #2a2a2a; border-radius: 10px;
+      background: #0b161c; border: 1px solid #222; border-radius: 12px;
       padding: 28px; width: 420px; max-width: 95vw;
     }
     .modal-box h2 { margin: 0 0 18px; color: var(--p); font-size: 17px; }
-    .modal-box label { display: block; color: #aaa; font-size: 12px; margin-bottom: 5px; }
+    .modal-box label { display: block; color: #888; font-size: 12px; margin-bottom: 5px; }
     .modal-box input[type="text"] {
-      width: 100%; box-sizing: border-box; background: #111; border: 1px solid #2a2a2a;
-      color: #fff; padding: 8px 12px; border-radius: 4px; font-size: 14px; margin-bottom: 14px;
+      width: 100%; background: #0d1117; border: 1px solid #222;
+      color: #fff; padding: 8px 12px; border-radius: 5px; font-size: 14px; margin-bottom: 14px;
+      transition: border-color .2s, box-shadow .2s;
     }
-    .modal-box input[type="text"]:focus { outline: none; border-color: var(--p); }
+    .modal-box input[type="text"]:focus { outline: none; border-color: var(--p); box-shadow: 0 0 8px rgba(0,201,167,.2); }
 
     .drop-zone {
-      border: 2px dashed #2a2a2a; border-radius: 8px; padding: 28px 16px;
-      text-align: center; color: #555; cursor: pointer; transition: 0.2s; margin-bottom: 14px;
+      border: 2px dashed #252525; border-radius: 8px; padding: 26px 16px;
+      text-align: center; color: #555; cursor: pointer; transition: .25s; margin-bottom: 14px;
     }
-    .drop-zone:hover, .drop-zone.drag-over { border-color: var(--p); color: var(--p); }
+    .drop-zone:hover, .drop-zone.drag-over { border-color: var(--p); color: var(--p); background: rgba(0,201,167,.04); }
     .drop-zone i { font-size: 28px; display: block; margin-bottom: 7px; }
     .drop-zone span { font-size: 13px; }
-    .drop-zone .hint { font-size: 10px; color: #444; margin-top: 5px; }
+    .drop-zone .hint { font-size: 10px; color: #3a3a3a; margin-top: 5px; }
     #fileInput { display: none; }
 
     .preview-box { margin-bottom: 14px; display: none; text-align: center; }
-    .preview-box img, .preview-box video {
-      max-width: 100%; max-height: 180px; border-radius: 4px; border: 1px solid #2a2a2a;
-    }
-    .preview-name { font-size: 11px; color: #666; margin-top: 5px; }
+    .preview-box img, .preview-box video { max-width: 100%; max-height: 170px; border-radius: 5px; border: 1px solid #222; }
+    .preview-name { font-size: 11px; color: #555; margin-top: 5px; }
 
-    .progress-bar-wrap { background: #111; border-radius: 4px; height: 5px; margin-bottom: 12px; display: none; }
-    .progress-bar { height: 5px; background: var(--p); border-radius: 4px; width: 0%; transition: width 0.25s; }
+    .progress-bar-wrap { background: #0d1117; border-radius: 4px; height: 5px; margin-bottom: 12px; display: none; overflow: hidden; }
+    .progress-bar {
+      height: 5px; background: linear-gradient(90deg, var(--p), #00ffd5);
+      border-radius: 4px; width: 0%; transition: width .25s;
+      box-shadow: 0 0 8px rgba(0,201,167,.5);
+    }
 
     .modal-actions { display: flex; gap: 10px; justify-content: flex-end; }
-    .btn-cancel { background: transparent; border: 1px solid #333; color: #888; padding: 7px 18px; border-radius: 4px; cursor: pointer; font-size: 13px; }
-    .btn-cancel:hover { color: #fff; border-color: #666; }
-    .btn-submit { background: var(--p); color: #000; border: none; padding: 7px 22px; border-radius: 4px; cursor: pointer; font-size: 13px; font-weight: bold; }
-    .btn-submit:hover { opacity: 0.85; }
-    .btn-submit:disabled { opacity: 0.35; cursor: not-allowed; }
+    .btn-cancel { background: transparent; border: 1px solid #2a2a2a; color: #777; padding: 7px 18px; border-radius: 5px; cursor: pointer; font-size: 13px; transition: .2s; }
+    .btn-cancel:hover { color: #fff; border-color: #555; }
+    .btn-submit { background: var(--p); color: #000; border: none; padding: 7px 22px; border-radius: 5px; cursor: pointer; font-size: 13px; font-weight: bold; transition: opacity .2s, box-shadow .2s; }
+    .btn-submit:hover { box-shadow: 0 0 14px rgba(0,201,167,.5); }
+    .btn-submit:disabled { opacity: .3; cursor: not-allowed; }
 
-    .error-msg { color: #ff6b6b; font-size: 11px; margin-bottom: 10px; display: none; }
-    .loading-hint { text-align: center; color: #444; padding: 50px 0; font-size: 13px; grid-column: 1/-1; }
-    .empty-hint { text-align: center; color: #333; padding: 50px 0; font-size: 13px; display: none; }
+    .error-msg { color: #ff6060; font-size: 11px; margin-bottom: 10px; display: none; }
+    .empty-hint { text-align: center; color: #2a2a2a; padding: 50px 0; font-size: 13px; display: none; }
+
+    /* ── 成功粒子 ── */
+    .particle {
+      position: fixed; width: 7px; height: 7px; border-radius: 50%;
+      pointer-events: none; z-index: 9999;
+      animation: fly var(--d,.8s) ease-out forwards;
+    }
+    @keyframes fly {
+      0%   { transform: translate(0,0) scale(1); opacity: 1; }
+      100% { transform: translate(var(--tx,40px), var(--ty,-80px)) scale(0); opacity: 0; }
+    }
   </style>
 </head>
 <body>
 
   <div class="nav-header">
-    <div style="font-weight:bold">AIBO_DATABASE_EXE</div>
+    <div style="font-weight:bold; letter-spacing:2px">AIBO_DATABASE_EXE</div>
     <a href="index.html">← 返回主站</a>
   </div>
 
@@ -255,17 +318,16 @@
 
   <div class="toolbar">
     <span class="sort-label">排序：</span>
-    <button class="sort-btn active" data-sort="newest" onclick="setSort('newest')">最新</button>
-    <button class="sort-btn" data-sort="oldest" onclick="setSort('oldest')">最旧</button>
-    <button class="sort-btn" data-sort="type-img" onclick="setSort('type-img')">图片优先</button>
-    <button class="sort-btn" data-sort="type-vid" onclick="setSort('type-vid')">视频优先</button>
-    <button class="upload-btn" onclick="openUpload()">
+    <button class="sort-btn active" data-sort="newest"   onclick="setSort('newest')">最新</button>
+    <button class="sort-btn"        data-sort="oldest"   onclick="setSort('oldest')">最旧</button>
+    <button class="sort-btn"        data-sort="type-img" onclick="setSort('type-img')">图片优先</button>
+    <button class="sort-btn"        data-sort="type-vid" onclick="setSort('type-vid')">视频优先</button>
+    <button class="upload-btn" id="uploadBtnMain" onclick="openUpload()">
       <i class="fa fa-plus"></i> 上传图片 / 视频
     </button>
   </div>
 
   <div class="fan-list" id="fanList">
-    <!-- 骨架屏占位 -->
     <div class="skeleton"></div><div class="skeleton"></div><div class="skeleton"></div>
     <div class="skeleton"></div><div class="skeleton"></div><div class="skeleton"></div>
     <div class="skeleton"></div><div class="skeleton"></div><div class="skeleton"></div>
@@ -282,14 +344,14 @@
   <!-- 上传弹窗 -->
   <div id="uploadModal">
     <div class="modal-box" onclick="event.stopPropagation()">
-      <h2><i class="fa fa-upload"></i> 上传内容</h2>
+      <h2><i class="fa fa-upload"></i>&nbsp; 上传内容</h2>
       <label>标题（可选）</label>
       <input type="text" id="titleInput" placeholder="给这条内容起个名字…" maxlength="30">
 
       <div class="drop-zone" id="dropZone" onclick="document.getElementById('fileInput').click()">
         <i class="fa fa-cloud-upload"></i>
         <span>点击或拖拽文件到此处</span>
-        <div class="hint">支持图片（JPG/PNG/GIF/WEBP）及视频（MP4/WEBM），视频不超过 25 MB</div>
+        <div class="hint">图片（JPG / PNG / GIF / WEBP）· 视频（MP4 / WEBM）· 视频不超过 25 MB</div>
       </div>
       <input type="file" id="fileInput" accept="image/*,video/mp4,video/webm">
 
@@ -312,127 +374,144 @@
   </div>
 
   <script>
+    /* ── Supabase ── */
     const { createClient } = supabase;
     const sb = createClient(
       'https://jrhpeyqzntpmnzerhuil.supabase.co',
       'sb_publishable_3yfGRhVBH2R99InGyyrDcQ_s1PyI4PZ'
     );
-    const BUCKET = 'memes';
-    const TABLE  = 'meme_items';
+    const BUCKET = 'memes', TABLE = 'meme_items';
 
     const BUILTIN = [
-      { title: '表情 · 01', type: 'image', url: './images3/anchor1.png', builtin: true, ts: 1000 },
-      { title: '表情 · 02', type: 'image', url: './images3/anchor2.png', builtin: true, ts: 1001 },
-      { title: '表情 · 03', type: 'image', url: './images3/anchor3.png', builtin: true, ts: 1002 },
-      { title: '表情 · 04', type: 'image', url: './images3/anchor4.png', builtin: true, ts: 1003 },
-      { title: '表情 · 05', type: 'image', url: './images3/anchor5.png', builtin: true, ts: 1004 },
-      { title: '表情 · 06', type: 'image', url: './images3/anchor6.png', builtin: true, ts: 1005 },
-      { title: '表情 · 07', type: 'image', url: './images3/gay1.png',    builtin: true, ts: 1006 },
-      { title: '表情 · 08', type: 'image', url: './images3/gay2.png',    builtin: true, ts: 1007 },
-      { title: '表情 · 09', type: 'image', url: './images3/gay3.png',    builtin: true, ts: 1008 },
-      { title: '表情 · 10', type: 'image', url: './images3/gay4.png',    builtin: true, ts: 1009 },
-      { title: '表情 · 11', type: 'image', url: './images3/gay5.png',    builtin: true, ts: 1010 },
-      { title: '表情 · 12', type: 'image', url: './images3/gay6.png',    builtin: true, ts: 1011 },
+      { title:'表情·01', type:'image', url:'./images3/anchor1.png', builtin:true, ts:1000 },
+      { title:'表情·02', type:'image', url:'./images3/anchor2.png', builtin:true, ts:1001 },
+      { title:'表情·03', type:'image', url:'./images3/anchor3.png', builtin:true, ts:1002 },
+      { title:'表情·04', type:'image', url:'./images3/anchor4.png', builtin:true, ts:1003 },
+      { title:'表情·05', type:'image', url:'./images3/anchor5.png', builtin:true, ts:1004 },
+      { title:'表情·06', type:'image', url:'./images3/anchor6.png', builtin:true, ts:1005 },
+      { title:'表情·07', type:'image', url:'./images3/gay1.png',    builtin:true, ts:1006 },
+      { title:'表情·08', type:'image', url:'./images3/gay2.png',    builtin:true, ts:1007 },
+      { title:'表情·09', type:'image', url:'./images3/gay3.png',    builtin:true, ts:1008 },
+      { title:'表情·10', type:'image', url:'./images3/gay4.png',    builtin:true, ts:1009 },
+      { title:'表情·11', type:'image', url:'./images3/gay5.png',    builtin:true, ts:1010 },
+      { title:'表情·12', type:'image', url:'./images3/gay6.png',    builtin:true, ts:1011 },
     ];
 
-    let currentSort = 'newest';
-    let allItems = [];
-
+    /* ── 排序 ── */
+    let currentSort = 'newest', allItems = [];
     function setSort(mode) {
       currentSort = mode;
-      document.querySelectorAll('.sort-btn').forEach(b =>
-        b.classList.toggle('active', b.dataset.sort === mode)
-      );
+      document.querySelectorAll('.sort-btn').forEach(b => b.classList.toggle('active', b.dataset.sort === mode));
       renderList();
     }
-
     function sortItems(items) {
-      const arr = [...items];
-      if (currentSort === 'newest')   return arr.sort((a, b) => b.ts - a.ts);
-      if (currentSort === 'oldest')   return arr.sort((a, b) => a.ts - b.ts);
-      if (currentSort === 'type-img') return arr.sort((a, b) => a.type === 'image' ? -1 : 1);
-      if (currentSort === 'type-vid') return arr.sort((a, b) => a.type === 'video' ? -1 : 1);
-      return arr;
+      const a = [...items];
+      if (currentSort === 'newest')   return a.sort((x,y) => y.ts - x.ts);
+      if (currentSort === 'oldest')   return a.sort((x,y) => x.ts - y.ts);
+      if (currentSort === 'type-img') return a.sort((x,y) => x.type==='image'?-1:1);
+      if (currentSort === 'type-vid') return a.sort((x,y) => x.type==='video'?-1:1);
+      return a;
     }
 
+    /* ── 渲染 ── */
     function renderList() {
       const list = document.getElementById('fanList');
       const hint = document.getElementById('emptyHint');
       const sorted = sortItems(allItems);
       list.innerHTML = '';
-
-      if (!sorted.length) { hint.style.display = 'block'; return; }
-      hint.style.display = 'none';
+      if (!sorted.length) { hint.style.display='block'; return; }
+      hint.style.display='none';
 
       sorted.forEach(item => {
         const div = document.createElement('div');
         div.className = 'fan-item';
-        div.onclick = () => openLb(item);
 
+        /* 媒体 */
         if (item.type === 'video') {
           const vid = document.createElement('video');
           vid.src = item.url; vid.muted = true; vid.loop = true; vid.preload = 'metadata';
           div.appendChild(vid);
           div.addEventListener('mouseenter', () => vid.play());
-          div.addEventListener('mouseleave', () => { vid.pause(); vid.currentTime = 0; });
-          const icon = document.createElement('div');
-          icon.className = 'video-icon';
-          icon.innerHTML = '<i class="fa fa-play"></i>';
-          div.appendChild(icon);
+          div.addEventListener('mouseleave', () => { vid.pause(); vid.currentTime=0; });
+          div.appendChild(Object.assign(document.createElement('div'), {
+            className:'video-icon', innerHTML:'<i class="fa fa-play"></i>'
+          }));
+          /* 扫描线 */
+          div.appendChild(Object.assign(document.createElement('div'),{className:'scanline'}));
         } else {
           const img = document.createElement('img');
           img.src = item.url; img.loading = 'lazy';
           div.appendChild(img);
         }
 
-        // 角标
-        const badge = document.createElement('div');
-        badge.className = 'type-badge';
-        badge.textContent = item.type === 'video' ? 'VID' : 'IMG';
-        div.appendChild(badge);
+        /* 角标 */
+        div.appendChild(Object.assign(document.createElement('div'),{
+          className:'type-badge', textContent: item.type==='video'?'VID':'IMG'
+        }));
 
-        // 标题条
-        const over = document.createElement('div');
-        over.className = 'fan-over';
-        over.textContent = item.title || '无标题';
-        div.appendChild(over);
+        /* 标题 */
+        div.appendChild(Object.assign(document.createElement('div'),{
+          className:'fan-over', textContent: item.title||'无标题'
+        }));
 
-        // 删除按钮（非内置）
+        /* 删除 */
         if (!item.builtin) {
           const del = document.createElement('button');
-          del.className = 'delete-btn'; del.title = '删除'; del.innerHTML = '&times;';
+          del.className = 'delete-btn'; del.innerHTML = '&times;';
           del.onclick = e => { e.stopPropagation(); deleteItem(item); };
           div.appendChild(del);
         }
+
+        /* 3D 倾斜 */
+        div.addEventListener('mousemove', e => {
+          const r = div.getBoundingClientRect();
+          const x = (e.clientX - r.left) / r.width  - .5;
+          const y = (e.clientY - r.top)  / r.height - .5;
+          div.style.transform = `perspective(500px) rotateY(${x*16}deg) rotateX(${-y*16}deg) scale(1.04)`;
+        });
+        div.addEventListener('mouseleave', () => {
+          div.style.transform = '';
+        });
+
+        /* Ripple 点击 */
+        div.addEventListener('click', e => {
+          const r = div.getBoundingClientRect();
+          const rpl = document.createElement('span');
+          rpl.className = 'ripple';
+          const size = Math.max(r.width, r.height);
+          rpl.style.cssText = `width:${size}px;height:${size}px;left:${e.clientX-r.left-size/2}px;top:${e.clientY-r.top-size/2}px`;
+          div.appendChild(rpl);
+          setTimeout(() => rpl.remove(), 560);
+          openLb(item);
+        });
 
         list.appendChild(div);
       });
     }
 
+    /* ── 加载 ── */
     async function loadItems() {
       const { data, error } = await sb.from(TABLE).select('*');
       if (error) { console.error(error); return; }
-
       if (!data.some(i => i.builtin)) {
         await sb.from(TABLE).insert(BUILTIN);
-        const { data: fresh } = await sb.from(TABLE).select('*');
+        const { data:fresh } = await sb.from(TABLE).select('*');
         allItems = fresh || [];
-      } else {
-        allItems = data;
-      }
+      } else { allItems = data; }
       renderList();
     }
 
+    /* ── 删除 ── */
     async function deleteItem(item) {
       if (!confirm('确认删除这条内容？')) return;
       const { error } = await sb.from(TABLE).delete().eq('id', item.id);
-      if (error) { alert('删除失败：' + error.message); return; }
+      if (error) { alert('删除失败：'+error.message); return; }
       if (item.storage_path) await sb.storage.from(BUCKET).remove([item.storage_path]);
       allItems = allItems.filter(i => i.id !== item.id);
       renderList();
     }
 
-    // 灯箱
+    /* ── 灯箱 ── */
     function openLb(item) {
       const img = document.getElementById('lbImg');
       const vid = document.getElementById('lbVideo');
@@ -446,109 +525,105 @@
       document.getElementById('lb').classList.add('on');
     }
     function closeLb(e) {
-      if (e && e.target !== document.getElementById('lb') && !e.target.classList.contains('lb-close')) return;
+      if (e && e.target!==document.getElementById('lb') && !e.target.classList.contains('lb-close')) return;
       document.getElementById('lb').classList.remove('on');
       const vid = document.getElementById('lbVideo');
       vid.pause(); vid.removeAttribute('src'); vid.classList.remove('on');
       document.getElementById('lbImg').classList.remove('on');
     }
 
-    // 上传
+    /* ── 上传 ── */
     let pendingFile = null;
-    function openUpload() {
-      document.getElementById('uploadModal').classList.add('on');
-      document.getElementById('titleInput').value = '';
-      resetPreview();
-    }
-    function closeUpload() {
-      document.getElementById('uploadModal').classList.remove('on');
-      resetPreview();
-    }
+    function openUpload()  { document.getElementById('uploadModal').classList.add('on'); document.getElementById('titleInput').value=''; resetPreview(); }
+    function closeUpload() { document.getElementById('uploadModal').classList.remove('on'); resetPreview(); }
     function resetPreview() {
       pendingFile = null;
-      document.getElementById('previewBox').style.display = 'none';
-      document.getElementById('previewImg').src = '';
-      document.getElementById('previewVid').src = '';
-      document.getElementById('previewName').textContent = '';
-      document.getElementById('fileInput').value = '';
-      document.getElementById('errorMsg').style.display = 'none';
-      document.getElementById('progressWrap').style.display = 'none';
-      document.getElementById('progressBar').style.width = '0%';
-      document.getElementById('submitBtn').disabled = true;
-      document.getElementById('submitBtn').textContent = '确认上传';
+      ['previewBox','progressWrap','errorMsg'].forEach(id => document.getElementById(id).style.display='none');
+      ['previewImg','previewVid'].forEach(id => document.getElementById(id).src='');
+      document.getElementById('previewName').textContent='';
+      document.getElementById('fileInput').value='';
+      document.getElementById('progressBar').style.width='0%';
+      const btn = document.getElementById('submitBtn');
+      btn.disabled=true; btn.textContent='确认上传';
     }
-    function showError(msg) {
-      const el = document.getElementById('errorMsg');
-      el.textContent = msg; el.style.display = 'block';
-    }
+    function showError(msg) { const el=document.getElementById('errorMsg'); el.textContent=msg; el.style.display='block'; }
+
     function handleFile(file) {
-      document.getElementById('errorMsg').style.display = 'none';
+      document.getElementById('errorMsg').style.display='none';
       const isImg = file.type.startsWith('image/');
       const isVid = file.type.startsWith('video/');
       if (!isImg && !isVid) { showError('仅支持图片或视频文件'); return; }
-      if (isVid && file.size > 25 * 1024 * 1024) {
-        showError(`视频不能超过 25 MB（当前 ${(file.size/1024/1024).toFixed(1)} MB）`); return;
-      }
+      if (isVid && file.size > 25*1024*1024) { showError(`视频不能超过 25 MB（当前 ${(file.size/1024/1024).toFixed(1)} MB）`); return; }
       pendingFile = file;
       const url = URL.createObjectURL(file);
-      document.getElementById('previewBox').style.display = 'block';
-      const pi = document.getElementById('previewImg');
-      const pv = document.getElementById('previewVid');
-      if (isImg) { pi.src = url; pi.style.display = 'block'; pv.style.display = 'none'; }
-      else       { pv.src = url; pv.style.display = 'block'; pi.style.display = 'none'; }
-      document.getElementById('previewName').textContent = `${file.name}（${(file.size/1024).toFixed(0)} KB）`;
-      document.getElementById('submitBtn').disabled = false;
+      document.getElementById('previewBox').style.display='block';
+      const pi=document.getElementById('previewImg'), pv=document.getElementById('previewVid');
+      if (isImg) { pi.src=url; pi.style.display='block'; pv.style.display='none'; }
+      else       { pv.src=url; pv.style.display='block'; pi.style.display='none'; }
+      document.getElementById('previewName').textContent=`${file.name}（${(file.size/1024).toFixed(0)} KB）`;
+      document.getElementById('submitBtn').disabled=false;
     }
-    document.getElementById('fileInput').addEventListener('change', e => {
-      if (e.target.files[0]) handleFile(e.target.files[0]);
-    });
-    const dz = document.getElementById('dropZone');
+
+    document.getElementById('fileInput').addEventListener('change', e => { if(e.target.files[0]) handleFile(e.target.files[0]); });
+    const dz=document.getElementById('dropZone');
     dz.addEventListener('dragover',  e => { e.preventDefault(); dz.classList.add('drag-over'); });
     dz.addEventListener('dragleave', ()  => dz.classList.remove('drag-over'));
-    dz.addEventListener('drop', e => {
-      e.preventDefault(); dz.classList.remove('drag-over');
-      if (e.dataTransfer.files[0]) handleFile(e.dataTransfer.files[0]);
-    });
-    document.getElementById('uploadModal').addEventListener('click', e => {
-      if (e.target === document.getElementById('uploadModal')) closeUpload();
-    });
+    dz.addEventListener('drop', e => { e.preventDefault(); dz.classList.remove('drag-over'); if(e.dataTransfer.files[0]) handleFile(e.dataTransfer.files[0]); });
+    document.getElementById('uploadModal').addEventListener('click', e => { if(e.target===document.getElementById('uploadModal')) closeUpload(); });
+
+    /* ── 成功粒子爆炸 ── */
+    function burst(originEl) {
+      const r = originEl.getBoundingClientRect();
+      const cx = r.left + r.width/2, cy = r.top + r.height/2;
+      const colors = ['#00c9a7','#00ffd5','#ffffff','#aaffee'];
+      for (let i=0; i<22; i++) {
+        const p = document.createElement('div');
+        p.className = 'particle';
+        const angle = Math.random()*360, dist = 60+Math.random()*80;
+        const tx = Math.cos(angle*Math.PI/180)*dist;
+        const ty = Math.sin(angle*Math.PI/180)*dist - 30;
+        p.style.cssText = `
+          left:${cx}px; top:${cy}px;
+          background:${colors[Math.floor(Math.random()*colors.length)]};
+          --tx:${tx}px; --ty:${ty}px; --d:${.5+Math.random()*.5}s;
+        `;
+        document.body.appendChild(p);
+        setTimeout(() => p.remove(), 1000);
+      }
+    }
 
     async function submitUpload() {
       if (!pendingFile) return;
       const btn = document.getElementById('submitBtn');
-      btn.disabled = true; btn.textContent = '上传中…';
-      document.getElementById('progressWrap').style.display = 'block';
-      document.getElementById('progressBar').style.width = '30%';
+      btn.disabled=true; btn.textContent='上传中…';
+      document.getElementById('progressWrap').style.display='block';
+      document.getElementById('progressBar').style.width='25%';
 
       const ext  = pendingFile.name.split('.').pop();
       const path = `${Date.now()}_${Math.random().toString(36).slice(2)}.${ext}`;
 
-      const { error: upErr } = await sb.storage.from(BUCKET).upload(path, pendingFile);
-      if (upErr) {
-        showError('文件上传失败：' + upErr.message);
-        btn.disabled = false; btn.textContent = '确认上传'; return;
-      }
-      document.getElementById('progressBar').style.width = '70%';
+      const { error:upErr } = await sb.storage.from(BUCKET).upload(path, pendingFile);
+      if (upErr) { showError('文件上传失败：'+upErr.message); btn.disabled=false; btn.textContent='确认上传'; return; }
+      document.getElementById('progressBar').style.width='70%';
 
-      const { data: urlData } = sb.storage.from(BUCKET).getPublicUrl(path);
+      const { data:urlData } = sb.storage.from(BUCKET).getPublicUrl(path);
       const isVid = pendingFile.type.startsWith('video/');
       const title = document.getElementById('titleInput').value.trim()
-        || (isVid ? '视频' : '图片') + ' · ' + new Date().toLocaleDateString('zh-CN');
+        || (isVid?'视频':'图片')+' · '+new Date().toLocaleDateString('zh-CN');
 
-      const { data: row, error: dbErr } = await sb.from(TABLE).insert([{
-        title, type: isVid ? 'video' : 'image',
-        url: urlData.publicUrl, storage_path: path,
-        builtin: false, ts: Date.now(),
+      const { data:row, error:dbErr } = await sb.from(TABLE).insert([{
+        title, type:isVid?'video':'image',
+        url:urlData.publicUrl, storage_path:path,
+        builtin:false, ts:Date.now(),
       }]).select().single();
 
-      if (dbErr) {
-        showError('记录保存失败：' + dbErr.message);
-        btn.disabled = false; btn.textContent = '确认上传'; return;
-      }
-      document.getElementById('progressBar').style.width = '100%';
+      if (dbErr) { showError('记录保存失败：'+dbErr.message); btn.disabled=false; btn.textContent='确认上传'; return; }
+      document.getElementById('progressBar').style.width='100%';
+
       allItems.push(row);
       renderList();
-      setTimeout(closeUpload, 300);
+      burst(document.getElementById('uploadBtnMain'));
+      setTimeout(closeUpload, 350);
     }
 
     loadItems();
