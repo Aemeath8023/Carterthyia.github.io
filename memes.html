@@ -6,43 +6,145 @@
   <title>爱播整活办 | AIBO MEME</title>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css">
   <style>
-    /* 继承了主站的配色 */
     :root { --p: #00c9a7; --bg: #050a0f; }
     body { background: var(--bg); color: #fff; font-family: "PingFang SC", sans-serif; margin: 0; padding: 20px; }
-    
+
     .nav-header { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 1px solid #222; margin-bottom: 30px; }
     .nav-header a { color: #fff; text-decoration: none; font-size: 14px; border: 1px solid #444; padding: 5px 15px; border-radius: 4px; }
     .nav-header a:hover { border-color: var(--p); color: var(--p); }
 
     h1 { text-align: center; font-size: 28px; letter-spacing: 4px; color: var(--p); margin-bottom: 5px; }
-    p.sub { text-align: center; color: #666; font-size: 12px; margin-bottom: 40px; }
+    p.sub { text-align: center; color: #666; font-size: 12px; margin-bottom: 20px; }
 
-    /* 瀑布流布局 */
-    .fan-list { 
-      columns: 3; column-gap: 15px; max-width: 1200px; margin: 0 auto; 
+    /* 工具栏 */
+    .toolbar {
+      max-width: 1200px; margin: 0 auto 24px; display: flex; gap: 10px; align-items: center; flex-wrap: wrap;
     }
+    .sort-label { color: #888; font-size: 13px; margin-right: 4px; }
+    .sort-btn {
+      background: transparent; border: 1px solid #444; color: #aaa;
+      padding: 5px 14px; border-radius: 4px; cursor: pointer; font-size: 13px; transition: 0.2s;
+    }
+    .sort-btn.active, .sort-btn:hover { border-color: var(--p); color: var(--p); }
+    .upload-btn {
+      margin-left: auto; background: var(--p); color: #000; border: none;
+      padding: 7px 20px; border-radius: 4px; cursor: pointer; font-size: 14px;
+      font-weight: bold; display: flex; align-items: center; gap: 6px; transition: 0.2s;
+    }
+    .upload-btn:hover { opacity: 0.85; }
+
+    /* 瀑布流 */
+    .fan-list { columns: 3; column-gap: 15px; max-width: 1200px; margin: 0 auto; }
     @media (max-width: 800px) { .fan-list { columns: 2; } }
+    @media (max-width: 480px) { .fan-list { columns: 1; } }
 
-    .fan-item { 
-      break-inside: avoid; margin-bottom: 15px; position: relative; 
-      border: 1px solid #222; overflow: hidden; cursor: pointer; transition: 0.3s;
+    .fan-item {
+      break-inside: avoid; margin-bottom: 15px; position: relative;
+      border: 1px solid #222; overflow: hidden; cursor: pointer; transition: 0.3s; border-radius: 4px;
     }
-    .fan-item img { width: 100%; display: block; filter: grayscale(0.2); transition: 0.3s; }
+    .fan-item img, .fan-item video {
+      width: 100%; display: block; filter: grayscale(0.2); transition: 0.3s;
+    }
+    .fan-item video { max-height: 300px; object-fit: cover; }
     .fan-item:hover { border-color: var(--p); transform: translateY(-5px); box-shadow: 0 10px 20px rgba(0,201,167,0.2); }
-    .fan-item:hover img { filter: grayscale(0); }
+    .fan-item:hover img, .fan-item:hover video { filter: grayscale(0); }
 
-    .fan-over { 
-      position: absolute; bottom: 0; left: 0; right: 0; 
-      background: rgba(0, 201, 167, 0.8); color: #000; 
-      padding: 5px; font-size: 12px; font-weight: bold;
-      text-align: center; transform: translateY(100%); transition: 0.3s;
+    .fan-over {
+      position: absolute; bottom: 0; left: 0; right: 0;
+      background: rgba(0,201,167,0.85); color: #000;
+      padding: 5px 8px; font-size: 12px; font-weight: bold;
+      display: flex; justify-content: space-between; align-items: center;
+      transform: translateY(100%); transition: 0.3s;
     }
     .fan-item:hover .fan-over { transform: translateY(0); }
+    .fan-type-badge {
+      font-size: 10px; background: rgba(0,0,0,0.3); padding: 2px 6px; border-radius: 10px;
+    }
+    .video-icon {
+      position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%);
+      width: 44px; height: 44px; background: rgba(0,201,167,0.8); border-radius: 50%;
+      display: flex; align-items: center; justify-content: center; pointer-events: none;
+      opacity: 0.9;
+    }
+    .video-icon i { color: #000; font-size: 16px; margin-left: 3px; }
+    .delete-btn {
+      position: absolute; top: 6px; right: 6px; background: rgba(255,60,60,0.85);
+      border: none; color: #fff; width: 24px; height: 24px; border-radius: 50%;
+      cursor: pointer; font-size: 14px; display: none; align-items: center; justify-content: center;
+      z-index: 10; line-height: 1;
+    }
+    .fan-item:hover .delete-btn { display: flex; }
+    .delete-btn:hover { background: #ff1a1a; }
 
-    /* 灯箱简单实现 (配合 openLb) */
-    #lb { position: fixed; inset: 0; background: rgba(0,0,0,0.9); display: none; align-items: center; justify-content: center; z-index: 1000; cursor: zoom-out; }
+    /* 灯箱 */
+    #lb {
+      position: fixed; inset: 0; background: rgba(0,0,0,0.92); display: none;
+      align-items: center; justify-content: center; z-index: 1000; cursor: zoom-out;
+    }
     #lb.on { display: flex; }
-    #lb img { max-width: 90%; max-height: 90%; box-shadow: 0 0 30px rgba(0,0,0,0.5); border: 2px solid #333; }
+    #lb img { max-width: 90%; max-height: 90%; box-shadow: 0 0 30px rgba(0,0,0,0.5); border: 2px solid #333; border-radius: 4px; }
+    #lbVideo {
+      max-width: 90%; max-height: 90%; box-shadow: 0 0 30px rgba(0,0,0,0.5);
+      border: 2px solid #333; border-radius: 4px; display: none;
+    }
+    #lbVideo.on { display: block; }
+    #lb img.on { display: block; }
+    #lb img:not(.on) { display: none; }
+    .lb-close {
+      position: fixed; top: 20px; right: 28px; font-size: 32px; color: #fff;
+      cursor: pointer; z-index: 1001; line-height: 1; opacity: 0.7;
+    }
+    .lb-close:hover { opacity: 1; color: var(--p); }
+
+    /* 上传弹窗 */
+    #uploadModal {
+      position: fixed; inset: 0; background: rgba(0,0,0,0.8);
+      display: none; align-items: center; justify-content: center; z-index: 2000;
+    }
+    #uploadModal.on { display: flex; }
+    .modal-box {
+      background: #0d1a1f; border: 1px solid #333; border-radius: 8px;
+      padding: 30px; width: 440px; max-width: 95vw;
+    }
+    .modal-box h2 { margin: 0 0 20px; color: var(--p); font-size: 18px; }
+    .modal-box label { display: block; color: #aaa; font-size: 13px; margin-bottom: 6px; }
+    .modal-box input[type="text"] {
+      width: 100%; box-sizing: border-box; background: #111; border: 1px solid #333;
+      color: #fff; padding: 8px 12px; border-radius: 4px; font-size: 14px; margin-bottom: 16px;
+    }
+    .modal-box input[type="text"]:focus { outline: none; border-color: var(--p); }
+
+    .drop-zone {
+      border: 2px dashed #333; border-radius: 6px; padding: 30px 20px;
+      text-align: center; color: #666; cursor: pointer; transition: 0.2s; margin-bottom: 16px;
+    }
+    .drop-zone:hover, .drop-zone.drag-over { border-color: var(--p); color: var(--p); }
+    .drop-zone i { font-size: 32px; display: block; margin-bottom: 8px; }
+    .drop-zone span { font-size: 13px; }
+    .drop-zone .hint { font-size: 11px; color: #555; margin-top: 6px; }
+    #fileInput { display: none; }
+
+    .preview-box { margin-bottom: 16px; display: none; }
+    .preview-box img, .preview-box video {
+      max-width: 100%; max-height: 200px; border-radius: 4px; border: 1px solid #333;
+    }
+    .preview-name { font-size: 12px; color: #888; margin-top: 6px; }
+
+    .modal-actions { display: flex; gap: 10px; justify-content: flex-end; }
+    .btn-cancel {
+      background: transparent; border: 1px solid #444; color: #aaa;
+      padding: 8px 20px; border-radius: 4px; cursor: pointer; font-size: 14px;
+    }
+    .btn-cancel:hover { border-color: #888; color: #fff; }
+    .btn-submit {
+      background: var(--p); color: #000; border: none;
+      padding: 8px 24px; border-radius: 4px; cursor: pointer; font-size: 14px; font-weight: bold;
+    }
+    .btn-submit:hover { opacity: 0.85; }
+    .btn-submit:disabled { opacity: 0.4; cursor: not-allowed; }
+
+    .error-msg { color: #ff6b6b; font-size: 12px; margin-bottom: 12px; display: none; }
+    .empty-hint { text-align: center; color: #444; padding: 60px 0; font-size: 14px; display: none; }
   </style>
 </head>
 <body>
@@ -55,69 +157,334 @@
   <h1>爱播鬼畜表情</h1>
   <p class="sub">单纯整活，请勿上升至主播 (๑•̀ㅂ•́)و✧</p>
 
-  <div class="fan-list">
-    <div class="fan-item" onclick="openLb('./images3/anchor1.png')">
-      <img src="./images3/anchor1.png" loading="lazy">
-      <div class="fan-over">表情 · 01</div>
-    </div>
-    <div class="fan-item" onclick="openLb('./images3/anchor2.png')">
-      <img src="./images3/anchor2.png" loading="lazy">
-      <div class="fan-over">表情 · 02</div>
-    </div>
-    <div class="fan-item" onclick="openLb('./images3/anchor3.png')">
-      <img src="./images3/anchor3.png" loading="lazy">
-      <div class="fan-over">表情 · 03</div>
-    </div>
-    <div class="fan-item" onclick="openLb('./images3/anchor4.png')">
-      <img src="./images3/anchor4.png" loading="lazy">
-      <div class="fan-over">表情 · 04</div>
-    </div>
-    <div class="fan-item" onclick="openLb('./images3/anchor5.png')">
-      <img src="./images3/anchor5.png" loading="lazy">
-      <div class="fan-over">表情 · 05</div>
-    </div>
-    <div class="fan-item" onclick="openLb('./images3/anchor6.png')">
-      <img src="./images3/anchor6.png" loading="lazy">
-      <div class="fan-over">表情 · 06</div>
-    </div>
-    <div class="fan-item" onclick="openLb('./images3/gay1.png')">
-      <img src="./images3/gay1.png" loading="lazy">
-      <div class="fan-over">表情 · 07</div>
-    </div>
-    <div class="fan-item" onclick="openLb('./images3/gay2.png')">
-      <img src="./images3/gay2.png" loading="lazy">
-      <div class="fan-over">表情 · 08</div>
-    </div>
-    <div class="fan-item" onclick="openLb('./images3/gay3.png')">
-      <img src="./images3/gay3.png" loading="lazy">
-      <div class="fan-over">表情 · 09</div>
-    </div>
-    <div class="fan-item" onclick="openLb('./images3/gay4.png')">
-      <img src="./images3/gay4.png" loading="lazy">
-      <div class="fan-over">表情 · 10</div>
-    </div>
-    <div class="fan-item" onclick="openLb('./images3/gay5.png')">
-      <img src="./images3/gay5.png" loading="lazy">
-      <div class="fan-over">表情 · 11</div>
-    </div>
-    <div class="fan-item" onclick="openLb('./images3/gay6.png')">
-      <img src="./images3/gay6.png" loading="lazy">
-      <div class="fan-over">表情 · 12</div>
-    </div>
+  <div class="toolbar">
+    <span class="sort-label">排序：</span>
+    <button class="sort-btn active" data-sort="newest" onclick="setSort('newest')">最新</button>
+    <button class="sort-btn" data-sort="oldest" onclick="setSort('oldest')">最旧</button>
+    <button class="sort-btn" data-sort="type-img" onclick="setSort('type-img')">图片优先</button>
+    <button class="sort-btn" data-sort="type-vid" onclick="setSort('type-vid')">视频优先</button>
+    <button class="upload-btn" onclick="openUpload()">
+      <i class="fa fa-plus"></i> 上传图片 / 视频
+    </button>
   </div>
 
-  <div id="lb" onclick="closeLb()">
-    <img id="lbImg" src="">
+  <div class="fan-list" id="fanList"></div>
+  <div class="empty-hint" id="emptyHint">还没有内容，点击右上角"上传"添加第一个吧～</div>
+
+  <!-- 灯箱 -->
+  <div id="lb" onclick="closeLb(event)">
+    <span class="lb-close" onclick="closeLb()">&times;</span>
+    <img id="lbImg" src="" class="">
+    <video id="lbVideo" controls></video>
+  </div>
+
+  <!-- 上传弹窗 -->
+  <div id="uploadModal">
+    <div class="modal-box" onclick="event.stopPropagation()">
+      <h2><i class="fa fa-upload"></i> 上传内容</h2>
+
+      <label>标题（可选）</label>
+      <input type="text" id="titleInput" placeholder="给这条内容起个名字…" maxlength="30">
+
+      <div class="drop-zone" id="dropZone" onclick="document.getElementById('fileInput').click()">
+        <i class="fa fa-cloud-upload"></i>
+        <span>点击或拖拽文件到此处</span>
+        <div class="hint">支持图片（JPG/PNG/GIF/WEBP）及视频（MP4/WEBM），视频不超过 25 MB</div>
+      </div>
+      <input type="file" id="fileInput" accept="image/*,video/mp4,video/webm">
+
+      <div class="preview-box" id="previewBox">
+        <img id="previewImg" src="" alt="">
+        <video id="previewVid" src="" muted></video>
+        <div class="preview-name" id="previewName"></div>
+      </div>
+
+      <div class="error-msg" id="errorMsg"></div>
+
+      <div class="modal-actions">
+        <button class="btn-cancel" onclick="closeUpload()">取消</button>
+        <button class="btn-submit" id="submitBtn" onclick="submitUpload()" disabled>确认上传</button>
+      </div>
+    </div>
   </div>
 
   <script>
-    function openLb(src) {
-      document.getElementById('lbImg').src = src;
-      document.getElementById('lb').classList.add('on');
+    // ─── IndexedDB ────────────────────────────────────────────────
+    const DB_NAME = 'aiboMemes';
+    const STORE   = 'items';
+    let db = null;
+
+    function openDB() {
+      return new Promise((resolve, reject) => {
+        const req = indexedDB.open(DB_NAME, 1);
+        req.onupgradeneeded = e => {
+          const store = e.target.result.createObjectStore(STORE, { keyPath: 'id', autoIncrement: true });
+          store.createIndex('ts', 'ts', { unique: false });
+          store.createIndex('type', 'type', { unique: false });
+        };
+        req.onsuccess = e => { db = e.target.result; resolve(db); };
+        req.onerror   = () => reject(req.error);
+      });
     }
-    function closeLb() {
+
+    function dbGetAll() {
+      return new Promise((resolve, reject) => {
+        const tx  = db.transaction(STORE, 'readonly');
+        const req = tx.objectStore(STORE).getAll();
+        req.onsuccess = () => resolve(req.result);
+        req.onerror   = () => reject(req.error);
+      });
+    }
+
+    function dbAdd(item) {
+      return new Promise((resolve, reject) => {
+        const tx  = db.transaction(STORE, 'readwrite');
+        const req = tx.objectStore(STORE).add(item);
+        req.onsuccess = () => resolve(req.result);
+        req.onerror   = () => reject(req.error);
+      });
+    }
+
+    function dbDelete(id) {
+      return new Promise((resolve, reject) => {
+        const tx  = db.transaction(STORE, 'readwrite');
+        const req = tx.objectStore(STORE).delete(id);
+        req.onsuccess = () => resolve();
+        req.onerror   = () => reject(req.error);
+      });
+    }
+
+    // ─── 内置素材（首次加载写入 DB）─────────────────────────────────
+    const BUILTIN = [
+      { src: './images3/anchor1.png', title: '表情 · 01', type: 'image', builtin: true, ts: 1000 },
+      { src: './images3/anchor2.png', title: '表情 · 02', type: 'image', builtin: true, ts: 1001 },
+      { src: './images3/anchor3.png', title: '表情 · 03', type: 'image', builtin: true, ts: 1002 },
+      { src: './images3/anchor4.png', title: '表情 · 04', type: 'image', builtin: true, ts: 1003 },
+      { src: './images3/anchor5.png', title: '表情 · 05', type: 'image', builtin: true, ts: 1004 },
+      { src: './images3/anchor6.png', title: '表情 · 06', type: 'image', builtin: true, ts: 1005 },
+      { src: './images3/gay1.png',    title: '表情 · 07', type: 'image', builtin: true, ts: 1006 },
+      { src: './images3/gay2.png',    title: '表情 · 08', type: 'image', builtin: true, ts: 1007 },
+      { src: './images3/gay3.png',    title: '表情 · 09', type: 'image', builtin: true, ts: 1008 },
+      { src: './images3/gay4.png',    title: '表情 · 10', type: 'image', builtin: true, ts: 1009 },
+      { src: './images3/gay5.png',    title: '表情 · 11', type: 'image', builtin: true, ts: 1010 },
+      { src: './images3/gay6.png',    title: '表情 · 12', type: 'image', builtin: true, ts: 1011 },
+    ];
+
+    async function seedBuiltins(existing) {
+      if (existing.some(i => i.builtin)) return;
+      for (const item of BUILTIN) await dbAdd(item);
+    }
+
+    // ─── 排序 ────────────────────────────────────────────────────
+    let currentSort = 'newest';
+
+    function setSort(mode) {
+      currentSort = mode;
+      document.querySelectorAll('.sort-btn').forEach(b => b.classList.toggle('active', b.dataset.sort === mode));
+      renderList();
+    }
+
+    function sortItems(items) {
+      const arr = [...items];
+      if (currentSort === 'newest')    return arr.sort((a, b) => b.ts - a.ts);
+      if (currentSort === 'oldest')    return arr.sort((a, b) => a.ts - b.ts);
+      if (currentSort === 'type-img')  return arr.sort((a, b) => a.type === 'image' ? -1 : b.type === 'image' ? 1 : b.ts - a.ts);
+      if (currentSort === 'type-vid')  return arr.sort((a, b) => a.type === 'video' ? -1 : b.type === 'video' ? 1 : b.ts - a.ts);
+      return arr;
+    }
+
+    // ─── 渲染瀑布流 ──────────────────────────────────────────────
+    let allItems = [];
+
+    async function loadAndRender() {
+      allItems = await dbGetAll();
+      renderList();
+    }
+
+    function renderList() {
+      const list = document.getElementById('fanList');
+      const hint = document.getElementById('emptyHint');
+      const sorted = sortItems(allItems);
+      list.innerHTML = '';
+
+      if (!sorted.length) { hint.style.display = 'block'; return; }
+      hint.style.display = 'none';
+
+      sorted.forEach(item => {
+        const div = document.createElement('div');
+        div.className = 'fan-item';
+        div.onclick = () => openLb(item);
+
+        if (item.type === 'video') {
+          const vid = document.createElement('video');
+          vid.src = item.data || item.src;
+          vid.muted = true; vid.loop = true; vid.preload = 'metadata';
+          div.appendChild(vid);
+          div.addEventListener('mouseenter', () => vid.play());
+          div.addEventListener('mouseleave', () => { vid.pause(); vid.currentTime = 0; });
+          const icon = document.createElement('div');
+          icon.className = 'video-icon';
+          icon.innerHTML = '<i class="fa fa-play"></i>';
+          div.appendChild(icon);
+        } else {
+          const img = document.createElement('img');
+          img.src = item.data || item.src;
+          img.loading = 'lazy';
+          div.appendChild(img);
+        }
+
+        const over = document.createElement('div');
+        over.className = 'fan-over';
+        over.innerHTML = `<span>${item.title || '无标题'}</span><span class="fan-type-badge">${item.type === 'video' ? '视频' : '图片'}</span>`;
+        div.appendChild(over);
+
+        if (!item.builtin) {
+          const del = document.createElement('button');
+          del.className = 'delete-btn';
+          del.title = '删除';
+          del.innerHTML = '&times;';
+          del.onclick = e => { e.stopPropagation(); deleteItem(item.id); };
+          div.appendChild(del);
+        }
+
+        list.appendChild(div);
+      });
+    }
+
+    async function deleteItem(id) {
+      if (!confirm('确认删除这条内容？')) return;
+      await dbDelete(id);
+      allItems = allItems.filter(i => i.id !== id);
+      renderList();
+    }
+
+    // ─── 灯箱 ────────────────────────────────────────────────────
+    function openLb(item) {
+      const lb    = document.getElementById('lb');
+      const img   = document.getElementById('lbImg');
+      const vid   = document.getElementById('lbVideo');
+      if (item.type === 'video') {
+        img.classList.remove('on');
+        vid.src = item.data || item.src;
+        vid.classList.add('on');
+        vid.play();
+      } else {
+        vid.pause(); vid.removeAttribute('src');
+        vid.classList.remove('on');
+        img.src = item.data || item.src;
+        img.classList.add('on');
+      }
+      lb.classList.add('on');
+    }
+
+    function closeLb(e) {
+      if (e && e.target !== document.getElementById('lb') && !e.target.classList.contains('lb-close')) return;
       document.getElementById('lb').classList.remove('on');
+      const vid = document.getElementById('lbVideo');
+      vid.pause(); vid.removeAttribute('src'); vid.classList.remove('on');
+      document.getElementById('lbImg').classList.remove('on');
     }
+
+    // ─── 上传弹窗 ────────────────────────────────────────────────
+    let pendingFile = null;
+
+    function openUpload() {
+      document.getElementById('uploadModal').classList.add('on');
+      document.getElementById('titleInput').value = '';
+      resetPreview();
+    }
+
+    function closeUpload() {
+      document.getElementById('uploadModal').classList.remove('on');
+      resetPreview();
+    }
+
+    function resetPreview() {
+      pendingFile = null;
+      document.getElementById('previewBox').style.display = 'none';
+      document.getElementById('previewImg').src = '';
+      document.getElementById('previewVid').src = '';
+      document.getElementById('previewName').textContent = '';
+      document.getElementById('fileInput').value = '';
+      document.getElementById('errorMsg').style.display = 'none';
+      document.getElementById('submitBtn').disabled = true;
+    }
+
+    function showError(msg) {
+      const el = document.getElementById('errorMsg');
+      el.textContent = msg; el.style.display = 'block';
+    }
+
+    function handleFile(file) {
+      document.getElementById('errorMsg').style.display = 'none';
+      const isImg = file.type.startsWith('image/');
+      const isVid = file.type.startsWith('video/');
+      if (!isImg && !isVid) { showError('仅支持图片或视频文件'); return; }
+      const MAX_VID = 25 * 1024 * 1024;
+      if (isVid && file.size > MAX_VID) { showError(`视频文件不能超过 25 MB（当前 ${(file.size/1024/1024).toFixed(1)} MB）`); return; }
+
+      pendingFile = file;
+      const url = URL.createObjectURL(file);
+      const box  = document.getElementById('previewBox');
+      const pimg = document.getElementById('previewImg');
+      const pvid = document.getElementById('previewVid');
+      box.style.display = 'block';
+      if (isImg) { pimg.src = url; pimg.style.display = 'block'; pvid.style.display = 'none'; }
+      else       { pvid.src = url; pvid.style.display = 'block'; pimg.style.display = 'none'; }
+      document.getElementById('previewName').textContent = `${file.name}  （${(file.size/1024).toFixed(0)} KB）`;
+      document.getElementById('submitBtn').disabled = false;
+    }
+
+    document.getElementById('fileInput').addEventListener('change', e => {
+      if (e.target.files[0]) handleFile(e.target.files[0]);
+    });
+
+    const dz = document.getElementById('dropZone');
+    dz.addEventListener('dragover',  e => { e.preventDefault(); dz.classList.add('drag-over'); });
+    dz.addEventListener('dragleave', ()  => dz.classList.remove('drag-over'));
+    dz.addEventListener('drop', e => {
+      e.preventDefault(); dz.classList.remove('drag-over');
+      const f = e.dataTransfer.files[0];
+      if (f) handleFile(f);
+    });
+
+    document.getElementById('uploadModal').addEventListener('click', e => {
+      if (e.target === document.getElementById('uploadModal')) closeUpload();
+    });
+
+    async function submitUpload() {
+      if (!pendingFile) return;
+      const btn = document.getElementById('submitBtn');
+      btn.disabled = true; btn.textContent = '上传中…';
+
+      const reader = new FileReader();
+      reader.onload = async e => {
+        const isVid = pendingFile.type.startsWith('video/');
+        const title = document.getElementById('titleInput').value.trim()
+          || (isVid ? '视频' : '图片') + ' · ' + new Date().toLocaleDateString('zh-CN');
+        const item = {
+          title,
+          type: isVid ? 'video' : 'image',
+          data: e.target.result,
+          ts:   Date.now(),
+          builtin: false,
+        };
+        const id = await dbAdd(item);
+        item.id = id;
+        allItems.push(item);
+        renderList();
+        closeUpload();
+        btn.textContent = '确认上传';
+      };
+      reader.readAsDataURL(pendingFile);
+    }
+
+    // ─── 启动 ────────────────────────────────────────────────────
+    openDB().then(async () => {
+      const existing = await dbGetAll();
+      await seedBuiltins(existing);
+      await loadAndRender();
+    });
   </script>
 
 </body>
