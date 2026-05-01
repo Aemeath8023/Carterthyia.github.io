@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>爱播整活办 | AIBO MEME</title>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
   <style>
     :root { --p: #00c9a7; --bg: #050a0f; }
     body { background: var(--bg); color: #fff; font-family: "PingFang SC", sans-serif; margin: 0; padding: 20px; }
@@ -16,11 +17,10 @@
     h1 { text-align: center; font-size: 28px; letter-spacing: 4px; color: var(--p); margin-bottom: 5px; }
     p.sub { text-align: center; color: #666; font-size: 12px; margin-bottom: 20px; }
 
-    /* 工具栏 */
     .toolbar {
       max-width: 1200px; margin: 0 auto 24px; display: flex; gap: 10px; align-items: center; flex-wrap: wrap;
     }
-    .sort-label { color: #888; font-size: 13px; margin-right: 4px; }
+    .sort-label { color: #888; font-size: 13px; margin-right: 2px; }
     .sort-btn {
       background: transparent; border: 1px solid #444; color: #aaa;
       padding: 5px 14px; border-radius: 4px; cursor: pointer; font-size: 13px; transition: 0.2s;
@@ -33,7 +33,6 @@
     }
     .upload-btn:hover { opacity: 0.85; }
 
-    /* 瀑布流 */
     .fan-list { columns: 3; column-gap: 15px; max-width: 1200px; margin: 0 auto; }
     @media (max-width: 800px) { .fan-list { columns: 2; } }
     @media (max-width: 480px) { .fan-list { columns: 1; } }
@@ -42,9 +41,7 @@
       break-inside: avoid; margin-bottom: 15px; position: relative;
       border: 1px solid #222; overflow: hidden; cursor: pointer; transition: 0.3s; border-radius: 4px;
     }
-    .fan-item img, .fan-item video {
-      width: 100%; display: block; filter: grayscale(0.2); transition: 0.3s;
-    }
+    .fan-item img, .fan-item video { width: 100%; display: block; filter: grayscale(0.2); transition: 0.3s; }
     .fan-item video { max-height: 300px; object-fit: cover; }
     .fan-item:hover { border-color: var(--p); transform: translateY(-5px); box-shadow: 0 10px 20px rgba(0,201,167,0.2); }
     .fan-item:hover img, .fan-item:hover video { filter: grayscale(0); }
@@ -57,16 +54,15 @@
       transform: translateY(100%); transition: 0.3s;
     }
     .fan-item:hover .fan-over { transform: translateY(0); }
-    .fan-type-badge {
-      font-size: 10px; background: rgba(0,0,0,0.3); padding: 2px 6px; border-radius: 10px;
-    }
+    .fan-type-badge { font-size: 10px; background: rgba(0,0,0,0.3); padding: 2px 6px; border-radius: 10px; }
+
     .video-icon {
       position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%);
       width: 44px; height: 44px; background: rgba(0,201,167,0.8); border-radius: 50%;
       display: flex; align-items: center; justify-content: center; pointer-events: none;
-      opacity: 0.9;
     }
     .video-icon i { color: #000; font-size: 16px; margin-left: 3px; }
+
     .delete-btn {
       position: absolute; top: 6px; right: 6px; background: rgba(255,60,60,0.85);
       border: none; color: #fff; width: 24px; height: 24px; border-radius: 50%;
@@ -76,27 +72,21 @@
     .fan-item:hover .delete-btn { display: flex; }
     .delete-btn:hover { background: #ff1a1a; }
 
-    /* 灯箱 */
     #lb {
       position: fixed; inset: 0; background: rgba(0,0,0,0.92); display: none;
-      align-items: center; justify-content: center; z-index: 1000; cursor: zoom-out;
+      align-items: center; justify-content: center; z-index: 1000;
     }
     #lb.on { display: flex; }
-    #lb img { max-width: 90%; max-height: 90%; box-shadow: 0 0 30px rgba(0,0,0,0.5); border: 2px solid #333; border-radius: 4px; }
-    #lbVideo {
-      max-width: 90%; max-height: 90%; box-shadow: 0 0 30px rgba(0,0,0,0.5);
-      border: 2px solid #333; border-radius: 4px; display: none;
-    }
+    #lbImg { max-width: 90%; max-height: 90%; border: 2px solid #333; border-radius: 4px; display: none; }
+    #lbImg.on { display: block; }
+    #lbVideo { max-width: 90%; max-height: 90%; border: 2px solid #333; border-radius: 4px; display: none; }
     #lbVideo.on { display: block; }
-    #lb img.on { display: block; }
-    #lb img:not(.on) { display: none; }
     .lb-close {
       position: fixed; top: 20px; right: 28px; font-size: 32px; color: #fff;
-      cursor: pointer; z-index: 1001; line-height: 1; opacity: 0.7;
+      cursor: pointer; z-index: 1001; opacity: 0.7;
     }
     .lb-close:hover { opacity: 1; color: var(--p); }
 
-    /* 上传弹窗 */
     #uploadModal {
       position: fixed; inset: 0; background: rgba(0,0,0,0.8);
       display: none; align-items: center; justify-content: center; z-index: 2000;
@@ -120,30 +110,25 @@
     }
     .drop-zone:hover, .drop-zone.drag-over { border-color: var(--p); color: var(--p); }
     .drop-zone i { font-size: 32px; display: block; margin-bottom: 8px; }
-    .drop-zone span { font-size: 13px; }
     .drop-zone .hint { font-size: 11px; color: #555; margin-top: 6px; }
     #fileInput { display: none; }
 
     .preview-box { margin-bottom: 16px; display: none; }
-    .preview-box img, .preview-box video {
-      max-width: 100%; max-height: 200px; border-radius: 4px; border: 1px solid #333;
-    }
+    .preview-box img, .preview-box video { max-width: 100%; max-height: 200px; border-radius: 4px; border: 1px solid #333; }
     .preview-name { font-size: 12px; color: #888; margin-top: 6px; }
 
+    .progress-bar-wrap { background: #1a1a1a; border-radius: 4px; height: 6px; margin-bottom: 14px; display: none; }
+    .progress-bar { height: 6px; background: var(--p); border-radius: 4px; width: 0%; transition: width 0.2s; }
+
     .modal-actions { display: flex; gap: 10px; justify-content: flex-end; }
-    .btn-cancel {
-      background: transparent; border: 1px solid #444; color: #aaa;
-      padding: 8px 20px; border-radius: 4px; cursor: pointer; font-size: 14px;
-    }
+    .btn-cancel { background: transparent; border: 1px solid #444; color: #aaa; padding: 8px 20px; border-radius: 4px; cursor: pointer; font-size: 14px; }
     .btn-cancel:hover { border-color: #888; color: #fff; }
-    .btn-submit {
-      background: var(--p); color: #000; border: none;
-      padding: 8px 24px; border-radius: 4px; cursor: pointer; font-size: 14px; font-weight: bold;
-    }
+    .btn-submit { background: var(--p); color: #000; border: none; padding: 8px 24px; border-radius: 4px; cursor: pointer; font-size: 14px; font-weight: bold; }
     .btn-submit:hover { opacity: 0.85; }
     .btn-submit:disabled { opacity: 0.4; cursor: not-allowed; }
 
     .error-msg { color: #ff6b6b; font-size: 12px; margin-bottom: 12px; display: none; }
+    .loading-hint { text-align: center; color: #555; padding: 60px 0; font-size: 14px; }
     .empty-hint { text-align: center; color: #444; padding: 60px 0; font-size: 14px; display: none; }
   </style>
 </head>
@@ -168,13 +153,15 @@
     </button>
   </div>
 
-  <div class="fan-list" id="fanList"></div>
-  <div class="empty-hint" id="emptyHint">还没有内容，点击右上角"上传"添加第一个吧～</div>
+  <div class="fan-list" id="fanList">
+    <div class="loading-hint" style="column-span:all">加载中…</div>
+  </div>
+  <div class="empty-hint" id="emptyHint">还没有内容，点击上方"上传"添加第一个吧～</div>
 
   <!-- 灯箱 -->
   <div id="lb" onclick="closeLb(event)">
     <span class="lb-close" onclick="closeLb()">&times;</span>
-    <img id="lbImg" src="" class="">
+    <img id="lbImg" src="">
     <video id="lbVideo" controls></video>
   </div>
 
@@ -182,7 +169,6 @@
   <div id="uploadModal">
     <div class="modal-box" onclick="event.stopPropagation()">
       <h2><i class="fa fa-upload"></i> 上传内容</h2>
-
       <label>标题（可选）</label>
       <input type="text" id="titleInput" placeholder="给这条内容起个名字…" maxlength="30">
 
@@ -194,9 +180,13 @@
       <input type="file" id="fileInput" accept="image/*,video/mp4,video/webm">
 
       <div class="preview-box" id="previewBox">
-        <img id="previewImg" src="" alt="">
-        <video id="previewVid" src="" muted></video>
+        <img id="previewImg" src="" alt="" style="display:none">
+        <video id="previewVid" src="" muted style="display:none"></video>
         <div class="preview-name" id="previewName"></div>
+      </div>
+
+      <div class="progress-bar-wrap" id="progressWrap">
+        <div class="progress-bar" id="progressBar"></div>
       </div>
 
       <div class="error-msg" id="errorMsg"></div>
@@ -209,98 +199,53 @@
   </div>
 
   <script>
-    // ─── IndexedDB ────────────────────────────────────────────────
-    const DB_NAME = 'aiboMemes';
-    const STORE   = 'items';
-    let db = null;
+    // ─── Supabase 初始化 ──────────────────────────────────────────
+    const { createClient } = supabase;
+    const sb = createClient(
+      'https://jrhpeyqzntpmnzerhuil.supabase.co',
+      'sb_publishable_3yfGRhVBH2R99InGyyrDcQ_s1PyI4PZ'
+    );
+    const BUCKET = 'memes';
+    const TABLE  = 'meme_items';
 
-    function openDB() {
-      return new Promise((resolve, reject) => {
-        const req = indexedDB.open(DB_NAME, 1);
-        req.onupgradeneeded = e => {
-          const store = e.target.result.createObjectStore(STORE, { keyPath: 'id', autoIncrement: true });
-          store.createIndex('ts', 'ts', { unique: false });
-          store.createIndex('type', 'type', { unique: false });
-        };
-        req.onsuccess = e => { db = e.target.result; resolve(db); };
-        req.onerror   = () => reject(req.error);
-      });
-    }
-
-    function dbGetAll() {
-      return new Promise((resolve, reject) => {
-        const tx  = db.transaction(STORE, 'readonly');
-        const req = tx.objectStore(STORE).getAll();
-        req.onsuccess = () => resolve(req.result);
-        req.onerror   = () => reject(req.error);
-      });
-    }
-
-    function dbAdd(item) {
-      return new Promise((resolve, reject) => {
-        const tx  = db.transaction(STORE, 'readwrite');
-        const req = tx.objectStore(STORE).add(item);
-        req.onsuccess = () => resolve(req.result);
-        req.onerror   = () => reject(req.error);
-      });
-    }
-
-    function dbDelete(id) {
-      return new Promise((resolve, reject) => {
-        const tx  = db.transaction(STORE, 'readwrite');
-        const req = tx.objectStore(STORE).delete(id);
-        req.onsuccess = () => resolve();
-        req.onerror   = () => reject(req.error);
-      });
-    }
-
-    // ─── 内置素材（首次加载写入 DB）─────────────────────────────────
+    // ─── 内置素材（首次运行写入数据库）─────────────────────────────
     const BUILTIN = [
-      { src: './images3/anchor1.png', title: '表情 · 01', type: 'image', builtin: true, ts: 1000 },
-      { src: './images3/anchor2.png', title: '表情 · 02', type: 'image', builtin: true, ts: 1001 },
-      { src: './images3/anchor3.png', title: '表情 · 03', type: 'image', builtin: true, ts: 1002 },
-      { src: './images3/anchor4.png', title: '表情 · 04', type: 'image', builtin: true, ts: 1003 },
-      { src: './images3/anchor5.png', title: '表情 · 05', type: 'image', builtin: true, ts: 1004 },
-      { src: './images3/anchor6.png', title: '表情 · 06', type: 'image', builtin: true, ts: 1005 },
-      { src: './images3/gay1.png',    title: '表情 · 07', type: 'image', builtin: true, ts: 1006 },
-      { src: './images3/gay2.png',    title: '表情 · 08', type: 'image', builtin: true, ts: 1007 },
-      { src: './images3/gay3.png',    title: '表情 · 09', type: 'image', builtin: true, ts: 1008 },
-      { src: './images3/gay4.png',    title: '表情 · 10', type: 'image', builtin: true, ts: 1009 },
-      { src: './images3/gay5.png',    title: '表情 · 11', type: 'image', builtin: true, ts: 1010 },
-      { src: './images3/gay6.png',    title: '表情 · 12', type: 'image', builtin: true, ts: 1011 },
+      { title: '表情 · 01', type: 'image', url: './images3/anchor1.png', builtin: true, ts: 1000 },
+      { title: '表情 · 02', type: 'image', url: './images3/anchor2.png', builtin: true, ts: 1001 },
+      { title: '表情 · 03', type: 'image', url: './images3/anchor3.png', builtin: true, ts: 1002 },
+      { title: '表情 · 04', type: 'image', url: './images3/anchor4.png', builtin: true, ts: 1003 },
+      { title: '表情 · 05', type: 'image', url: './images3/anchor5.png', builtin: true, ts: 1004 },
+      { title: '表情 · 06', type: 'image', url: './images3/anchor6.png', builtin: true, ts: 1005 },
+      { title: '表情 · 07', type: 'image', url: './images3/gay1.png',    builtin: true, ts: 1006 },
+      { title: '表情 · 08', type: 'image', url: './images3/gay2.png',    builtin: true, ts: 1007 },
+      { title: '表情 · 09', type: 'image', url: './images3/gay3.png',    builtin: true, ts: 1008 },
+      { title: '表情 · 10', type: 'image', url: './images3/gay4.png',    builtin: true, ts: 1009 },
+      { title: '表情 · 11', type: 'image', url: './images3/gay5.png',    builtin: true, ts: 1010 },
+      { title: '表情 · 12', type: 'image', url: './images3/gay6.png',    builtin: true, ts: 1011 },
     ];
-
-    async function seedBuiltins(existing) {
-      if (existing.some(i => i.builtin)) return;
-      for (const item of BUILTIN) await dbAdd(item);
-    }
 
     // ─── 排序 ────────────────────────────────────────────────────
     let currentSort = 'newest';
+    let allItems = [];
 
     function setSort(mode) {
       currentSort = mode;
-      document.querySelectorAll('.sort-btn').forEach(b => b.classList.toggle('active', b.dataset.sort === mode));
+      document.querySelectorAll('.sort-btn').forEach(b =>
+        b.classList.toggle('active', b.dataset.sort === mode)
+      );
       renderList();
     }
 
     function sortItems(items) {
       const arr = [...items];
-      if (currentSort === 'newest')    return arr.sort((a, b) => b.ts - a.ts);
-      if (currentSort === 'oldest')    return arr.sort((a, b) => a.ts - b.ts);
-      if (currentSort === 'type-img')  return arr.sort((a, b) => a.type === 'image' ? -1 : b.type === 'image' ? 1 : b.ts - a.ts);
-      if (currentSort === 'type-vid')  return arr.sort((a, b) => a.type === 'video' ? -1 : b.type === 'video' ? 1 : b.ts - a.ts);
+      if (currentSort === 'newest')   return arr.sort((a, b) => b.ts - a.ts);
+      if (currentSort === 'oldest')   return arr.sort((a, b) => a.ts - b.ts);
+      if (currentSort === 'type-img') return arr.sort((a, b) => (a.type === 'image' ? -1 : 1));
+      if (currentSort === 'type-vid') return arr.sort((a, b) => (a.type === 'video' ? -1 : 1));
       return arr;
     }
 
     // ─── 渲染瀑布流 ──────────────────────────────────────────────
-    let allItems = [];
-
-    async function loadAndRender() {
-      allItems = await dbGetAll();
-      renderList();
-    }
-
     function renderList() {
       const list = document.getElementById('fanList');
       const hint = document.getElementById('emptyHint');
@@ -317,8 +262,7 @@
 
         if (item.type === 'video') {
           const vid = document.createElement('video');
-          vid.src = item.data || item.src;
-          vid.muted = true; vid.loop = true; vid.preload = 'metadata';
+          vid.src = item.url; vid.muted = true; vid.loop = true; vid.preload = 'metadata';
           div.appendChild(vid);
           div.addEventListener('mouseenter', () => vid.play());
           div.addEventListener('mouseleave', () => { vid.pause(); vid.currentTime = 0; });
@@ -328,8 +272,7 @@
           div.appendChild(icon);
         } else {
           const img = document.createElement('img');
-          img.src = item.data || item.src;
-          img.loading = 'lazy';
+          img.src = item.url; img.loading = 'lazy';
           div.appendChild(img);
         }
 
@@ -340,10 +283,8 @@
 
         if (!item.builtin) {
           const del = document.createElement('button');
-          del.className = 'delete-btn';
-          del.title = '删除';
-          del.innerHTML = '&times;';
-          del.onclick = e => { e.stopPropagation(); deleteItem(item.id); };
+          del.className = 'delete-btn'; del.title = '删除'; del.innerHTML = '&times;';
+          del.onclick = e => { e.stopPropagation(); deleteItem(item); };
           div.appendChild(del);
         }
 
@@ -351,30 +292,46 @@
       });
     }
 
-    async function deleteItem(id) {
+    // ─── 加载数据 ────────────────────────────────────────────────
+    async function loadItems() {
+      const { data, error } = await sb.from(TABLE).select('*');
+      if (error) { console.error(error); return; }
+
+      if (!data.some(i => i.builtin)) {
+        const { error: seedErr } = await sb.from(TABLE).insert(BUILTIN);
+        if (seedErr) console.error(seedErr);
+        const { data: fresh } = await sb.from(TABLE).select('*');
+        allItems = fresh || [];
+      } else {
+        allItems = data;
+      }
+      renderList();
+    }
+
+    // ─── 删除 ────────────────────────────────────────────────────
+    async function deleteItem(item) {
       if (!confirm('确认删除这条内容？')) return;
-      await dbDelete(id);
-      allItems = allItems.filter(i => i.id !== id);
+      const { error } = await sb.from(TABLE).delete().eq('id', item.id);
+      if (error) { alert('删除失败：' + error.message); return; }
+      if (item.storage_path) {
+        await sb.storage.from(BUCKET).remove([item.storage_path]);
+      }
+      allItems = allItems.filter(i => i.id !== item.id);
       renderList();
     }
 
     // ─── 灯箱 ────────────────────────────────────────────────────
     function openLb(item) {
-      const lb    = document.getElementById('lb');
-      const img   = document.getElementById('lbImg');
-      const vid   = document.getElementById('lbVideo');
+      const img = document.getElementById('lbImg');
+      const vid = document.getElementById('lbVideo');
       if (item.type === 'video') {
         img.classList.remove('on');
-        vid.src = item.data || item.src;
-        vid.classList.add('on');
-        vid.play();
+        vid.src = item.url; vid.classList.add('on'); vid.play();
       } else {
-        vid.pause(); vid.removeAttribute('src');
-        vid.classList.remove('on');
-        img.src = item.data || item.src;
-        img.classList.add('on');
+        vid.pause(); vid.removeAttribute('src'); vid.classList.remove('on');
+        img.src = item.url; img.classList.add('on');
       }
-      lb.classList.add('on');
+      document.getElementById('lb').classList.add('on');
     }
 
     function closeLb(e) {
@@ -393,12 +350,10 @@
       document.getElementById('titleInput').value = '';
       resetPreview();
     }
-
     function closeUpload() {
       document.getElementById('uploadModal').classList.remove('on');
       resetPreview();
     }
-
     function resetPreview() {
       pendingFile = null;
       document.getElementById('previewBox').style.display = 'none';
@@ -407,7 +362,10 @@
       document.getElementById('previewName').textContent = '';
       document.getElementById('fileInput').value = '';
       document.getElementById('errorMsg').style.display = 'none';
+      document.getElementById('progressWrap').style.display = 'none';
+      document.getElementById('progressBar').style.width = '0%';
       document.getElementById('submitBtn').disabled = true;
+      document.getElementById('submitBtn').textContent = '确认上传';
     }
 
     function showError(msg) {
@@ -420,34 +378,31 @@
       const isImg = file.type.startsWith('image/');
       const isVid = file.type.startsWith('video/');
       if (!isImg && !isVid) { showError('仅支持图片或视频文件'); return; }
-      const MAX_VID = 25 * 1024 * 1024;
-      if (isVid && file.size > MAX_VID) { showError(`视频文件不能超过 25 MB（当前 ${(file.size/1024/1024).toFixed(1)} MB）`); return; }
-
+      if (isVid && file.size > 25 * 1024 * 1024) {
+        showError(`视频不能超过 25 MB（当前 ${(file.size / 1024 / 1024).toFixed(1)} MB）`); return;
+      }
       pendingFile = file;
       const url = URL.createObjectURL(file);
-      const box  = document.getElementById('previewBox');
-      const pimg = document.getElementById('previewImg');
-      const pvid = document.getElementById('previewVid');
-      box.style.display = 'block';
-      if (isImg) { pimg.src = url; pimg.style.display = 'block'; pvid.style.display = 'none'; }
-      else       { pvid.src = url; pvid.style.display = 'block'; pimg.style.display = 'none'; }
-      document.getElementById('previewName').textContent = `${file.name}  （${(file.size/1024).toFixed(0)} KB）`;
+      document.getElementById('previewBox').style.display = 'block';
+      const pi = document.getElementById('previewImg');
+      const pv = document.getElementById('previewVid');
+      if (isImg) { pi.src = url; pi.style.display = 'block'; pv.style.display = 'none'; }
+      else       { pv.src = url; pv.style.display = 'block'; pi.style.display = 'none'; }
+      document.getElementById('previewName').textContent =
+        `${file.name}  （${(file.size / 1024).toFixed(0)} KB）`;
       document.getElementById('submitBtn').disabled = false;
     }
 
     document.getElementById('fileInput').addEventListener('change', e => {
       if (e.target.files[0]) handleFile(e.target.files[0]);
     });
-
     const dz = document.getElementById('dropZone');
     dz.addEventListener('dragover',  e => { e.preventDefault(); dz.classList.add('drag-over'); });
     dz.addEventListener('dragleave', ()  => dz.classList.remove('drag-over'));
     dz.addEventListener('drop', e => {
       e.preventDefault(); dz.classList.remove('drag-over');
-      const f = e.dataTransfer.files[0];
-      if (f) handleFile(f);
+      if (e.dataTransfer.files[0]) handleFile(e.dataTransfer.files[0]);
     });
-
     document.getElementById('uploadModal').addEventListener('click', e => {
       if (e.target === document.getElementById('uploadModal')) closeUpload();
     });
@@ -456,35 +411,41 @@
       if (!pendingFile) return;
       const btn = document.getElementById('submitBtn');
       btn.disabled = true; btn.textContent = '上传中…';
+      document.getElementById('progressWrap').style.display = 'block';
+      document.getElementById('progressBar').style.width = '30%';
 
-      const reader = new FileReader();
-      reader.onload = async e => {
-        const isVid = pendingFile.type.startsWith('video/');
-        const title = document.getElementById('titleInput').value.trim()
-          || (isVid ? '视频' : '图片') + ' · ' + new Date().toLocaleDateString('zh-CN');
-        const item = {
-          title,
-          type: isVid ? 'video' : 'image',
-          data: e.target.result,
-          ts:   Date.now(),
-          builtin: false,
-        };
-        const id = await dbAdd(item);
-        item.id = id;
-        allItems.push(item);
-        renderList();
-        closeUpload();
-        btn.textContent = '确认上传';
-      };
-      reader.readAsDataURL(pendingFile);
+      const ext  = pendingFile.name.split('.').pop();
+      const path = `${Date.now()}_${Math.random().toString(36).slice(2)}.${ext}`;
+
+      const { error: upErr } = await sb.storage.from(BUCKET).upload(path, pendingFile);
+      if (upErr) { showError('文件上传失败：' + upErr.message); btn.disabled = false; btn.textContent = '确认上传'; return; }
+
+      document.getElementById('progressBar').style.width = '70%';
+
+      const { data: urlData } = sb.storage.from(BUCKET).getPublicUrl(path);
+      const isVid = pendingFile.type.startsWith('video/');
+      const title = document.getElementById('titleInput').value.trim()
+        || (isVid ? '视频' : '图片') + ' · ' + new Date().toLocaleDateString('zh-CN');
+
+      const { data: row, error: dbErr } = await sb.from(TABLE).insert([{
+        title,
+        type: isVid ? 'video' : 'image',
+        url:  urlData.publicUrl,
+        storage_path: path,
+        builtin: false,
+        ts: Date.now(),
+      }]).select().single();
+
+      if (dbErr) { showError('记录保存失败：' + dbErr.message); btn.disabled = false; btn.textContent = '确认上传'; return; }
+
+      document.getElementById('progressBar').style.width = '100%';
+      allItems.push(row);
+      renderList();
+      setTimeout(closeUpload, 300);
     }
 
     // ─── 启动 ────────────────────────────────────────────────────
-    openDB().then(async () => {
-      const existing = await dbGetAll();
-      await seedBuiltins(existing);
-      await loadAndRender();
-    });
+    loadItems();
   </script>
 
 </body>
