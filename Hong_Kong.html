@@ -1,193 +1,446 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>香港站 · 霓虹纪实 | 星光小站</title>
-  <link rel="icon" href="favicon/13.ico?v=20240626" type="image/x-icon">
-  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700;900&family=Noto+Sans+SC:wght@300;400;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css">
-  
-  <style>
-    :root {
-      --hk-red: #ff3131;
-      --hk-gold: #ffcc33;
-      --hk-teal: #00ffd0;
-      --glass: rgba(0, 0, 0, 0.65);
-      --bdr: rgba(255, 255, 255, 0.15);
-    }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>香港 · 流光记 | 星光小站</title>
+<link rel="icon" href="favicon/13.ico?v=20240626" type="image/x-icon">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@200;300;400&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#07090c;
+  --surface:rgba(255,255,255,.03);
+  --border:rgba(255,255,255,.07);
+  --border-h:rgba(255,255,255,.13);
+  --text:#ddd5c8;
+  --text-dim:rgba(221,213,200,.38);
+  --accent:#c8a878;
+  --accent-soft:rgba(200,168,120,.07);
+}
 
-    * { margin: 0; padding: 0; box-sizing: border-box; }
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{width:100%;min-height:100vh;overflow-x:hidden}
 
-    body {
-      background-color: #050a0f;
-      color: #fff;
-      font-family: 'Noto Sans SC', sans-serif;
-      overflow-x: hidden;
-    }
+body{
+  background:var(--bg);
+  color:var(--text);
+  font-family:'Noto Serif SC',serif;
+  font-weight:200;
+  line-height:1.8;
+}
 
-    /* --- 特效背景层 --- */
-    .hk-bg {
-      position: fixed;
-      inset: 0;
-      /* 这里先放一张占位图，你可以换成香港夜景图 */
-      background: linear-gradient(to bottom, rgba(5,10,15,0.4), #050a0f), 
-                  url('https://images.unsplash.com/photo-1506354666786-959d6d497f1a?q=80&w=2070&auto=format&fit=crop'); 
-      background-size: cover;
-      background-position: center;
-      z-index: -2;
-      filter: saturate(1.2) contrast(1.1);
-    }
+/* ── ambient glow ── */
+body::before{
+  content:'';position:fixed;inset:0;z-index:0;pointer-events:none;
+  background:
+    radial-gradient(ellipse 55% 45% at 15% 85%,rgba(40,18,8,.35) 0%,transparent 70%),
+    radial-gradient(ellipse 45% 55% at 85% 15%,rgba(12,8,28,.28) 0%,transparent 70%);
+}
 
-    /* 扫描线特效 */
-    .scanlines {
-      position: fixed;
-      inset: 0;
-      background: linear-gradient(to bottom, transparent 50%, rgba(0,0,0,0.1) 50%);
-      background-size: 100% 4px;
-      z-index: -1;
-      pointer-events: none;
-    }
+/* ── NAV ── */
+.nav{
+  position:fixed;top:0;left:0;right:0;z-index:100;
+  display:flex;justify-content:space-between;align-items:center;
+  padding:18px 44px;
+  background:rgba(7,9,12,.72);
+  backdrop-filter:blur(16px);
+  border-bottom:1px solid var(--border);
+}
+.nav-logo{
+  font-family:'Cormorant Garamond',serif;
+  font-size:13px;letter-spacing:5px;color:var(--accent);text-transform:uppercase;opacity:.9;
+}
+.nav-back{
+  text-decoration:none;color:var(--text-dim);
+  font-size:11px;letter-spacing:3px;font-family:'Cormorant Garamond',serif;
+  border:1px solid var(--border);padding:6px 18px;border-radius:20px;
+  transition:all .3s;
+}
+.nav-back:hover{border-color:rgba(200,168,120,.3);color:var(--accent);background:var(--accent-soft)}
 
-    /* --- 导航栏 (复刻了主题样式) --- */
-    .nav-simple {
-      padding: 20px 40px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      background: rgba(0,0,0,0.5);
-      backdrop-filter: blur(10px);
-      border-bottom: 1px solid var(--bdr);
-      position: sticky;
-      top: 0;
-      z-index: 100;
-    }
-    .logo { font-family: 'Cinzel', serif; font-size: 1.2rem; color: var(--hk-gold); letter-spacing: 2px; }
-    .back-home { color: #fff; text-decoration: none; font-size: 0.9rem; border: 1px solid #fff; padding: 5px 15px; border-radius: 50px; transition: 0.3s; }
-    .back-home:hover { background: #fff; color: #000; }
+/* ── HERO ── */
+.hero{
+  position:relative;z-index:2;
+  padding:165px 44px 90px;
+  text-align:center;
+}
+.hero-label{
+  font-family:'Cormorant Garamond',serif;
+  font-size:11px;letter-spacing:6px;color:var(--accent);text-transform:uppercase;
+  opacity:.75;margin-bottom:26px;
+  animation:fadeUp 1s ease both;
+}
+.hero-title{
+  font-size:clamp(52px,10vw,96px);
+  font-weight:200;letter-spacing:.1em;
+  color:var(--text);line-height:1;
+  animation:fadeUp 1s .1s ease both;
+}
+.hero-title em{font-style:italic;color:var(--accent)}
+.hero-sub{
+  margin-top:22px;font-size:13px;
+  color:var(--text-dim);letter-spacing:4px;font-weight:200;
+  animation:fadeUp 1s .2s ease both;
+}
+.hero-line{
+  width:1px;height:52px;
+  background:linear-gradient(to bottom,var(--accent),transparent);
+  margin:36px auto 0;opacity:.4;
+}
 
-    /* --- 主体内容 --- */
-    .container {
-      max-width: 1000px;
-      margin: 0 auto;
-      padding: 60px 20px;
-    }
+/* ── INTRO ── */
+.intro{
+  position:relative;z-index:2;
+  max-width:600px;margin:0 auto;padding:0 44px 80px;
+  text-align:center;
+}
+.intro p{
+  font-size:14px;line-height:2.3;color:var(--text-dim);
+  font-style:italic;font-weight:200;
+}
+.intro strong{font-style:normal;font-weight:300;color:rgba(221,213,200,.65)}
 
-    /* 标题特效 */
-    .hero-title {
-      text-align: center;
-      margin-bottom: 60px;
-    }
-    .hero-title h1 {
-      font-family: 'Cinzel', serif;
-      font-size: 5rem;
-      color: #fff;
-      text-transform: uppercase;
-      text-shadow: 0 0 10px var(--hk-red), 0 0 20px var(--hk-red);
-      animation: flicker 3s infinite;
-    }
-    .hero-title p {
-      font-size: 1.2rem;
-      letter-spacing: 10px;
-      color: var(--hk-teal);
-      margin-top: -10px;
-    }
+/* ── SECTION LABEL ── */
+.sec-label{
+  position:relative;z-index:2;
+  max-width:1100px;margin:0 auto;padding:0 44px 30px;
+  display:flex;align-items:center;gap:18px;
+}
+.sec-label span{
+  font-family:'Cormorant Garamond',serif;
+  font-size:11px;letter-spacing:4px;color:var(--text-dim);
+  text-transform:uppercase;white-space:nowrap;
+}
+.sec-label::after{content:'';flex:1;height:1px;background:var(--border)}
 
-    /* 占位框架卡片 */
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-      gap: 30px;
-    }
+/* ── PHOTO GRID ── */
+.photo-grid{
+  position:relative;z-index:2;
+  max-width:1100px;margin:0 auto;
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(300px,1fr));
+  gap:20px;padding:0 44px 88px;
+}
 
-    .placeholder-card {
-      background: var(--glass);
-      border: 1px solid var(--bdr);
-      height: 400px;
-      border-radius: 4px; /* 港风更适合硬朗一点的小圆角 */
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      backdrop-filter: blur(15px);
-      transition: 0.4s;
-      position: relative;
-      overflow: hidden;
-    }
+.photo-card{
+  background:var(--surface);
+  border:1px solid var(--border);
+  overflow:hidden;
+  transition:border-color .4s,transform .4s,box-shadow .4s;
+  cursor:default;
+}
+.photo-card:hover{
+  border-color:var(--border-h);
+  transform:translateY(-5px);
+  box-shadow:0 22px 52px rgba(0,0,0,.55);
+}
 
-    .placeholder-card::before {
-      content: "PREVIEW";
-      font-family: 'Share Tech Mono', monospace;
-      font-size: 0.8rem;
-      color: rgba(255,255,255,0.2);
-      position: absolute;
-      top: 10px;
-      left: 10px;
-    }
+.card-img{
+  position:relative;height:230px;overflow:hidden;
+}
+.card-img-bg{
+  position:absolute;inset:0;
+  transition:filter .5s,transform .5s;
+  background-size:cover;background-position:center;
+}
+.photo-card:hover .card-img-bg{
+  filter:brightness(.8) saturate(.9);
+  transform:scale(1.04);
+}
+.card-img-overlay{
+  position:absolute;inset:0;
+  background:linear-gradient(180deg,transparent 45%,rgba(7,9,12,.88) 100%);
+  z-index:1;
+}
+.card-img-label{
+  position:absolute;bottom:14px;left:18px;z-index:2;
+  font-family:'Cormorant Garamond',serif;font-style:italic;
+  font-size:18px;color:rgba(255,255,255,.75);letter-spacing:1px;
+}
 
-    .placeholder-card:hover {
-      border-color: var(--hk-teal);
-      transform: scale(1.02);
-      box-shadow: 0 0 30px rgba(0, 255, 208, 0.2);
-    }
+.card-body{padding:18px 20px 22px}
+.card-location{
+  font-family:'Cormorant Garamond',serif;
+  font-size:10px;letter-spacing:3px;color:var(--accent);
+  text-transform:uppercase;margin-bottom:8px;opacity:.7;
+}
+.card-title{
+  font-size:15px;font-weight:300;color:var(--text);
+  letter-spacing:2px;margin-bottom:10px;
+}
+.card-desc{
+  font-size:12px;color:var(--text-dim);
+  line-height:2.1;font-weight:200;font-style:italic;
+}
+.card-date{
+  margin-top:12px;font-family:'Cormorant Garamond',serif;
+  font-size:11px;color:var(--text-dim);letter-spacing:2px;opacity:.7;
+}
 
-    .icon-box {
-      font-size: 3rem;
-      color: var(--hk-gold);
-      margin-bottom: 20px;
-      opacity: 0.6;
-    }
+/* ── DIARY SECTION ── */
+.diary{
+  position:relative;z-index:2;
+  max-width:660px;margin:0 auto;padding:0 44px 100px;
+}
+.diary-entry{
+  border-left:1px solid rgba(200,168,120,.2);
+  padding:0 0 50px 32px;
+  position:relative;
+}
+.diary-entry::before{
+  content:'';position:absolute;left:-5px;top:7px;
+  width:9px;height:9px;border-radius:50%;
+  background:var(--bg);border:1px solid rgba(200,168,120,.5);
+}
+.diary-entry:last-child{padding-bottom:0;border-left-color:transparent}
+.diary-date{
+  font-family:'Cormorant Garamond',serif;
+  font-size:11px;letter-spacing:3px;color:var(--accent);
+  margin-bottom:12px;opacity:.7;
+}
+.diary-title{
+  font-size:17px;font-weight:300;color:var(--text);
+  letter-spacing:2px;margin-bottom:14px;
+}
+.diary-text{
+  font-size:13px;color:var(--text-dim);line-height:2.3;font-weight:200;
+}
+.diary-text em{color:rgba(221,213,200,.6);font-style:italic}
 
-    .placeholder-card h3 {
-      font-weight: 300;
-      letter-spacing: 4px;
-      color: #ccc;
-    }
+/* ── FOOTER ── */
+.footer{
+  position:relative;z-index:2;
+  text-align:center;padding:28px 44px 52px;
+  border-top:1px solid var(--border);
+}
+.footer-text{
+  font-family:'Cormorant Garamond',serif;font-style:italic;
+  font-size:13px;color:var(--text-dim);letter-spacing:2px;
+}
 
-    /* 霓虹闪烁动画 */
-    @keyframes flicker {
-      0%, 18%, 22%, 25%, 53%, 57%, 100% { text-shadow: 0 0 10px var(--hk-red), 0 0 20px var(--hk-red); opacity: 1; }
-      20%, 24%, 55% { text-shadow: none; opacity: 0.8; }
-    }
+/* ── ANIMATIONS ── */
+@keyframes fadeUp{
+  from{opacity:0;transform:translateY(22px)}
+  to{opacity:1;transform:translateY(0)}
+}
 
-    @media (max-width: 768px) {
-      .hero-title h1 { font-size: 3rem; }
-    }
-  </style>
+@media(max-width:768px){
+  .nav{padding:14px 22px}
+  .hero{padding:130px 22px 70px}
+  .photo-grid,.sec-label,.diary,.intro{padding-left:22px;padding-right:22px}
+}
+</style>
 </head>
 <body>
 
-  <div class="hk-bg"></div>
-  <div class="scanlines"></div>
+<!-- NAV -->
+<nav class="nav">
+  <div class="nav-logo">Hong Kong · 流光记</div>
+  <a href="index.html" class="nav-back">← 返回主站</a>
+</nav>
 
-  <nav class="nav-simple">
-    <div class="logo">HONG KONG · LOG</div>
-    <a href="index.html" class="back-home"><i class="fa fa-angle-left"></i> 返回主站</a>
-  </nav>
+<!-- HERO -->
+<header class="hero">
+  <div class="hero-label">Travel Log · Nov 2024</div>
+  <h1 class="hero-title">香<em>港</em></h1>
+  <p class="hero-sub">霓虹之下 · 流光里的一格快门</p>
+  <div class="hero-line"></div>
+</header>
 
-  <div class="container">
-    <header class="hero-title">
-      <h1>香港</h1>
-      <p>NEON DREAMS</p>
-    </header>
+<!-- INTRO -->
+<div class="intro">
+  <p>
+    去香港之前，我以为自己知道它是什么样子——<br>
+    <strong>庙街的嘈杂、维港的夜灯、茶餐厅的烟火气。</strong><br>
+    但站在那里的时候，才明白有一种地方必须用脚去丈量，才能真的读懂它。
+  </p>
+</div>
 
-    <div class="grid">
-      <div class="placeholder-card">
-        <div class="icon-box"><i class="fa fa-video-camera"></i></div>
-        <h3>城市 VLOG 待嵌入</h3>
+<!-- PHOTO SECTION -->
+<div class="sec-label"><span>镜头记录</span></div>
+
+<div class="photo-grid">
+
+  <div class="photo-card">
+    <div class="card-img">
+      <div class="card-img-bg" style="
+        background:linear-gradient(155deg,#0d1a2a 0%,#1a2d3f 45%,#0a1520 100%);
+        filter:brightness(.65) saturate(.75);
+      ">
+        <div style="position:absolute;inset:0;background:
+          radial-gradient(ellipse 50% 35% at 35% 65%,rgba(255,155,50,.1) 0%,transparent 60%),
+          radial-gradient(ellipse 60% 30% at 72% 58%,rgba(80,140,210,.1) 0%,transparent 60%)"></div>
       </div>
-
-      <div class="placeholder-card">
-        <div class="icon-box"><i class="fa fa-camera-retro"></i></div>
-        <h3>街头纪实 待嵌入</h3>
-      </div>
-
-      <div class="placeholder-card">
-        <div class="icon-box"><i class="fa fa-cutlery"></i></div>
-        <h3>港味足迹 待嵌入</h3>
-      </div>
+      <div class="card-img-overlay"></div>
+      <div class="card-img-label">维多利亚港</div>
+    </div>
+    <div class="card-body">
+      <div class="card-location">Tsim Sha Tsui · 尖沙咀</div>
+      <div class="card-title">灯火与倒影</div>
+      <div class="card-desc">晚上八点的幻彩咏香江，光柱扫过对岸，所有人同时举起手机。那一刻我没有拍，只是看着。</div>
+      <div class="card-date">Nov 2024</div>
     </div>
   </div>
+
+  <div class="photo-card">
+    <div class="card-img">
+      <div class="card-img-bg" style="
+        background:linear-gradient(155deg,#1a0a0a 0%,#2a0f0f 45%,#150505 100%);
+        filter:brightness(.65) saturate(.75);
+      ">
+        <div style="position:absolute;inset:0;background:
+          radial-gradient(ellipse 50% 40% at 50% 55%,rgba(200,55,55,.07) 0%,transparent 60%),
+          radial-gradient(ellipse 35% 50% at 22% 32%,rgba(255,195,45,.06) 0%,transparent 60%)"></div>
+      </div>
+      <div class="card-img-overlay"></div>
+      <div class="card-img-label">旺角</div>
+    </div>
+    <div class="card-body">
+      <div class="card-location">Mong Kok · 旺角</div>
+      <div class="card-title">霓虹与嘈杂</div>
+      <div class="card-desc">女人街的人流推着你走。耳机里放着歌，脚步跟不上任何人，也不需要。就这样漂着。</div>
+      <div class="card-date">Nov 2024</div>
+    </div>
+  </div>
+
+  <div class="photo-card">
+    <div class="card-img">
+      <div class="card-img-bg" style="
+        background:linear-gradient(175deg,#08111c 0%,#101d2c 55%,#0a151f 100%);
+        filter:brightness(.65) saturate(.75);
+      ">
+        <div style="position:absolute;inset:0;background:
+          radial-gradient(ellipse 80% 18% at 50% 88%,rgba(80,140,200,.14) 0%,transparent 60%),
+          radial-gradient(ellipse 30% 28% at 62% 28%,rgba(255,255,255,.04) 0%,transparent 60%)"></div>
+      </div>
+      <div class="card-img-overlay"></div>
+      <div class="card-img-label">太平山顶</div>
+    </div>
+    <div class="card-body">
+      <div class="card-location">The Peak · 山顶</div>
+      <div class="card-title">在高处俯视</div>
+      <div class="card-desc">缆车一路向上，窗玻璃上有哈气。到顶了，整个城市铺开在脚下，密密麻麻，活着，发光。</div>
+      <div class="card-date">Nov 2024</div>
+    </div>
+  </div>
+
+  <div class="photo-card">
+    <div class="card-img">
+      <div class="card-img-bg" style="
+        background:linear-gradient(155deg,#070d15 0%,#0d1a26 55%,#060c14 100%);
+        filter:brightness(.65) saturate(.75);
+      ">
+        <div style="position:absolute;inset:0;background:
+          radial-gradient(ellipse 65% 28% at 50% 72%,rgba(126,184,200,.12) 0%,transparent 60%)"></div>
+      </div>
+      <div class="card-img-overlay"></div>
+      <div class="card-img-label">天星小轮</div>
+    </div>
+    <div class="card-body">
+      <div class="card-location">Star Ferry · 中环</div>
+      <div class="card-title">海上的五分钟</div>
+      <div class="card-desc">几块港币，从九龙到港岛。坐在船头，海风带着盐味，觉得这是全香港最便宜的奢侈品。</div>
+      <div class="card-date">Nov 2024</div>
+    </div>
+  </div>
+
+  <div class="photo-card">
+    <div class="card-img">
+      <div class="card-img-bg" style="
+        background:linear-gradient(155deg,#12080a 0%,#1e0c10 55%,#0d0508 100%);
+        filter:brightness(.65) saturate(.75);
+      ">
+        <div style="position:absolute;inset:0;background:
+          radial-gradient(ellipse 42% 40% at 32% 52%,rgba(195,95,45,.07) 0%,transparent 60%),
+          radial-gradient(ellipse 48% 28% at 68% 62%,rgba(45,95,200,.06) 0%,transparent 60%)"></div>
+      </div>
+      <div class="card-img-overlay"></div>
+      <div class="card-img-label">庙街</div>
+    </div>
+    <div class="card-body">
+      <div class="card-location">Temple St · 油麻地</div>
+      <div class="card-title">江湖气与烟火味</div>
+      <div class="card-desc">算命摊、粤剧、卤水档，旧香港的气味在这条街上残存。走进去，像是翻开了一本线装旧书。</div>
+      <div class="card-date">Nov 2024</div>
+    </div>
+  </div>
+
+  <div class="photo-card">
+    <div class="card-img">
+      <div class="card-img-bg" style="
+        background:linear-gradient(155deg,#0e100a 0%,#191c0e 55%,#0a0c07 100%);
+        filter:brightness(.65) saturate(.75);
+      ">
+        <div style="position:absolute;inset:0;background:
+          radial-gradient(ellipse 55% 38% at 50% 55%,rgba(200,168,78,.07) 0%,transparent 60%)"></div>
+      </div>
+      <div class="card-img-overlay"></div>
+      <div class="card-img-label">茶餐厅</div>
+    </div>
+    <div class="card-body">
+      <div class="card-location">Cha Chaan Teng · 铜锣湾</div>
+      <div class="card-title">菠萝包与奶茶</div>
+      <div class="card-desc">热的奶茶，刚出炉的菠萝包，黄油在中间慢慢化开。坐在这里，好像整个城市都安静了一秒。</div>
+      <div class="card-date">Nov 2024</div>
+    </div>
+  </div>
+
+</div>
+
+<!-- DIARY SECTION -->
+<div class="sec-label" style="padding-top:8px"><span>旅途随笔</span></div>
+
+<div class="diary">
+
+  <div class="diary-entry">
+    <div class="diary-date">Nov 12, 2024 · 抵港第一天</div>
+    <div class="diary-title">城市是活的</div>
+    <div class="diary-text">
+      落地的时候已经快晚上九点。机场快线带着我穿过屯门的山，
+      <em>窗外是密密麻麻的楼灯</em>，每一格都有人在里面生活。<br>
+      香港给我的第一印象不是繁华，而是一种密度感——
+      每一寸地方都被填满了，热气腾腾的。
+    </div>
+  </div>
+
+  <div class="diary-entry">
+    <div class="diary-date">Nov 13, 2024 · 旺角</div>
+    <div class="diary-title">人在人海里漂</div>
+    <div class="diary-text">
+      我在旺角走了整整三个小时，没有目的地。
+      <em>耳机里是林宥嘉，脚下是粤语的嘈杂</em>，两种声音叠在一起，奇怪地很搭。<br>
+      买了一串鱼蛋，站在路边吃。行人从我身边流过去，没有人看我。
+    </div>
+  </div>
+
+  <div class="diary-entry">
+    <div class="diary-date">Nov 14, 2024 · 山顶</div>
+    <div class="diary-title">高处不一定孤独</div>
+    <div class="diary-text">
+      山顶的风很大，我把外套拉链拉到最高。
+      <em>城市在脚下闪着光</em>，维港的水反着夜色。<br>
+      有一对老夫妻站在我旁边，不说话，只是看着。
+      我忽然很想回家，又不知道为什么。
+    </div>
+  </div>
+
+  <div class="diary-entry">
+    <div class="diary-date">Nov 15, 2024 · 离港日</div>
+    <div class="diary-title">还会再来的</div>
+    <div class="diary-text">
+      机场，登机前最后一杯港式奶茶。热的，很甜，<em>烫嘴</em>。<br>
+      香港是一座你离开之后会想念的城市——
+      不是想念某个地方，而是想念站在那里时，
+      那种被人群淹没又隐约安心的感觉。
+    </div>
+  </div>
+
+</div>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="footer-text">步履不停 &nbsp;·&nbsp; 此刻记录，是为了将来的某天回头看</div>
+</footer>
 
 </body>
 </html>

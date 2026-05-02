@@ -3,134 +3,149 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>AEMEATH.EXE | 爱弥斯数字档案</title>
-<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Noto+Sans+SC:wght@300;400;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+<title>AEMEATH | 爱弥斯档案</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Noto+Serif+SC:wght@200;300;400&family=Share+Tech+Mono&display=swap" rel="stylesheet">
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 html,body{width:100%;min-height:100vh;overflow-x:hidden}
 :root{
-  --c:#05d9e8;--pk:#ff2a6d;--pu:#b04aff;--gold:#ffd166;
-  --bg:#010a12;--panel:rgba(5,217,232,.05);--bdr:rgba(5,217,232,.22);
-  --star:#d1f7ff;--dim:#7ecfdc
+  --c:#05d9e8;--pk:#e05d88;--pu:#9a6be0;--gold:#d4aa6a;
+  --bg:#020c14;--panel:rgba(5,217,232,.04);--bdr:rgba(5,217,232,.15);
+  --star:#cde8f0;--dim:#6eb8c8
 }
-body{background:var(--bg);color:var(--star);font-family:'Noto Sans SC',sans-serif;font-size:15px;line-height:1.7}
-body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradient(0deg,transparent,transparent 3px,rgba(5,217,232,.012) 3px,rgba(5,217,232,.012) 4px);pointer-events:none;z-index:1}
+body{background:var(--bg);color:var(--star);font-family:'Noto Serif SC',serif;font-size:15px;line-height:1.8}
 canvas#ae{position:fixed;inset:0;z-index:0;pointer-events:none}
 
-.back{position:fixed;top:22px;left:22px;z-index:100;font-family:'Share Tech Mono',monospace;font-size:12px;letter-spacing:2px;text-transform:uppercase;text-decoration:none;color:var(--c);border:1px solid var(--bdr);padding:10px 20px;clip-path:polygon(8px 0%,100% 0%,calc(100% - 8px) 100%,0% 100%);background:rgba(5,217,232,.04);transition:all .25s}
-.back:hover{background:rgba(5,217,232,.12);box-shadow:0 0 20px rgba(5,217,232,.4);color:#fff}
+.back{position:fixed;top:22px;left:22px;z-index:100;font-family:'Share Tech Mono',monospace;font-size:11px;letter-spacing:2px;text-decoration:none;color:var(--dim);border:1px solid rgba(5,217,232,.18);padding:9px 18px;clip-path:polygon(8px 0%,100% 0%,calc(100% - 8px) 100%,0% 100%);background:rgba(5,217,232,.03);transition:all .25s}
+.back:hover{background:rgba(5,217,232,.1);color:var(--c)}
 
-.wrap{position:relative;z-index:2;max-width:1040px;margin:0 auto;padding:110px 24px 80px}
+.wrap{position:relative;z-index:2;max-width:980px;margin:0 auto;padding:100px 24px 80px}
 
+/* ── HERO ── */
 .hero{text-align:center;margin-bottom:56px}
-.hero-eye{font-family:'Share Tech Mono',monospace;font-size:11px;letter-spacing:5px;color:var(--c);text-transform:uppercase;opacity:.75;margin-bottom:20px}
-.hero-title{font-family:'Orbitron',monospace;font-size:clamp(52px,11vw,100px);font-weight:900;letter-spacing:10px;color:#fff;text-shadow:0 0 12px var(--c),0 0 40px rgba(5,217,232,.4);position:relative;display:inline-block}
-.hero-title::before,.hero-title::after{content:attr(data-t);position:absolute;top:0;left:0;right:0;overflow:hidden;pointer-events:none}
-.hero-title::before{color:var(--pk);clip-path:polygon(0 0,100% 0,100% 35%,0 35%);animation:g1 5s infinite}
-.hero-title::after{color:var(--c);clip-path:polygon(0 65%,100% 65%,100% 100%,0 100%);animation:g2 5s infinite}
-@keyframes g1{0%,78%,100%{transform:translate(0);opacity:0}80%{transform:translate(-4px,-1px);opacity:.9}83%{transform:translate(3px);opacity:.9}86%{opacity:0}}
-@keyframes g2{0%,84%,100%{transform:translate(0);opacity:0}86%{transform:translate(4px,2px);opacity:.8}89%{transform:translate(-2px);opacity:.8}92%{opacity:0}}
-.hero-line{width:180px;height:1px;background:linear-gradient(90deg,transparent,var(--c),transparent);margin:22px auto}
-.hero-sub{font-family:'Share Tech Mono',monospace;font-size:13px;letter-spacing:4px;color:var(--dim)}
+.hero-eye{font-family:'Share Tech Mono',monospace;font-size:11px;letter-spacing:4px;color:var(--dim);text-transform:uppercase;margin-bottom:22px;opacity:.8}
+.hero-title{font-family:'Orbitron',monospace;font-size:clamp(48px,10vw,88px);font-weight:900;letter-spacing:10px;color:#fff;text-shadow:0 0 10px rgba(5,217,232,.3),0 0 28px rgba(5,217,232,.12);position:relative;display:inline-block}
+.hero-title::before{content:attr(data-t);position:absolute;top:0;left:0;right:0;overflow:hidden;pointer-events:none;color:var(--pk);clip-path:polygon(0 0,100% 0,100% 38%,0 38%);animation:g1 7s infinite;opacity:0}
+@keyframes g1{0%,82%,100%{transform:translate(0);opacity:0}84%{transform:translate(-3px,-1px);opacity:.65}87%{transform:translate(2px);opacity:.65}90%{opacity:0}}
+.hero-line{width:150px;height:1px;background:linear-gradient(90deg,transparent,var(--c),transparent);margin:20px auto}
+.hero-sub{font-family:'Noto Serif SC',serif;font-size:13px;letter-spacing:3px;color:var(--dim);font-weight:200}
 
-.status{display:flex;justify-content:center;gap:36px;flex-wrap:wrap;margin-bottom:52px;font-family:'Share Tech Mono',monospace;font-size:11px;letter-spacing:2px;color:var(--dim)}
-.dot{display:inline-block;width:7px;height:7px;border-radius:50%;margin-right:7px;animation:pulse 2s ease-in-out infinite}
-.dg{background:#00ff88;box-shadow:0 0 7px #00ff88}
-.dc{background:var(--c);box-shadow:0 0 7px var(--c);animation-delay:.5s}
-.dp{background:var(--pk);box-shadow:0 0 7px var(--pk);animation-delay:1s}
-@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.35;transform:scale(.65)}}
+/* ── 个人注记 ── */
+.fan-note{margin-bottom:52px;padding:20px 26px;border-left:2px solid rgba(5,217,232,.2);background:rgba(5,217,232,.02);font-size:13px;color:rgba(205,232,240,.5);font-style:italic;line-height:2.1;font-weight:200}
+.fan-note strong{font-style:normal;color:rgba(205,232,240,.72);font-weight:300}
 
-.term{background:rgba(0,0,0,.55);border:1px solid var(--bdr);border-left:3px solid var(--c);padding:22px 26px;font-family:'Share Tech Mono',monospace;font-size:13px;line-height:2;margin-bottom:52px}
-.term::before{content:'SYSTEM://AEMEATH_ARCHIVE — v3.1.0 — WUTHERING WAVES OFFICIAL DATA';display:block;font-size:10px;letter-spacing:2px;color:var(--c);opacity:.6;margin-bottom:10px;border-bottom:1px solid rgba(5,217,232,.15);padding-bottom:8px}
-.tp{color:var(--pk)}.tg{color:#00ff88}.td{color:var(--dim)}.tgold{color:var(--gold)}
-.cur{display:inline-block;width:8px;height:14px;background:var(--c);vertical-align:middle;animation:blink 1s step-end infinite}
+/* ── STATUS ── */
+.status{display:flex;justify-content:center;gap:30px;flex-wrap:wrap;margin-bottom:46px;font-family:'Share Tech Mono',monospace;font-size:11px;letter-spacing:2px;color:var(--dim)}
+.dot{display:inline-block;width:6px;height:6px;border-radius:50%;margin-right:6px;animation:pulse 2.2s ease-in-out infinite}
+.dg{background:#00cc77;box-shadow:0 0 5px #00cc77}
+.dc{background:var(--c);box-shadow:0 0 5px var(--c);animation-delay:.5s}
+.dp{background:var(--pk);box-shadow:0 0 5px var(--pk);animation-delay:1s}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.3;transform:scale(.6)}}
+
+/* ── TERMINAL ── */
+.term{background:rgba(0,0,0,.48);border:1px solid var(--bdr);border-left:2px solid rgba(5,217,232,.35);padding:18px 22px;font-family:'Share Tech Mono',monospace;font-size:12px;line-height:2.1;margin-bottom:52px}
+.term-hd{font-size:10px;letter-spacing:2px;color:rgba(5,217,232,.4);margin-bottom:8px;border-bottom:1px solid rgba(5,217,232,.1);padding-bottom:6px}
+.tp{color:var(--pk)}.tg{color:#00cc77}.td{color:var(--dim)}.tgold{color:var(--gold)}
+.cur{display:inline-block;width:7px;height:13px;background:var(--c);vertical-align:middle;animation:blink 1s step-end infinite}
 @keyframes blink{0%,100%{opacity:1}50%{opacity:0}}
 
-.sec-title{font-family:'Share Tech Mono',monospace;font-size:11px;letter-spacing:4px;color:var(--c);text-transform:uppercase;margin-bottom:20px;opacity:.8}
-.sec-title::before{content:'// '}
+/* ── SECTION TITLE ── */
+.sec-title{font-family:'Share Tech Mono',monospace;font-size:10px;letter-spacing:4px;color:rgba(5,217,232,.5);text-transform:uppercase;margin-bottom:18px}
+.sec-title::before{content:'— '}
 
-.id-card{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:52px}
-@media(max-width:640px){.id-card{grid-template-columns:1fr}}
-.id-block{background:var(--panel);border:1px solid var(--bdr);padding:22px 24px;clip-path:polygon(0 0,calc(100% - 14px) 0,100% 14px,100% 100%,14px 100%,0 calc(100% - 14px));position:relative}
-.id-block::before{content:'';position:absolute;top:-1px;right:14px;width:14px;height:1px;background:var(--c);transform-origin:right;transform:rotate(45deg) scaleX(1.42)}
-.id-label{font-family:'Share Tech Mono',monospace;font-size:10px;letter-spacing:3px;color:var(--c);opacity:.6;margin-bottom:4px;text-transform:uppercase}
-.id-value{font-size:15px;color:#fff;font-weight:700}
-.id-sub{font-size:12px;color:var(--dim);margin-top:3px}
-.badge{display:inline-block;padding:2px 10px;font-family:'Share Tech Mono',monospace;font-size:11px;border-radius:2px;margin-top:6px}
-.badge-hot{background:rgba(255,42,109,.15);border:1px solid rgba(255,42,109,.4);color:var(--pk)}
-.badge-star{background:rgba(255,209,102,.12);border:1px solid rgba(255,209,102,.35);color:var(--gold)}
-.badge-green{background:rgba(0,255,136,.1);border:1px solid rgba(0,255,136,.3);color:#00ff88}
+/* ── ID CARD ── */
+.id-card{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:52px}
+@media(max-width:580px){.id-card{grid-template-columns:1fr}}
+.id-block{background:var(--panel);border:1px solid var(--bdr);padding:18px 22px;clip-path:polygon(0 0,calc(100% - 12px) 0,100% 12px,100% 100%,12px 100%,0 calc(100% - 12px))}
+.id-label{font-family:'Share Tech Mono',monospace;font-size:10px;letter-spacing:2px;color:rgba(5,217,232,.42);margin-bottom:4px;text-transform:uppercase}
+.id-value{font-size:14px;color:#e8f4f8;font-weight:300;font-family:'Noto Serif SC',serif}
+.id-sub{font-size:12px;color:var(--dim);margin-top:3px;font-family:'Noto Serif SC',serif;font-weight:200}
+.badge{display:inline-block;padding:2px 10px;font-family:'Share Tech Mono',monospace;font-size:10px;border-radius:2px;margin-top:6px}
+.badge-hot{background:rgba(224,93,136,.1);border:1px solid rgba(224,93,136,.28);color:var(--pk)}
+.badge-star{background:rgba(212,170,106,.08);border:1px solid rgba(212,170,106,.25);color:var(--gold)}
+.badge-green{background:rgba(0,204,119,.07);border:1px solid rgba(0,204,119,.22);color:#00cc77}
 
-.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(270px,1fr));gap:20px;margin-bottom:52px}
-.panel{background:var(--panel);border:1px solid var(--bdr);padding:26px 22px;position:relative;transition:border-color .3s,box-shadow .3s,transform .3s;cursor:default;clip-path:polygon(0 0,calc(100% - 18px) 0,100% 18px,100% 100%,18px 100%,0 calc(100% - 18px))}
-.panel::before{content:'';position:absolute;top:-1px;right:18px;width:18px;height:1px;background:var(--c);transform-origin:right;transform:rotate(45deg) scaleX(1.42)}
-.panel:hover{border-color:var(--c);box-shadow:0 0 28px rgba(5,217,232,.18),inset 0 0 20px rgba(5,217,232,.04);transform:translateY(-5px)}
-.pno{font-family:'Share Tech Mono',monospace;font-size:10px;letter-spacing:3px;color:var(--c);opacity:.6;margin-bottom:6px}
-.pico{font-size:26px;margin-bottom:10px}
-.pname{font-family:'Orbitron',monospace;font-size:14px;font-weight:700;color:#fff;margin-bottom:8px}
-.pdesc{font-size:13px;color:var(--dim);line-height:1.8}
-.pval{color:#00ff88;font-family:'Share Tech Mono',monospace}
-.ppink{color:var(--pk);font-family:'Share Tech Mono',monospace}
-.pgold{color:var(--gold);font-family:'Share Tech Mono',monospace}
+/* ── PANELS GRID ── */
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px;margin-bottom:52px}
+.panel{background:var(--panel);border:1px solid var(--bdr);padding:22px 20px;position:relative;transition:border-color .3s,box-shadow .3s,transform .3s;clip-path:polygon(0 0,calc(100% - 14px) 0,100% 14px,100% 100%,14px 100%,0 calc(100% - 14px))}
+.panel:hover{border-color:rgba(5,217,232,.3);box-shadow:0 0 20px rgba(5,217,232,.08);transform:translateY(-4px)}
+.pno{font-family:'Share Tech Mono',monospace;font-size:10px;letter-spacing:2px;color:rgba(5,217,232,.38);margin-bottom:8px}
+.pname{font-family:'Noto Serif SC',serif;font-size:15px;font-weight:300;color:#e8f4f8;margin-bottom:10px}
+.pdesc{font-size:13px;color:var(--dim);line-height:1.95;font-family:'Noto Serif SC',serif;font-weight:200}
+.pval{color:#00cc77}.ppink{color:var(--pk)}.pgold{color:var(--gold)}
 
+/* ── SKILL TABLE ── */
 .skill-table{width:100%;border-collapse:collapse;margin-bottom:52px;font-size:13px}
-.skill-table th{background:rgba(5,217,232,.08);border:1px solid var(--bdr);padding:10px 14px;font-family:'Share Tech Mono',monospace;font-size:10px;letter-spacing:2px;color:var(--c);text-align:left;text-transform:uppercase}
-.skill-table td{border:1px solid rgba(5,217,232,.1);padding:11px 14px;color:var(--dim);vertical-align:top;line-height:1.75}
-.skill-table tr:hover td{background:rgba(5,217,232,.03)}
-.skill-name{color:#fff;font-weight:700;font-size:13px;margin-bottom:2px}
+.skill-table th{background:rgba(5,217,232,.05);border:1px solid var(--bdr);padding:10px 14px;font-family:'Share Tech Mono',monospace;font-size:10px;letter-spacing:2px;color:rgba(5,217,232,.55);text-align:left;text-transform:uppercase}
+.skill-table td{border:1px solid rgba(5,217,232,.07);padding:12px 14px;color:var(--dim);vertical-align:top;line-height:1.9;font-family:'Noto Serif SC',serif;font-weight:200}
+.skill-table tr:hover td{background:rgba(5,217,232,.02)}
+.skill-name{color:#e8f4f8;font-weight:300;font-size:13px;margin-bottom:3px;font-family:'Noto Serif SC',serif}
 .skill-type{font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--pk);letter-spacing:1px}
 
-.quote-box{border-left:3px solid var(--pk);padding:18px 24px;background:rgba(255,42,109,.04);margin-bottom:52px;font-style:italic;color:var(--star);font-size:14px;line-height:1.9}
-.quote-box .q-attr{margin-top:10px;font-style:normal;font-family:'Share Tech Mono',monospace;font-size:11px;letter-spacing:2px;color:var(--pk);opacity:.7}
+/* ── QUOTE ── */
+.quote-box{border-left:2px solid rgba(224,93,136,.35);padding:18px 24px;background:rgba(224,93,136,.02);margin-bottom:32px;color:rgba(205,232,240,.75);font-size:14px;line-height:2.1;font-family:'Noto Serif SC',serif;font-weight:200;font-style:italic}
+.quote-box .q-attr{margin-top:10px;font-style:normal;font-family:'Share Tech Mono',monospace;font-size:10px;letter-spacing:2px;color:rgba(224,93,136,.45)}
+.quote-box.cyan{border-left-color:rgba(5,217,232,.28);background:rgba(5,217,232,.015)}
+.quote-box.cyan .q-attr{color:rgba(5,217,232,.4)}
 
-.cv-row{display:flex;gap:12px;align-items:center;padding:10px 0;border-bottom:1px solid rgba(5,217,232,.08);font-family:'Share Tech Mono',monospace;font-size:12px}
-.cv-lang{color:var(--c);opacity:.6;width:56px;flex-shrink:0;letter-spacing:1px}
-.cv-actor{color:#fff}
+/* ── CV ── */
+.cv-box{background:var(--panel);border:1px solid var(--bdr);padding:18px 22px;margin-bottom:52px}
+.cv-row{display:flex;gap:14px;align-items:center;padding:10px 0;border-bottom:1px solid rgba(5,217,232,.06);font-size:13px}
+.cv-row:last-child{border:none}
+.cv-lang{font-family:'Share Tech Mono',monospace;font-size:10px;letter-spacing:2px;color:rgba(5,217,232,.42);width:48px;flex-shrink:0}
+.cv-actor{color:#e8f4f8;font-family:'Noto Serif SC',serif;font-weight:300}
 
-.lnk{border:1px solid rgba(255,42,109,.3);background:rgba(255,42,109,.04);padding:28px 32px;display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap;margin-bottom:52px;clip-path:polygon(0 0,calc(100% - 20px) 0,100% 20px,100% 100%,20px 100%,0 calc(100% - 20px))}
-.lnk h3{font-family:'Orbitron',monospace;font-size:18px;color:var(--pk);margin-bottom:6px}
-.lnk p{font-size:13px;color:var(--dim)}
-.lnk-btn{display:inline-block;padding:12px 28px;background:linear-gradient(135deg,var(--pk),var(--pu));color:#fff;font-family:'Share Tech Mono',monospace;font-size:12px;letter-spacing:2px;text-decoration:none;text-transform:uppercase;clip-path:polygon(8px 0%,100% 0%,calc(100% - 8px) 100%,0% 100%);transition:opacity .25s,box-shadow .25s;white-space:nowrap}
-.lnk-btn:hover{opacity:.85;box-shadow:0 0 24px rgba(255,42,109,.5)}
+/* ── LINK BLOCK ── */
+.lnk{border:1px solid rgba(224,93,136,.22);background:rgba(224,93,136,.02);padding:26px 28px;display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap;margin-bottom:52px;clip-path:polygon(0 0,calc(100% - 16px) 0,100% 16px,100% 100%,16px 100%,0 calc(100% - 16px))}
+.lnk h3{font-family:'Noto Serif SC',serif;font-size:16px;font-weight:300;color:#e8f4f8;margin-bottom:6px}
+.lnk p{font-size:12px;color:var(--dim);font-family:'Noto Serif SC',serif;font-weight:200}
+.lnk-btn{display:inline-block;padding:10px 24px;background:linear-gradient(135deg,var(--pk),var(--pu));color:#fff;font-family:'Share Tech Mono',monospace;font-size:11px;letter-spacing:2px;text-decoration:none;text-transform:uppercase;clip-path:polygon(6px 0%,100% 0%,calc(100% - 6px) 100%,0% 100%);transition:opacity .25s;white-space:nowrap}
+.lnk-btn:hover{opacity:.8}
 
-.footer{text-align:center;font-family:'Share Tech Mono',monospace;font-size:10px;letter-spacing:2px;color:rgba(5,217,232,.25);border-top:1px solid rgba(5,217,232,.08);padding-top:32px;line-height:1.9}
+/* ── FOOTER ── */
+.footer{text-align:center;font-family:'Share Tech Mono',monospace;font-size:10px;letter-spacing:2px;color:rgba(5,217,232,.16);border-top:1px solid rgba(5,217,232,.07);padding-top:26px;line-height:2}
 
-@media(max-width:600px){.back{font-size:10px;padding:8px 14px}.status{gap:16px}.lnk{flex-direction:column}.skill-table{font-size:11px}}
+@media(max-width:600px){.back{font-size:10px;padding:7px 13px}.status{gap:12px}.lnk{flex-direction:column}.skill-table{font-size:11px}}
 </style>
 </head>
 <body>
 <canvas id="ae"></canvas>
-<a href="index.html" class="back">← RETURN TO MAIN</a>
+<a href="index.html" class="back">← 返回主站</a>
 
 <div class="wrap">
 
   <!-- HERO -->
   <div class="hero">
-    <p class="hero-eye">// WUTHERING WAVES · 鸣潮 · RESONATOR ARCHIVE · v3.1</p>
+    <p class="hero-eye">Wuthering Waves · 鸣潮 · Resonator Archive</p>
     <h1 class="hero-title" data-t="AEMEATH">AEMEATH</h1>
     <div class="hero-line"></div>
-    <p class="hero-sub">爱弥斯 · 隧者适格者 · 数字幽灵</p>
+    <p class="hero-sub">爱弥斯 &nbsp;·&nbsp; 隧者适格者 &nbsp;·&nbsp; 数字幽灵</p>
   </div>
 
   <!-- STATUS -->
   <div class="status">
     <span><span class="dot dg"></span>RESONATOR ONLINE</span>
     <span><span class="dot dc"></span>DUAL-MODE ACTIVE</span>
-    <span><span class="dot dp"></span>3.1 DEPLOYED · 2026-02-06</span>
+    <span><span class="dot dp"></span>v3.1 · 2026.02.06</span>
+  </div>
+
+  <!-- FAN NOTE -->
+  <div class="fan-note">
+    这个页面是我整理的爱弥斯档案。她是卡提希娅故事里为数不多让我真的心疼的人。<br>
+    <strong>「假装阳光」</strong>——四个字，却装得下她整个人生。
   </div>
 
   <!-- TERMINAL -->
   <div class="term">
-    <div><span class="tp">root@archive:~$ </span>query --resonator="爱弥斯" --build=3.1 --auth=CARTETHYIA</div>
-    <div><span class="td">[  0.001] 加载共鸣者档案...</span></div>
-    <div><span class="td">[  0.038] 品质认证：</span><span class="tgold">★★★★★ 五星限定</span></div>
-    <div><span class="td">[  0.071] 共鸣属性：</span><span class="tp">热熔 FUSION</span></div>
-    <div><span class="td">[  0.099] 武器类型：</span><span style="color:#fff">迅刀 RECTIFIER</span></div>
-    <div><span class="td">[  0.133] 战斗定位：</span><span class="tg">主力输出 MAIN DPS · T0（逆境深塔）</span></div>
-    <div><span class="td">[  0.167] 实装版本：</span><span style="color:#fff">3.1「赠予雪中的你」 · 2026年2月6日</span></div>
-    <div><span class="td">[  0.201] 身份状态：</span><span class="tp">肉体毁灭 · 数据幽灵存续 · 无人可见</span></div>
-    <div><span class="td">[  0.235] 持有率：</span><span class="tgold">58.87%（满命22.20%）</span></div>
-    <div><span class="tp">root@archive:~$ </span>watch --realtime <span class="cur"></span></div>
+    <div class="term-hd">ARCHIVE://AEMEATH · v3.1.0 · WUTHERING WAVES</div>
+    <div><span class="tp">query </span><span class="td">resonator="爱弥斯" &nbsp;build=3.1</span></div>
+    <div><span class="td">品质 ···· </span><span class="tgold">★★★★★ 五星限定</span></div>
+    <div><span class="td">属性 ···· </span><span class="tp">热熔 FUSION · 迅刀</span></div>
+    <div><span class="td">定位 ···· </span><span class="tg">主力输出 MAIN DPS · T0（逆境深塔）</span></div>
+    <div><span class="td">版本 ···· </span><span style="color:#e8f4f8">3.1「赠予雪中的你」· 2026年2月6日</span></div>
+    <div><span class="td">状态 ···· </span><span class="tp">肉体毁灭 · 数据幽灵存续</span></div>
+    <div><span class="td">持有率 · </span><span class="tgold">58.87%（满命 22.20%）</span></div>
+    <div style="margin-top:6px"><span class="td">watching realtime </span><span class="cur"></span></div>
   </div>
 
   <!-- IDENTITY -->
@@ -148,8 +163,8 @@ canvas#ae{position:fixed;inset:0;z-index:0;pointer-events:none}
     </div>
     <div class="id-block">
       <div class="id-label">共鸣属性 / ELEMENT</div>
-      <div class="id-value">热熔</div>
-      <div><span class="badge badge-hot">FUSION · 主C主力输出</span></div>
+      <div class="id-value">热熔 Fusion</div>
+      <div><span class="badge badge-hot">主力输出 · MAIN DPS</span></div>
     </div>
     <div class="id-block">
       <div class="id-label">武器类型 / WEAPON</div>
@@ -164,7 +179,7 @@ canvas#ae{position:fixed;inset:0;z-index:0;pointer-events:none}
     <div class="id-block">
       <div class="id-label">歌手别名 / ALIAS</div>
       <div class="id-value">飞行雪绒</div>
-      <div class="id-sub">在微博、B站、抖音等平台开设角色官号</div>
+      <div class="id-sub">微博、B站、抖音均有角色官号</div>
     </div>
     <div class="id-block">
       <div class="id-label">实装版本 / VERSION</div>
@@ -183,86 +198,74 @@ canvas#ae{position:fixed;inset:0;z-index:0;pointer-events:none}
   <div class="grid">
     <div class="panel">
       <div class="pno">LORE · 01</div>
-      <div class="pico">⬡</div>
       <div class="pname">幼年经历</div>
-      <div class="pdesc">父母因<span class="ppink">虚质磁暴</span>罹难后，失忆前的漂泊者将幼年爱弥斯收留，临别留下一句话：<span class="pval">「轻松快乐地活着」</span>——这成为她一生行动的核心驱动。</div>
+      <div class="pdesc">父母因<span class="ppink">虚质磁暴</span>罹难后，失忆前的漂泊者将幼年爱弥斯收留，临别留下一句：<span class="pval">「轻松快乐地活着」</span>——这成为她一生行动的核心驱动。</div>
     </div>
     <div class="panel">
       <div class="pno">LORE · 02</div>
-      <div class="pico">◈</div>
       <div class="pname">星炬学院适格者</div>
-      <div class="pdesc">进入<span class="pval">星炬学院</span>成为隧者适格者候选。临近毕业时，在模拟仓中意外连接上第二次悲鸣时期与<span class="ppink">阿列夫一</span>交战的古隧者意识，超频后与其共鸣。</div>
+      <div class="pdesc">进入<span class="pval">星炬学院</span>成为隧者适格者候选。临近毕业时，在模拟仓中意外连接上古隧者意识，超频后与其共鸣，代价是肉体彻底消散。</div>
     </div>
     <div class="panel">
       <div class="pno">LORE · 03</div>
-      <div class="pico">⬟</div>
       <div class="pname">数字幽灵诞生</div>
-      <div class="pdesc">共鸣的代价是<span class="ppink">肉体彻底毁灭</span>，意识转化为数据幽灵。现以无人可见的「电子幽灵」形态存活，仍以活泼俏皮的姿态穿梭于校园与战斗之间。</div>
+      <div class="pdesc">共鸣的代价是<span class="ppink">肉体彻底毁灭</span>，意识转化为数据幽灵。现以无人可见的形态存活，仍以活泼俏皮的姿态穿梭于校园与战斗之间。</div>
     </div>
     <div class="panel">
       <div class="pno">LORE · 04</div>
-      <div class="pico">⬠</div>
       <div class="pname">虚质空间的真相</div>
-      <div class="pdesc">在虚质空间得知阿列夫一毁灭外星文明之事，并发现漂泊者的频率。爱弥斯强烈的情感使这部分频率化为<span class="ppink">辛吉勒姆</span>——对「回家」有极端偏执渴望的存在。</div>
+      <div class="pdesc">在虚质空间得知阿列夫一的秘密，并发现漂泊者的频率。强烈的情感使这部分频率化为<span class="ppink">辛吉勒姆</span>——对「回家」有极端偏执渴望的存在。</div>
     </div>
     <div class="panel">
       <div class="pno">LORE · 05</div>
-      <div class="pico">◇</div>
       <div class="pname">残酷的因果链</div>
-      <div class="pdesc">她穿越到过去与隧者共鸣，帮助封印阿列夫一的分身，使拉海洛得以幸存。但代价是<span class="ppink">自己永远被封印在隧门之下</span>，漂泊者才能在未来与幼年爱弥斯相遇。</div>
+      <div class="pdesc">她穿越到过去帮助封印阿列夫一的分身，使拉海洛得以幸存。但代价是<span class="ppink">自己永远被封印在隧门之下</span>——漂泊者才能在未来与幼年的她相遇。</div>
     </div>
     <div class="panel">
       <div class="pno">LORE · 06</div>
-      <div class="pico">⬡</div>
-      <div class="pname">性格与真实心愿</div>
-      <div class="pdesc">外表活泼俏皮，实则<span class="ppink">假装阳光</span>掩盖内心孤独。战斗宣言：<span class="pval">「我会消灭，意图毁灭的恶。」</span>真实心愿：减轻漂泊者的重担，让其能够幸福地活着。</div>
+      <div class="pname">真实的她</div>
+      <div class="pdesc">外表活泼俏皮，实则<span class="ppink">假装阳光</span>掩盖内心孤独。真实心愿：减轻漂泊者的重担。战斗宣言：<span class="pval">「我会消灭，意图毁灭的恶。」</span></div>
     </div>
   </div>
 
-  <!-- OFFICIAL QUOTES -->
+  <!-- OFFICIAL QUOTE -->
   <div class="quote-box">
     「但愿我会让你感到骄傲，但愿我没有让你失望。」
     <div class="q-attr">— 爱弥斯 · 官方角色简介</div>
   </div>
 
   <!-- COMBAT -->
-  <p class="sec-title">战斗系统档案</p>
+  <p class="sec-title">战斗系统</p>
   <div class="grid" style="margin-bottom:20px">
     <div class="panel">
       <div class="pno">COMBAT · 01</div>
-      <div class="pico">⚔</div>
       <div class="pname">双形态切换</div>
       <div class="pdesc">在<span class="pval">爱弥斯形态</span>（攻速快）与<span class="pval">机兵形态·隧者兵装</span>（范围大、攒条快）间自由切换，共4种切换方式。两种形态均可在大世界常驻并支持<span class="pval">飞行</span>。</div>
     </div>
     <div class="panel">
       <div class="pno">COMBAT · 02</div>
-      <div class="pico">◉</div>
       <div class="pname">双输出体系</div>
-      <div class="pdesc">可选<span class="pval">震谐模态</span>（单体对Boss）或<span class="pval">聚爆模态</span>（对群）。震谐需队友挂debuff后处决；聚爆需叠满10层（千咲可提升至13层）后触发，伤害翻倍结算。</div>
+      <div class="pdesc">可选<span class="pval">震谐模态</span>（单体对Boss）或<span class="pval">聚爆模态</span>（对群）。聚爆需叠满10层（千咲可升至13层）后触发，伤害翻倍结算。</div>
     </div>
     <div class="panel">
       <div class="pno">COMBAT · 03</div>
-      <div class="pico">★</div>
-      <div class="pname">核心输出·共鸣解放</div>
-      <div class="pdesc">主要伤害来源为<span class="ppink">共鸣解放（大招）</span>。满足条件（4颗星+爱心白边+回路条满）时释放<span class="pval">二段共鸣解放·星辉破界而来·终结</span>，强化技能倍率可达 2400%。</div>
+      <div class="pname">核心输出</div>
+      <div class="pdesc">主要伤害来源为<span class="ppink">共鸣解放（大招）</span>。满足条件时释放<span class="pval">二段解放·终结</span>，强化技能倍率可达 <span class="pgold">2400%</span>，同时为全队附加伤害加深20%。</div>
     </div>
     <div class="panel">
       <div class="pno">COMBAT · 04</div>
-      <div class="pico">⬟</div>
-      <div class="pname">固有技能·星与星之间</div>
-      <div class="pdesc">震谐：队友附加震谐·偏移时暴击伤害<span class="pval">+20%</span>（最多3层=+60%）；聚爆：队友附加聚爆效应时<span class="pval">+30%</span>（最多2层=+60%）。叠满后解放终结伤害加深<span class="pval">25%</span>。</div>
-    </div>
-    <div class="panel">
-      <div class="pno">COMBAT · 05</div>
-      <div class="pico">⬡</div>
       <div class="pname">推荐配队</div>
       <div class="pdesc"><span class="pval">震谐队：</span>爱弥斯 + 琳奈 + 莫宁<br><span class="pval">聚爆队：</span>爱弥斯 + 千咲 + 琳奈/露帕<br><span class="pgold">0链逆境深塔 T0 · 冥歌海墟 T0.5</span></div>
     </div>
     <div class="panel">
-      <div class="pno">COMBAT · 06</div>
-      <div class="pico">◈</div>
+      <div class="pno">COMBAT · 05</div>
       <div class="pname">声骸与面板</div>
-      <div class="pdesc">推荐：<span class="pval">长路启航之星×5</span>，4C声骸首位装配<span class="pval">辛吉勒姆</span>。毕业面板参考：暴击 <span class="pval">60-70%</span> · 暴伤 <span class="pval">120-140%</span> · 攻击 <span class="pval">2200+</span> · 充能 <span class="pval">100-120%</span>。</div>
+      <div class="pdesc">推荐：<span class="pval">长路启航之星×5</span>，4C声骸首位装配<span class="pval">辛吉勒姆</span>。毕业面板：暴击 <span class="pval">60-70%</span> · 暴伤 <span class="pval">120-140%</span> · 攻击 <span class="pval">2200+</span></div>
+    </div>
+    <div class="panel">
+      <div class="pno">COMBAT · 06</div>
+      <div class="pname">固有技能</div>
+      <div class="pdesc">震谐：队友附加震谐·偏移时暴击伤害<span class="pval">+20%</span>（最多3层）；聚爆：队友附加聚爆效应时<span class="pval">+30%</span>（最多2层）。叠满后解放终结伤害加深<span class="pval">25%</span>。</div>
     </div>
   </div>
 
@@ -273,7 +276,7 @@ canvas#ae{position:fixed;inset:0;z-index:0;pointer-events:none}
       <tr>
         <th style="width:22%">技能名称</th>
         <th style="width:16%">类型</th>
-        <th>官方效果摘要</th>
+        <th>效果概要</th>
       </tr>
     </thead>
     <tbody>
@@ -283,18 +286,18 @@ canvas#ae{position:fixed;inset:0;z-index:0;pointer-events:none}
         <td>爱弥斯形态攻速快；机兵形态范围大、攒回路条效率高。普攻第4段命中后5秒内，若回路条≥1格可衔接强化共鸣技能。</td>
       </tr>
       <tr>
-        <td><div class="skill-name">重击·蓄力 / 即刻响应</div></td>
+        <td><div class="skill-name">重击·蓄力</div></td>
         <td><div class="skill-type">HEAVY ATK</div></td>
-        <td>处于<span class="pval">即刻响应</span>状态时可快速完成二段蓄力。固有技能·于万籁之前：此状态下重击·爱弥斯 / 重击·机兵伤害加深 <span class="pval">200%</span>。</td>
+        <td>处于<span class="pval">即刻响应</span>状态时可快速完成二段蓄力。此状态下重击·爱弥斯 / 重击·机兵造成的伤害加深 <span class="pval">200%</span>。</td>
       </tr>
       <tr>
         <td><div class="skill-name">共鸣技能·形态切换</div></td>
-        <td><div class="skill-type">RESONANCE SKILL</div></td>
-        <td>在爱弥斯形态与机兵形态间切换。强化版（e3/E3）命中敌人时，消耗目标「震谐/聚爆轨迹」并提升对应伤害，同时消耗1格回路条转化为1颗星。</td>
+        <td><div class="skill-type">SKILL</div></td>
+        <td>在爱弥斯形态与机兵形态间切换。强化版命中敌人时，消耗目标「震谐/聚爆轨迹」并提升对应伤害，同时消耗1格回路条转化为1颗星。</td>
       </tr>
       <tr>
         <td><div class="skill-name">共鸣回路·谐度破坏</div></td>
-        <td><div class="skill-type">RESONANCE CIRCUIT</div></td>
+        <td><div class="skill-type">CIRCUIT</div></td>
         <td>目标偏谐值满时可施放谐度破坏。响应队友「震谐·干涉」时触发震谐响应·星爆，同一目标每 <span class="pval">8秒</span> 仅可受到1次伤害。</td>
       </tr>
       <tr>
@@ -304,41 +307,41 @@ canvas#ae{position:fixed;inset:0;z-index:0;pointer-events:none}
       </tr>
       <tr>
         <td><div class="skill-name">共鸣解放·星辉破界而来</div></td>
-        <td><div class="skill-type">RESONANCE LIBERATION</div></td>
-        <td>两段式大招。R1获得1颗星，满足「4颗星+爱心白边」条件后，强化重击命中回复2格回路条，进而释放 <span class="pval">R2终结</span>（强化技能倍率2400%）。释放时对队伍附加全伤害加深 <span class="pval">10%→20%</span>（持续20秒）。</td>
+        <td><div class="skill-type">LIBERATION</div></td>
+        <td>两段式大招。满足「4颗星+爱心白边」条件后，释放 <span class="pval">R2终结</span>（倍率2400%）。释放时对队伍附加全伤害加深 <span class="pval">10%→20%</span>（持续20秒）。</td>
       </tr>
       <tr>
         <td><div class="skill-name">固有技能·于万籁之前</div></td>
         <td><div class="skill-type">INHERENT 1</div></td>
-        <td>处于即刻响应状态时，重击·爱弥斯 / 重击·机兵造成的伤害加深 <span class="pval">200%</span>。</td>
+        <td>处于即刻响应状态时，重击造成的伤害加深 <span class="pval">200%</span>。</td>
       </tr>
       <tr>
         <td><div class="skill-name">固有技能·星与星之间</div></td>
         <td><div class="skill-type">INHERENT 2</div></td>
-        <td>震谐模态：队友附加震谐·偏移或造成震谐伤害时，爱弥斯暴击伤害 <span class="pval">+20%</span>，最多3层（+60%），满层时解放终结伤害加深25%。聚爆模态：队友附加聚爆效应时，暴击伤害 <span class="pval">+30%</span>，最多2层（+60%），满层同样加深25%。切换模态时重置。</td>
+        <td>震谐模态：队友附加震谐·偏移或造成震谐伤害时，暴击伤害 <span class="pval">+20%</span>（最多3层），满层时解放终结伤害加深25%。聚爆模态：+30%（最多2层），满层同样加深25%。切换模态时重置。</td>
       </tr>
     </tbody>
   </table>
 
   <!-- CV -->
   <p class="sec-title">配音演员</p>
-  <div style="background:var(--panel);border:1px solid var(--bdr);padding:20px 26px;margin-bottom:52px">
+  <div class="cv-box">
     <div class="cv-row"><span class="cv-lang">日语</span><span class="cv-actor">佐藤聪美</span></div>
     <div class="cv-row"><span class="cv-lang">中文</span><span class="cv-actor">王雅欣</span></div>
-    <div class="cv-row"><span class="cv-lang">英语</span><span class="cv-actor">卡拉·西奥博尔德 (Carla Theobald)</span></div>
-    <div class="cv-row" style="border:none"><span class="cv-lang">韩语</span><span class="cv-actor">金贺娄</span></div>
+    <div class="cv-row"><span class="cv-lang">英语</span><span class="cv-actor">卡拉·西奥博尔德（Carla Theobald）</span></div>
+    <div class="cv-row"><span class="cv-lang">韩语</span><span class="cv-actor">金贺娄</span></div>
   </div>
 
   <!-- NPC QUOTES -->
   <p class="sec-title">他人评述</p>
   <div style="margin-bottom:52px;display:flex;flex-direction:column;gap:14px">
     <div class="quote-box" style="margin-bottom:0">
-      「被你看重的孩子，身上果然有着与你相似的特点。执拗得像是在和命运较劲，大胆果决到令人咋舌。有时我能察觉她平日里表现出的活泼开朗，或许只是她"想"让人看到的面貌，但既然这是她希望展现的，我就不去打扰。」
+      「被你看重的孩子，身上果然有着与你相似的特点。执拗得像是在和命运较劲，大胆果决到令人咋舌。有时我能察觉她平日里表现出的活泼开朗，或许只是她「想」让人看到的面貌，但既然这是她希望展现的，我就不去打扰。」
       <div class="q-attr">— 陆·赫斯</div>
     </div>
-    <div class="quote-box" style="margin-bottom:0;border-left-color:var(--c)">
+    <div class="quote-box cyan" style="margin-bottom:0">
       「我真的很喜欢飞行雪绒的歌！但她上次突然开歌友会的时候，我正在冰原考察……要、要是还有机会的话，我一定要去她的歌友会看看！」
-      <div class="q-attr" style="color:var(--c)">— 西格莉卡</div>
+      <div class="q-attr">— 西格莉卡</div>
     </div>
   </div>
 
@@ -353,7 +356,7 @@ canvas#ae{position:fixed;inset:0;z-index:0;pointer-events:none}
     <div class="panel">
       <div class="pno">NOTE · B</div>
       <div class="pname">人气数据</div>
-      <div class="pdesc" style="margin-top:8px">截至2026年2月20日，持有率达 <span class="pgold">58.87%</span>，六链（满命）持有率 <span class="pgold">22.20%</span>，超越前记录保持者卡提希娅的六链持有率。</div>
+      <div class="pdesc" style="margin-top:8px">持有率 <span class="pgold">58.87%</span>，六链（满命）持有率 <span class="pgold">22.20%</span>，超越前记录保持者卡提希娅的六链持有率，刷新鸣潮记录。</div>
     </div>
     <div class="panel">
       <div class="pno">NOTE · C</div>
@@ -369,26 +372,47 @@ canvas#ae{position:fixed;inset:0;z-index:0;pointer-events:none}
   </div>
 
   <div class="footer">
-    AEMEATH ARCHIVE v3.1.0 &nbsp;·&nbsp; DATA SOURCE: WUTHERING WAVES OFFICIAL / BAIDU WIKI / KUROBBS<br>
-    ALL GAME DATA &amp; CHARACTER © GUANGZHOU KURO TECHNOLOGY CO., LTD &nbsp;·&nbsp; UNAUTHORIZED ACCESS PROHIBITED
+    AEMEATH ARCHIVE v3.1.0 &nbsp;·&nbsp; DATA: WUTHERING WAVES OFFICIAL / BAIDU WIKI / KUROBBS<br>
+    ALL GAME DATA & CHARACTER © GUANGZHOU KURO TECHNOLOGY &nbsp;·&nbsp; FAN SITE · NOT OFFICIAL
   </div>
+
 </div>
 
 <script>
 (function(){
   const c=document.getElementById('ae'),ctx=c.getContext('2d');
   let W,H,mx=0,my=0;
-  const COLS=['#05d9e8','#ff2a6d','#b04aff','#ffffff','#ffd166'];
+  const COLS=['#05d9e8','#6eb8c8','#cde8f0','#9a6be0'];
   function rsz(){W=c.width=innerWidth;H=c.height=innerHeight}
   window.addEventListener('resize',rsz);rsz();
   window.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY});
   class Star{
-    constructor(){this.reset()}
-    reset(){this.x=Math.random()*W;this.y=Math.random()*H;this.r=Math.random()*1.3+.3;this.vy=-(0.15+Math.random()*.4);this.vx=(Math.random()-.5)*.25;this.color=COLS[Math.floor(Math.random()*COLS.length)];this.alpha=Math.random()*.5+.3}
-    tick(){this.x+=this.vx;this.y+=this.vy;const dx=this.x-mx,dy=this.y-my,d=Math.hypot(dx,dy);if(d<90){this.x+=dx/d*1.8;this.y+=dy/d*1.8}if(this.y<-10||this.x<-10||this.x>W+10)this.reset()}
-    draw(){ctx.save();ctx.globalAlpha=this.alpha;ctx.beginPath();const g=ctx.createRadialGradient(this.x,this.y,0,this.x,this.y,this.r*3);g.addColorStop(0,this.color);g.addColorStop(1,'transparent');ctx.fillStyle=g;ctx.arc(this.x,this.y,this.r*3,0,Math.PI*2);ctx.fill();ctx.restore()}
+    constructor(){this.reset(true)}
+    reset(init){
+      this.x=Math.random()*W;
+      this.y=init?Math.random()*H:H+10;
+      this.r=Math.random()*1.1+.2;
+      this.vy=-(0.1+Math.random()*.28);
+      this.vx=(Math.random()-.5)*.18;
+      this.color=COLS[Math.floor(Math.random()*COLS.length)];
+      this.alpha=Math.random()*.38+.15
+    }
+    tick(){
+      this.x+=this.vx;this.y+=this.vy;
+      const dx=this.x-mx,dy=this.y-my,d=Math.hypot(dx,dy);
+      if(d<75){this.x+=dx/d*1.4;this.y+=dy/d*1.4}
+      if(this.y<-10||this.x<-10||this.x>W+10)this.reset(false)
+    }
+    draw(){
+      ctx.save();ctx.globalAlpha=this.alpha;
+      const g=ctx.createRadialGradient(this.x,this.y,0,this.x,this.y,this.r*2.5);
+      g.addColorStop(0,this.color);g.addColorStop(1,'transparent');
+      ctx.beginPath();ctx.fillStyle=g;ctx.arc(this.x,this.y,this.r*2.5,0,Math.PI*2);ctx.fill();
+      ctx.restore()
+    }
   }
-  const stars=Array.from({length:Math.min(200,Math.floor(innerWidth*innerHeight/4500))},()=>new Star());
+  const N=Math.min(150,Math.floor(innerWidth*innerHeight/5500));
+  const stars=Array.from({length:N},()=>new Star());
   (function frame(){ctx.clearRect(0,0,W,H);stars.forEach(s=>{s.tick();s.draw()});requestAnimationFrame(frame)})();
 })();
 </script>
