@@ -625,13 +625,17 @@ createApp({
 
     async function loadItems(){
       loading.value=true;
-      const{data,error}=await sb.from(TABLE).select('*');
-      if(error){toast('加载失败','error');loading.value=false;return;}
-      if(!data.some(i=>i.builtin)){
-        await sb.from(TABLE).insert(BUILTIN);
-        const{data:f}=await sb.from(TABLE).select('*');
-        items.value=f||[];
-      }else{ items.value=data; }
+      // 内置图片始终从本地取，不依赖数据库
+      const builtins=BUILTIN.map((b,i)=>({...b,id:'builtin-'+i}));
+      // 只从 Supabase 拉用户投稿（builtin=false）
+      const{data,error}=await sb.from(TABLE).select('*').eq('builtin',false);
+      if(error){
+        toast('加载失败','error');
+        items.value=builtins;
+        loading.value=false;
+        return;
+      }
+      items.value=[...builtins,...(data||[])];
       loading.value=false;
     }
 
