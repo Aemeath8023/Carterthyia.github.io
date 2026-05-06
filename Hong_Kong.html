@@ -8,14 +8,14 @@
 <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@200;300;400&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&display=swap" rel="stylesheet">
 <style>
 :root{
-  --bg:#07090c;
-  --surface:rgba(255,255,255,.03);
-  --border:rgba(255,255,255,.07);
-  --border-h:rgba(255,255,255,.13);
-  --text:#ddd5c8;
-  --text-dim:rgba(221,213,200,.38);
-  --accent:#c8a878;
-  --accent-soft:rgba(200,168,120,.07);
+  --bg:#f5f4f1;
+  --surface:rgba(0,0,0,.02);
+  --border:rgba(0,0,0,.07);
+  --border-h:rgba(0,0,0,.14);
+  --text:#1a1918;
+  --text-dim:rgba(26,25,24,.42);
+  --accent:#8a6030;
+  --accent-soft:rgba(138,96,48,.07);
 }
 
 *{box-sizing:border-box;margin:0;padding:0}
@@ -33,8 +33,8 @@ body{
 body::before{
   content:'';position:fixed;inset:0;z-index:0;pointer-events:none;
   background:
-    radial-gradient(ellipse 55% 45% at 15% 85%,rgba(40,18,8,.35) 0%,transparent 70%),
-    radial-gradient(ellipse 45% 55% at 85% 15%,rgba(12,8,28,.28) 0%,transparent 70%);
+    radial-gradient(ellipse 55% 45% at 15% 85%,rgba(138,96,48,.04) 0%,transparent 70%),
+    radial-gradient(ellipse 45% 55% at 85% 15%,rgba(80,60,120,.03) 0%,transparent 70%);
 }
 
 /* ── NAV ── */
@@ -42,7 +42,7 @@ body::before{
   position:fixed;top:0;left:0;right:0;z-index:100;
   display:flex;justify-content:space-between;align-items:center;
   padding:18px 44px;
-  background:rgba(7,9,12,.72);
+  background:rgba(245,244,241,.92);
   backdrop-filter:blur(16px);
   border-bottom:1px solid var(--border);
 }
@@ -98,7 +98,7 @@ body::before{
   font-size:14px;line-height:2.3;color:var(--text-dim);
   font-style:italic;font-weight:200;
 }
-.intro strong{font-style:normal;font-weight:300;color:rgba(221,213,200,.65)}
+.intro strong{font-style:normal;font-weight:300;color:rgba(26,25,24,.72)}
 
 /* ── SECTION LABEL ── */
 .sec-label{
@@ -132,7 +132,7 @@ body::before{
 .photo-card:hover{
   border-color:var(--border-h);
   transform:translateY(-5px);
-  box-shadow:0 22px 52px rgba(0,0,0,.55);
+  box-shadow:0 20px 52px rgba(0,0,0,.12);
 }
 
 .card-img{
@@ -149,7 +149,7 @@ body::before{
 }
 .card-img-overlay{
   position:absolute;inset:0;
-  background:linear-gradient(180deg,transparent 45%,rgba(7,9,12,.88) 100%);
+  background:linear-gradient(180deg,transparent 45%,rgba(0,0,0,.62) 100%);
   z-index:1;
 }
 .card-img-label{
@@ -205,7 +205,7 @@ body::before{
 .diary-text{
   font-size:13px;color:var(--text-dim);line-height:2.3;font-weight:200;
 }
-.diary-text em{color:rgba(221,213,200,.6);font-style:italic}
+.diary-text em{color:rgba(26,25,24,.55);font-style:italic}
 
 /* ── FOOTER ── */
 .footer{
@@ -264,13 +264,10 @@ body::before{
   <div class="photo-card">
     <div class="card-img">
       <div class="card-img-bg" style="
-        background:linear-gradient(155deg,#0d1a2a 0%,#1a2d3f 45%,#0a1520 100%);
-        filter:brightness(.65) saturate(.75);
-      ">
-        <div style="position:absolute;inset:0;background:
-          radial-gradient(ellipse 50% 35% at 35% 65%,rgba(255,155,50,.1) 0%,transparent 60%),
-          radial-gradient(ellipse 60% 30% at 72% 58%,rgba(80,140,210,.1) 0%,transparent 60%)"></div>
-      </div>
+        background-image:url('https://images.unsplash.com/photo-1617154219393-1a84be367f57?w=800&q=85&auto=format&fit=crop');
+        background-size:cover;background-position:center;
+        filter:brightness(.88) saturate(.92);
+      "></div>
       <div class="card-img-overlay"></div>
       <div class="card-img-label">维多利亚港</div>
     </div>
@@ -285,13 +282,10 @@ body::before{
   <div class="photo-card">
     <div class="card-img">
       <div class="card-img-bg" style="
-        background:linear-gradient(155deg,#1a0a0a 0%,#2a0f0f 45%,#150505 100%);
-        filter:brightness(.65) saturate(.75);
-      ">
-        <div style="position:absolute;inset:0;background:
-          radial-gradient(ellipse 50% 40% at 50% 55%,rgba(200,55,55,.07) 0%,transparent 60%),
-          radial-gradient(ellipse 35% 50% at 22% 32%,rgba(255,195,45,.06) 0%,transparent 60%)"></div>
-      </div>
+        background-image:url('https://images.unsplash.com/photo-1573529034998-1d2e6eb2adf4?w=800&q=85&auto=format&fit=crop');
+        background-size:cover;background-position:center;
+        filter:brightness(.88) saturate(.92);
+      "></div>
       <div class="card-img-overlay"></div>
       <div class="card-img-label">旺角</div>
     </div>
@@ -306,13 +300,10 @@ body::before{
   <div class="photo-card">
     <div class="card-img">
       <div class="card-img-bg" style="
-        background:linear-gradient(175deg,#08111c 0%,#101d2c 55%,#0a151f 100%);
-        filter:brightness(.65) saturate(.75);
-      ">
-        <div style="position:absolute;inset:0;background:
-          radial-gradient(ellipse 80% 18% at 50% 88%,rgba(80,140,200,.14) 0%,transparent 60%),
-          radial-gradient(ellipse 30% 28% at 62% 28%,rgba(255,255,255,.04) 0%,transparent 60%)"></div>
-      </div>
+        background-image:url('https://images.unsplash.com/photo-1664179620257-a8a59d856971?w=800&q=85&auto=format&fit=crop');
+        background-size:cover;background-position:center;
+        filter:brightness(.88) saturate(.92);
+      "></div>
       <div class="card-img-overlay"></div>
       <div class="card-img-label">太平山顶</div>
     </div>
@@ -327,12 +318,10 @@ body::before{
   <div class="photo-card">
     <div class="card-img">
       <div class="card-img-bg" style="
-        background:linear-gradient(155deg,#070d15 0%,#0d1a26 55%,#060c14 100%);
-        filter:brightness(.65) saturate(.75);
-      ">
-        <div style="position:absolute;inset:0;background:
-          radial-gradient(ellipse 65% 28% at 50% 72%,rgba(126,184,200,.12) 0%,transparent 60%)"></div>
-      </div>
+        background-image:url('https://images.unsplash.com/photo-1619187269972-267d2b78a423?w=800&q=85&auto=format&fit=crop');
+        background-size:cover;background-position:center;
+        filter:brightness(.88) saturate(.92);
+      "></div>
       <div class="card-img-overlay"></div>
       <div class="card-img-label">天星小轮</div>
     </div>
@@ -347,13 +336,10 @@ body::before{
   <div class="photo-card">
     <div class="card-img">
       <div class="card-img-bg" style="
-        background:linear-gradient(155deg,#12080a 0%,#1e0c10 55%,#0d0508 100%);
-        filter:brightness(.65) saturate(.75);
-      ">
-        <div style="position:absolute;inset:0;background:
-          radial-gradient(ellipse 42% 40% at 32% 52%,rgba(195,95,45,.07) 0%,transparent 60%),
-          radial-gradient(ellipse 48% 28% at 68% 62%,rgba(45,95,200,.06) 0%,transparent 60%)"></div>
-      </div>
+        background-image:url('https://images.unsplash.com/photo-1768321140168-fa4795cb03f8?w=800&q=85&auto=format&fit=crop');
+        background-size:cover;background-position:center;
+        filter:brightness(.88) saturate(.92);
+      "></div>
       <div class="card-img-overlay"></div>
       <div class="card-img-label">庙街</div>
     </div>
@@ -368,12 +354,10 @@ body::before{
   <div class="photo-card">
     <div class="card-img">
       <div class="card-img-bg" style="
-        background:linear-gradient(155deg,#0e100a 0%,#191c0e 55%,#0a0c07 100%);
-        filter:brightness(.65) saturate(.75);
-      ">
-        <div style="position:absolute;inset:0;background:
-          radial-gradient(ellipse 55% 38% at 50% 55%,rgba(200,168,78,.07) 0%,transparent 60%)"></div>
-      </div>
+        background-image:url('https://images.unsplash.com/photo-1741135742473-8b6120b4f248?w=800&q=85&auto=format&fit=crop');
+        background-size:cover;background-position:center;
+        filter:brightness(.88) saturate(.92);
+      "></div>
       <div class="card-img-overlay"></div>
       <div class="card-img-label">茶餐厅</div>
     </div>
